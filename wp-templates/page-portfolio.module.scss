@@ -1,0 +1,86 @@
+@import 'styles/breakpoints';
+
+// Portfolio page — wide, near-full-bleed layout, wider than the standard
+// Container (which caps at --wpe--container--max-width for text content).
+.wrapper {
+	max-width: 1800px;
+	margin: 0 auto;
+	padding: 0 var(--wpe--container--padding-x) var(--wpe--section--padding-y);
+}
+
+.hero {
+	display: flex;
+	gap: 4rem;
+	margin-bottom: var(--wpe--section--padding-y);
+
+	@media (max-width: $breakpoint-small) {
+		flex-direction: column;
+		gap: 1.5rem;
+	}
+}
+
+.hero-image {
+	position: relative;
+	flex: 0 0 58%;
+	aspect-ratio: 4 / 5;
+
+	@media (max-width: $breakpoint-small) {
+		flex-basis: auto;
+		aspect-ratio: 4 / 3;
+	}
+}
+
+.hero-text {
+	flex: 1;
+	align-self: flex-start;
+	position: sticky;
+	top: 2rem;
+
+	@media (max-width: $breakpoint-small) {
+		position: static;
+	}
+}
+
+.hero-title {
+	margin-bottom: 1rem;
+}
+
+.hero-description {
+	color: var(--wpe--color--accent--dark);
+	line-height: var(--wpe--line-height--body);
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 3rem 2rem;
+
+	@media (max-width: $breakpoint-small) {
+		grid-template-columns: 1fr;
+	}
+}
+
+// Every third item breaks full-width for the same editorial rhythm as a
+// curated masonry, without needing per-post gallery/layout data we don't have.
+.grid-item {
+	&:nth-child(3n) {
+		grid-column: 1 / -1;
+
+		.grid-item-image {
+			aspect-ratio: 16 / 9;
+		}
+	}
+}
+
+.grid-item-image {
+	position: relative;
+	aspect-ratio: 3 / 4;
+	background-color: var(--wpe--color--offwhite);
+}
+
+.grid-item-caption {
+	margin-top: 0.75rem;
+	font-size: var(--wpe--font-size--sm);
+	font-style: italic;
+	color: var(--wpe--color--accent--dark);
+}
