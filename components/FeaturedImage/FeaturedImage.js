@@ -33,6 +33,7 @@ export default function FeaturedImage({
         width={dimensions.width}
         height={dimensions.height}
         priority={priority}
+        style={layout === 'fill' ? { objectFit: 'cover' } : undefined}
         {...props}
       />
     </figure>
