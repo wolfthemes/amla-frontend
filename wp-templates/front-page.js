@@ -48,8 +48,9 @@ export default function Component() {
     data?.generalSettings ?? {};
   const primaryMenu = data?.headerMenuItems?.nodes ?? [];
   const footerMenu = data?.footerMenuItems?.nodes ?? [];
-  const works = data?.works?.nodes ?? [];
-  const [heroWork, sectionWork] = works;
+  // works is ordered newest-first by default, so heroWork is the last
+  // (most recent) Work post — reused below for the section 3 image too.
+  const [heroWork] = data?.works?.nodes ?? [];
   // The front page's own featured image (set in wp-admin on the "Accueil"
   // page) takes priority over borrowing a Work's image.
   const heroImage = data?.frontPage?.featuredImage?.node ?? heroWork?.featuredImage?.node;
@@ -113,7 +114,7 @@ export default function Component() {
           </motion.div>
         </section>
 
-        {sectionWork?.featuredImage?.node && (
+        {heroWork?.featuredImage?.node && (
           <motion.div
             className={cx('section-image')}
             initial={reveal.initial}
@@ -121,7 +122,7 @@ export default function Component() {
             viewport={reveal.viewport}
             transition={reveal.transition}
           >
-            <ParallaxImage image={sectionWork.featuredImage.node} />
+            <ParallaxImage image={heroWork.featuredImage.node} />
           </motion.div>
         )}
 
