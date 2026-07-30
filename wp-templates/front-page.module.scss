@@ -66,3 +66,34 @@
 	height: 100vh;
 	overflow: hidden;
 }
+
+// Section 4 — same centered/reveal treatment as .section-text, but shaped
+// for flowing paragraphs (an eyebrow label, one heading line, a single
+// readable-width column) instead of split heading lines + parallel columns.
+.section-philosophy {
+	max-width: var(--wpe--container--max-width);
+	margin: 0 auto;
+	padding: var(--wpe--section--padding-y) var(--wpe--container--padding-x);
+	text-align: center;
+}
+
+.section-eyebrow {
+	display: block;
+	margin-bottom: 1rem;
+	font-size: var(--wpe--font-size--sm);
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--wpe--color--accent--dark);
+}
+
+.section-philosophy-text {
+	max-width: 65ch;
+	margin: var(--wpe--section--padding-y) auto 0;
+	text-align: left;
+	color: var(--wpe--color--accent--dark);
+	line-height: var(--wpe--line-height--body);
+
+	p + p {
+		margin-top: 1.5rem;
+	}
+}

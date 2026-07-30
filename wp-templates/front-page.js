@@ -26,10 +26,17 @@ const reveal = {
 };
 
 // Placeholder copy — not wired to WordPress content yet, swap freely.
-const SECTION_HEADING_LINES = ['Systematic Clarity', '& Creativity'];
+const SECTION_HEADING_LINES = ['Equilibre', '& Creativité'];
 const SECTION_PARAGRAPHS = [
   'Sustainability strategy, material efficiency, passive systems, energy modeling, lifecycle analysis.',
   'Concept, facade and planning solutions, sketch project, working documentation, visualizations.',
+];
+
+const PHILOSOPHY_EYEBROW = 'Notre philosophie';
+const PHILOSOPHY_HEADING = 'Une architecture du sens et de l’équilibre';
+const PHILOSOPHY_PARAGRAPHS = [
+  'Notre vision est avant tout guidée par votre bien-être. Notre maîtrise des étapes et des techniques architecturales et de design vous garantit un travail dans le respect de votre personnalité, de l’identité de votre projet, du temps, du coût et du lieu. Nous revendiquons une architecture et un design simples, efficaces et sincères, sans effets de manche, sans artifice. Notre recherche est basée sur l’équilibre : connaître les tendances sans céder aux modes éphémères, proposer une esthétique sans rien sacrifier à la fonctionnalité, créer de la surprise uniquement si cela crée du sens, détourner l’usage premier des matériaux sans les dénaturer, aller vers un minimal qui reste convivial, inventer pour mieux pérenniser, etc.',
+  'C’est peut-être ça le style ABCD Architecture : des réalisations qui vont à l’essentiel tout en manifestant une créativité sensible et ludique.',
 ];
 
 export default function Component() {
@@ -43,6 +50,9 @@ export default function Component() {
   const footerMenu = data?.footerMenuItems?.nodes ?? [];
   const works = data?.works?.nodes ?? [];
   const [heroWork, sectionWork] = works;
+  // The front page's own featured image (set in wp-admin on the "Accueil"
+  // page) takes priority over borrowing a Work's image.
+  const heroImage = data?.frontPage?.featuredImage?.node ?? heroWork?.featuredImage?.node;
 
   return (
     <>
@@ -55,14 +65,14 @@ export default function Component() {
       />
       <Main>
         <div className={cx('hero')}>
-          {heroWork?.featuredImage?.node && (
+          {heroImage && (
             <motion.div
               className={cx('hero-image')}
               initial={{ scale: 1.15 }}
               animate={{ scale: 1 }}
               transition={{ duration: 1.2, ease: 'easeOut' }}
             >
-              <ParallaxImage image={heroWork.featuredImage.node} priority />
+              <ParallaxImage image={heroImage} priority />
             </motion.div>
           )}
           <motion.div
@@ -114,6 +124,40 @@ export default function Component() {
             <ParallaxImage image={sectionWork.featuredImage.node} />
           </motion.div>
         )}
+
+        <section className={cx('section-philosophy')}>
+          <motion.span
+            className={cx('section-eyebrow')}
+            initial={reveal.initial}
+            whileInView={reveal.whileInView}
+            viewport={reveal.viewport}
+            transition={reveal.transition}
+          >
+            {PHILOSOPHY_EYEBROW}
+          </motion.span>
+          <Heading level="h2" className={cx('section-heading')}>
+            <motion.span
+              className={cx('section-heading-line')}
+              initial={reveal.initial}
+              whileInView={reveal.whileInView}
+              viewport={reveal.viewport}
+              transition={reveal.transition}
+            >
+              {PHILOSOPHY_HEADING}
+            </motion.span>
+          </Heading>
+          <motion.div
+            className={cx('section-philosophy-text')}
+            initial={reveal.initial}
+            whileInView={reveal.whileInView}
+            viewport={reveal.viewport}
+            transition={reveal.transition}
+          >
+            {PHILOSOPHY_PARAGRAPHS.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </motion.div>
+        </section>
       </Main>
       <Footer title={siteTitle} menuItems={footerMenu} />
     </>
@@ -128,6 +172,11 @@ Component.query = gql`
     $headerLocation: MenuLocationEnum
     $footerLocation: MenuLocationEnum
   ) {
+    frontPage: nodeByUri(uri: "/") {
+      ... on Page {
+        ...FeaturedImageFragment
+      }
+    }
     works {
       nodes {
         id
