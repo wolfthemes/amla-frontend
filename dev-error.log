@@ -1,9 +1,0 @@
-
-> @faustwp/getting-started-example@0.1.0 dev
-> faust dev
-
-warn - Your WordPress site is not running on https!
-warn - This is a security concern as all traffic with your secret key is in plain text.
-warn - Please make sure your production Faust app runs with a WordPress instance on https!
-info - Faust.js v3.2.1
-info - Faust.js CLI v3.2.1

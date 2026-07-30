@@ -6,6 +6,9 @@ const { createSecureHeaders } = require('next-secure-headers');
  **/
 module.exports = withFaust({
   reactStrictMode: true,
+  // geist ships pre-built files that call next/font/local internally; Next's
+  // font webpack transform skips node_modules unless told to process it here.
+  transpilePackages: ['geist'],
   // ponytail: inotify doesn't reliably fire for edits on WSL2's /mnt/c
   // Windows-mounted filesystem, so webpack's dev-mode file watcher misses
   // changes without polling. Only affects local dev on this filesystem.
