@@ -10,7 +10,7 @@ export default function SkipNavigationLink() {
       className={cx(['component', 'sr-only'])}
       href={`#${SELECTORS.MAIN_CONTENT_ID}`}
     >
-      Skip To Main Content
+      Aller au contenu principal
     </a>
   );
 }

@@ -29,7 +29,7 @@ export default function Header({
               type="button"
               className={cx('nav-toggle')}
               onClick={() => setIsNavShown(!isNavShown)}
-              aria-label="Toggle navigation"
+              aria-label="Basculer la navigation"
               aria-controls={cx('primary-navigation')}
               aria-expanded={isNavShown}
             >

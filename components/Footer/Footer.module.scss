@@ -1,4 +1,5 @@
 @import 'styles/breakpoints';
+@import 'styles/tokens';
 
 .component {
 	color: var(--wpe--footer--color);
@@ -38,15 +39,15 @@
 
 .heading-lead {
 	margin: 0;
-	font-size: var(--wpe--font-size--2xl);
-	color: var(--wpe--color--accent--dark);
+	font-size: fs('2xl');
+	color: $c-accent-dark;
 }
 
 .heading-cta {
 	display: inline-block;
-	font-size: var(--wpe--font-size--2xl);
+	font-size: fs('2xl');
 	font-weight: var(--wpe--font-weight--bold);
-	color: var(--wpe--color--black);
+	color: $c-ink;
 }
 
 .back-to-top {
@@ -55,7 +56,7 @@
 	border: none;
 	padding: 0;
 	font: inherit;
-	color: var(--wpe--color--accent--dark);
+	color: $c-accent-dark;
 	opacity: 0.5;
 	cursor: pointer;
 }
@@ -83,7 +84,7 @@
 
 	&:hover,
 	&:focus {
-		color: var(--wpe--color--accent--dark);
+		color: $c-accent-dark;
 	}
 }
 
@@ -93,6 +94,6 @@
 
 .copyright {
 	margin: 2rem 0 0;
-	font-size: var(--wpe--font-size--xs);
+	font-size: fs(xs);
 	text-align: center;
 }

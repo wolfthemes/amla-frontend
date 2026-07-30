@@ -1,4 +1,5 @@
 @import 'styles/breakpoints';
+@import 'styles/tokens';
 
 // Portfolio page — wide, near-full-bleed layout, wider than the standard
 // Container (which caps at --wpe--container--max-width for text content).
@@ -56,7 +57,7 @@
 }
 
 .hero-description {
-	color: var(--wpe--color--accent--dark);
+	color: $c-accent-dark;
 	line-height: var(--wpe--line-height--body);
 }
 
@@ -65,11 +66,11 @@
 .hero-link {
 	display: inline-block;
 	margin-top: 1rem;
-	font-size: var(--wpe--font-size--sm);
+	font-size: fs(sm);
 
 	&:hover,
 	&:focus {
-		color: var(--wpe--color--accent--dark);
+		color: $c-accent-dark;
 	}
 }
 
@@ -121,7 +122,7 @@
 .grid-item-image {
 	position: relative;
 	aspect-ratio: 3 / 4;
-	background-color: var(--wpe--color--offwhite);
+	background-color: $c-surface;
 
 	// Targets the <img> rendered deep inside ParallaxImage/FeaturedImage —
 	// clipped by ParallaxImage's own .container (overflow: hidden), and
@@ -145,7 +146,7 @@
 // no underline since it sits inside the card's <Link>.
 .grid-item-title {
 	text-decoration: none;
-  font-size: var(--wpe--font-size--lg);
+	font-size: fs(lg);
 }
 
 // .link-underline (styles/_utilities.scss) reveals on its own hover/focus,
@@ -154,9 +155,9 @@
 .grid-item-link {
 	display: inline-block;
 	margin-top: 0.25rem;
-	font-size: var(--wpe--font-size--sm);
+	font-size: fs(sm);
 
 	.grid-item:hover & {
-		color: var(--wpe--color--accent--dark);
+		color: $c-accent-dark;
 	}
 }

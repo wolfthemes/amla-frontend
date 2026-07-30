@@ -12,5 +12,5 @@ export default function FormatDate({ date }) {
     hour12: false
   };
 
-  return <>{formattedDate.toLocaleDateString('en-US', timeformat)}</>;
+  return <>{formattedDate.toLocaleDateString('fr-FR', timeformat)}</>;
 }

@@ -27,10 +27,10 @@ const reveal = {
 };
 
 // Placeholder copy — not wired to WordPress content yet, swap freely.
-const SECTION_HEADING_LINES = ['Equilibre', '& Creativité'];
+const SECTION_HEADING_LINES = ['Équilibre', '& Créativité'];
 const SECTION_PARAGRAPHS = [
-  'Sustainability strategy, material efficiency, passive systems, energy modeling, lifecycle analysis.',
-  'Concept, facade and planning solutions, sketch project, working documentation, visualizations.',
+  'Stratégie de durabilité, efficacité des matériaux, systèmes passifs, modélisation énergétique, analyse du cycle de vie.',
+  "Concept, solutions de façade et d'aménagement, avant-projet, dossier d'exécution, visualisations.",
 ];
 
 const PHILOSOPHY_EYEBROW = 'Notre philosophie';

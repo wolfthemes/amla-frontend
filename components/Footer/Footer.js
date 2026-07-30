@@ -33,8 +33,8 @@ export default function Footer({ title, menuItems }) {
           transition={reveal.transition}
         >
           <div className={cx('col-heading')}>
-            <p className={cx('heading-lead')}>Talk to us about your project</p>
-            <span className={cx('heading-cta', 'link-underline')}>Contact us</span>
+            <p className={cx('heading-lead')}>Parlez-nous de votre projet</p>
+            <span className={cx('heading-cta', 'link-underline')}>Contactez-nous</span>
           </div>
 
           <div className={cx('col-nav')}>
@@ -45,14 +45,14 @@ export default function Footer({ title, menuItems }) {
               className={cx('back-to-top')}
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             >
-              Back to top
+              Retour en haut
             </button>
           </div>
 
           <div className={cx('col-info')}>
             <div className={cx('info-rows')}>
               <div className={cx('info-row')}>
-                <span className={cx('info-prefix')}>L</span>
+                <span className={cx('info-prefix')}>A</span>
                 <address className={cx('info-value')}>
                   {ADDRESS_LINES.map((line) => (
                     <span key={line}>{line}</span>
@@ -61,7 +61,7 @@ export default function Footer({ title, menuItems }) {
               </div>
 
               <div className={cx('info-row')}>
-                <span className={cx('info-prefix')}>P</span>
+                <span className={cx('info-prefix')}>T</span>
                 <a className={cx('info-value')} href={`tel:${PHONE.replace(/\s/g, '')}`}>
                   {PHONE}
                 </a>
@@ -84,7 +84,7 @@ export default function Footer({ title, menuItems }) {
         </motion.div>
 
         <p className={cx('copyright')}>
-          {title} © {year}. Built by{' '}
+          {title} © {year}. Créé par{' '}
           <a href="https://constantin.saguin.com" target="_blank" rel="noopener noreferrer">
             constantin.saguin
           </a>

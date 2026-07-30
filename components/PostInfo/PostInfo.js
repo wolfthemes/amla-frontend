@@ -13,7 +13,7 @@ export default function PostInfo({ date, author, className }) {
         </time>
       )}
       {date && author && <>&nbsp;</>}
-      {author && <span>by {author}</span>}
+      {author && <span>par {author}</span>}
     </div>
   );
 }

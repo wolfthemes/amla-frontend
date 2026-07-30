@@ -58,7 +58,7 @@ const GET_WORK_QUERY = gql`
 
 export default function Component(props) {
   if (props.loading) {
-    return <>Loading...</>;
+    return <>Chargement...</>;
   }
 
   const { work } = useFaustQuery(GET_WORK_QUERY);
@@ -99,7 +99,7 @@ export default function Component(props) {
             )}
             {workClient && (
               <p>
-                <strong>Client:</strong> {workClient}
+                <strong>Client :</strong> {workClient}
               </p>
             )}
             {workLink && (

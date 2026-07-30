@@ -1,4 +1,5 @@
 @import 'styles/breakpoints';
+@import 'styles/tokens';
 
 .component {
 	max-width: var(--wpe--container--max-width);
@@ -55,7 +56,7 @@
 
 .item-image {
 	position: relative;
-	background-color: var(--wpe--color--offwhite);
+	background-color: $c-surface;
 
 	// Same hover treatment as the portfolio grid (page-portfolio.module.scss).
 	img {
@@ -76,10 +77,10 @@
 .item-category {
 	display: block;
 	margin-bottom: 0.25rem;
-	font-size: var(--wpe--font-size--xs);
+	font-size: fs(xs);
 	text-transform: uppercase;
 	letter-spacing: 0.06em;
-	color: var(--wpe--color--accent--dark);
+	color: $c-accent-dark;
 }
 
 // h3 here vs h2 on the portfolio page — see wp-templates/page-portfolio.module.scss.
@@ -95,8 +96,8 @@
 	height: 3rem;
 	margin: var(--wpe--section--padding-y) auto 0;
 	border-radius: 999px;
-	background: var(--wpe--color--black);
-	color: var(--wpe--color--white);
+	background: $c-ink;
+	color: $c-base;
 	font-size: 1.25rem;
 	transition: transform 0.25s ease;
 

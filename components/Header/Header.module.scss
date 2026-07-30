@@ -1,4 +1,5 @@
 @import 'styles/breakpoints';
+@import 'styles/tokens';
 
 .component {
 	color: var(--wpe--header--color);
@@ -13,9 +14,9 @@
 		right: 0;
 		left: 0;
 		background-color: transparent;
-		--wpe--header--color: var(--wpe--color--white);
-		--wpe--navigation-menu--color: var(--wpe--color--white);
-		--wpe--navigation-menu--color--hover: var(--wpe--color--white);
+		--wpe--header--color: #{$c-base};
+		--wpe--navigation-menu--color: #{$c-base};
+		--wpe--navigation-menu--color--hover: #{$c-base};
 	}
 }
 
@@ -48,8 +49,8 @@
 .nav-toggle {
 	align-items: center;
 	background-color: transparent;
-	border: 0.1rem solid var(--wpe--color--white);
-	color: var(--wpe--color--black);
+	border: 0.1rem solid $c-base;
+	color: $c-ink;
 	cursor: pointer;
 	display: flex;
 	margin: 0;
@@ -60,8 +61,8 @@
 
 	&:hover,
 	&:focus {
-		background-color: var(--wpe--color--white);
-		color: var(--wpe--color--black);
+		background-color: $c-base;
+		color: $c-ink;
 	}
 
 	@media (min-width: $breakpoint-small) {

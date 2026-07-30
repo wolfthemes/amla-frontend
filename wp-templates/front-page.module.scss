@@ -1,4 +1,5 @@
 @import 'styles/breakpoints';
+@import 'styles/tokens';
 
 .hero {
 	position: relative;
@@ -17,12 +18,12 @@
 	left: var(--wpe--container--padding-x);
 	right: var(--wpe--container--padding-x);
 	bottom: 2rem;
-	color: var(--wpe--color--white);
+	color: $c-base;
 }
 
 .hero-title {
 	max-width: 20ch;
-	font-size: var(--wpe--font-size--hero);
+	font-size: fs(hero);
 	font-weight: var(--wpe--font-weight--bold);
 	line-height: 1.05;
 }
@@ -35,7 +36,7 @@
 }
 
 .section-heading {
-	font-size: var(--wpe--font-size--display);
+	font-size: fs(display);
 	line-height: 1.1;
 }
 
@@ -49,7 +50,7 @@
 	justify-content: center;
 	margin-top: var(--wpe--section--padding-y);
 	text-align: left;
-	color: var(--wpe--color--accent--dark);
+	color: $c-accent-dark;
 
 	p {
 		flex: 1;
@@ -80,17 +81,17 @@
 .section-eyebrow {
 	display: block;
 	margin-bottom: 1rem;
-	font-size: var(--wpe--font-size--sm);
+	font-size: fs(sm);
 	text-transform: uppercase;
 	letter-spacing: 0.08em;
-	color: var(--wpe--color--accent--dark);
+	color: $c-accent-dark;
 }
 
 .section-philosophy-text {
 	max-width: 65ch;
 	margin: var(--wpe--section--padding-y) auto 0;
 	text-align: left;
-	color: var(--wpe--color--accent--dark);
+	color: $c-accent-dark;
 	line-height: var(--wpe--line-height--body);
 
 	p + p {

@@ -1,4 +1,5 @@
 @import 'styles/breakpoints';
+@import 'styles/tokens';
 
 // Content is authored as plain core Gutenberg blocks (Columns > Heading +
 // Paragraph) in wp-admin. These rules repurpose that generic block markup
@@ -31,7 +32,7 @@
 
 		h4 {
 			margin: 2.5rem 0 1rem;
-			font-size: var(--wpe--font-size--sm);
+			font-size: fs(sm);
 			font-weight: var(--wpe--font-weight--medium);
 			text-transform: uppercase;
 			letter-spacing: 0.08em;

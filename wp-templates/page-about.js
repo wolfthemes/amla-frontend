@@ -9,7 +9,7 @@ let cx = classNames.bind(styles);
 
 export default function Component(props) {
   if (props.loading) {
-    return <>Loading...</>;
+    return <>Chargement...</>;
   }
 
   const { title: siteTitle, description: siteDescription } =

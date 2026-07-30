@@ -57,7 +57,7 @@ const GET_POST_QUERY = gql`
 export default function Component(props) {
   // Loading state for previews
   if (props.loading) {
-    return <>Loading...</>;
+    return <>Chargement...</>;
   }
 
   const { post } = useFaustQuery(GET_POST_QUERY);
