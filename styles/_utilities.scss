@@ -4,6 +4,44 @@
 	text-align: center;
 }
 
+// Underline reveal: a faint static line, plus a bolder one that wipes in
+// from the left on hover/focus and exits to the right. Apply directly to
+// any link; for a decorative element inside a bigger link (e.g. a "view
+// project" label), trigger it from the ancestor's hover instead — see
+// wp-templates/page-portfolio.module.scss .grid-item-link for an example.
+.link-underline {
+	position: relative;
+	text-decoration: none;
+
+	&::before,
+	&::after {
+		position: absolute;
+		right: 0;
+		bottom: 0.1em;
+		left: 0;
+		height: 1px;
+		background: currentColor;
+		content: '';
+	}
+
+	&::before {
+		opacity: 0.45;
+	}
+
+	&::after {
+		height: 2px;
+		transform: scaleX(0);
+		transform-origin: right;
+		transition: transform 0.25s ease;
+	}
+
+	&:hover::after,
+	&:focus::after {
+		transform: scaleX(1);
+		transform-origin: left;
+	}
+}
+
 .sr-only {
 	position: absolute;
 	width: 1px;

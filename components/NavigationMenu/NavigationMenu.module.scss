@@ -46,8 +46,9 @@
 		}
 	}
 
+	// Underline reveal comes from the shared .link-underline utility
+	// (styles/_utilities.scss), applied directly on the Link in NavigationMenu.js.
 	a {
-		position: relative;
 		color: var(--wpe--navigation-menu--color);
 		padding: 0.5rem;
 		display: block;
@@ -59,41 +60,6 @@
 		&:hover,
 		&:focus {
 			color: var(--wpe--navigation-menu--color--hover);
-		}
-
-		// Remove link underline when component is inside header.
-		header & {
-			text-decoration: none;
-		}
-
-		// Underline reveal: a faint static line, plus a bolder one that
-		// wipes in from the left on hover and exits to the right.
-		&::before,
-		&::after {
-			position: absolute;
-			right: 0.5rem;
-			bottom: 0.35em;
-			left: 0.5rem;
-			height: 1px;
-			background: currentColor;
-			content: '';
-		}
-
-		&::before {
-			opacity: 0.45;
-		}
-
-		&::after {
-			height: 2px;
-			transform: scaleX(0);
-			transform-origin: right;
-			transition: transform 0.25s ease;
-		}
-
-		&:hover::after,
-		&:focus::after {
-			transform: scaleX(1);
-			transform-origin: left;
 		}
 	}
 

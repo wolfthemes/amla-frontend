@@ -28,6 +28,16 @@
 		flex-basis: auto;
 		aspect-ratio: 4 / 3;
 	}
+
+	img {
+		transition: transform 0.5s ease, filter 0.5s ease;
+	}
+
+	&:hover img,
+	&:focus img {
+		transform: scale(1.05);
+		filter: saturate(0.7);
+	}
 }
 
 .hero-text {
@@ -76,6 +86,19 @@
 	position: relative;
 	aspect-ratio: 3 / 4;
 	background-color: var(--wpe--color--offwhite);
+
+	// Targets the <img> rendered deep inside ParallaxImage/FeaturedImage —
+	// clipped by ParallaxImage's own .container (overflow: hidden), and
+	// independent of its scroll-driven translateY so the two don't conflict.
+	img {
+		transition: transform 0.5s ease, filter 0.5s ease;
+	}
+}
+
+.grid-item:hover .grid-item-image img,
+.grid-item:focus .grid-item-image img {
+	transform: scale(1.05);
+	filter: saturate(0.7);
 }
 
 .grid-item-caption {
@@ -88,12 +111,13 @@
 	text-decoration: none;
 }
 
+// .link-underline (styles/_utilities.scss) reveals on its own hover/focus,
+// so it only animates when the cursor is over this text specifically —
+// not the rest of the card.
 .grid-item-link {
 	display: inline-block;
 	margin-top: 0.25rem;
 	font-size: var(--wpe--font-size--sm);
-	text-decoration: underline;
-	text-underline-offset: 0.2em;
 
 	.grid-item:hover & {
 		color: var(--wpe--color--accent--dark);
