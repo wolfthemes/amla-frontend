@@ -78,7 +78,7 @@ export default function Component() {
                   href={featuredWork.uri}
                   className={`${cx('hero-link')} link-underline`}
                 >
-                  View project
+                  Voir le projet
                 </Link>
               </div>
             </motion.div>
@@ -107,7 +107,7 @@ export default function Component() {
                         ` — ${work.workTypes.nodes.map((t) => t.name).join(', ')}`}
                     </Heading>
                     <span className={`${cx('grid-item-link')} link-underline`}>
-                      View project
+                      Voir le projet
                     </span>
                   </div>
                 </Link>
