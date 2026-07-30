@@ -12,6 +12,7 @@ import {
   ParallaxImage,
   NavigationMenu,
   SEO,
+  WorksShowcase,
 } from '../components';
 import styles from './front-page.module.scss';
 
@@ -50,7 +51,8 @@ export default function Component() {
   const footerMenu = data?.footerMenuItems?.nodes ?? [];
   // works is ordered newest-first by default, so heroWork is the last
   // (most recent) Work post — reused below for the section 3 image too.
-  const [heroWork] = data?.works?.nodes ?? [];
+  const works = data?.works?.nodes ?? [];
+  const [heroWork] = works;
   // The front page's own featured image (set in wp-admin on the "Accueil"
   // page) takes priority over borrowing a Work's image.
   const heroImage = data?.frontPage?.featuredImage?.node ?? heroWork?.featuredImage?.node;
@@ -159,6 +161,8 @@ export default function Component() {
             ))}
           </motion.div>
         </section>
+
+        <WorksShowcase works={works} viewAllHref="/portfolio" />
       </Main>
       <Footer title={siteTitle} menuItems={footerMenu} />
     </>
@@ -181,6 +185,13 @@ Component.query = gql`
     works {
       nodes {
         id
+        title
+        uri
+        workTypes {
+          nodes {
+            name
+          }
+        }
         ...FeaturedImageFragment
       }
     }

@@ -15,3 +15,4 @@ export { Hero } from './Hero';
 export { Post } from './Post';
 export { SEO } from './SEO';
 export { SmoothScroll } from './SmoothScroll';
+export { WorksShowcase } from './WorksShowcase';
