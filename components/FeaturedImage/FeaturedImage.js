@@ -29,7 +29,7 @@ export default function FeaturedImage({
       <Image
         src={src}
         alt={altText}
-        fill={layout}
+        fill={layout === 'fill'}
         width={dimensions.width}
         height={dimensions.height}
         priority={priority}

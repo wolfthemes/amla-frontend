@@ -1,4 +1,5 @@
-import { useQuery, gql } from '@apollo/client';
+import Link from 'next/link';
+import { gql, useQuery } from '@apollo/client';
 import * as MENUS from '../constants/menus';
 import { BlogInfoFragment } from '../fragments/GeneralSettings';
 import {
@@ -7,7 +8,7 @@ import {
   Main,
   Container,
   NavigationMenu,
-  Hero,
+  FeaturedImage,
   SEO,
 } from '../components';
 
@@ -17,9 +18,10 @@ export default function Component() {
   });
 
   const { title: siteTitle, description: siteDescription } =
-    data?.generalSettings;
+    data?.generalSettings ?? {};
   const primaryMenu = data?.headerMenuItems?.nodes ?? [];
   const footerMenu = data?.footerMenuItems?.nodes ?? [];
+  const works = data?.works?.nodes ?? [];
 
   return (
     <>
@@ -31,11 +33,25 @@ export default function Component() {
       />
       <Main>
         <Container>
-          <Hero title={'Front Page'} />
-          <div className="text-center">
-            <p>This page is utilizing the "front-page" WordPress template.</p>
-            <code>wp-templates/front-page.js</code>
-          </div>
+          <ul style={{ listStyle: 'none', padding: 0 }}>
+            {works.map((work) => (
+              <li key={work.id} style={{ marginBottom: '3rem' }}>
+                <Link href={work.uri}>
+                  {work.featuredImage?.node && (
+                    <FeaturedImage
+                      image={work.featuredImage.node}
+                      layout="responsive"
+                    />
+                  )}
+                  <h2>{work.title}</h2>
+                </Link>
+                {work.workTypes?.nodes?.length > 0 && (
+                  <p>{work.workTypes.nodes.map((t) => t.name).join(', ')}</p>
+                )}
+                <div dangerouslySetInnerHTML={{ __html: work.excerpt }} />
+              </li>
+            ))}
+          </ul>
         </Container>
       </Main>
       <Footer title={siteTitle} menuItems={footerMenu} />
@@ -46,10 +62,25 @@ export default function Component() {
 Component.query = gql`
   ${BlogInfoFragment}
   ${NavigationMenu.fragments.entry}
-  query GetPageData(
+  ${FeaturedImage.fragments.entry}
+  query GetFrontPage(
     $headerLocation: MenuLocationEnum
     $footerLocation: MenuLocationEnum
   ) {
+    works {
+      nodes {
+        id
+        title
+        uri
+        excerpt
+        workTypes {
+          nodes {
+            name
+          }
+        }
+        ...FeaturedImageFragment
+      }
+    }
     generalSettings {
       ...BlogInfoFragment
     }
