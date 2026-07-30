@@ -145,6 +145,7 @@
 // no underline since it sits inside the card's <Link>.
 .grid-item-title {
 	text-decoration: none;
+  font-size: var(--wpe--font-size--lg);
 }
 
 // .link-underline (styles/_utilities.scss) reveals on its own hover/focus,
