@@ -80,7 +80,22 @@
 
 .grid-item-caption {
 	margin-top: 0.75rem;
+}
+
+// h2 here (h3 in front-page modules — implement later): default h2 style,
+// no underline since it sits inside the card's <Link>.
+.grid-item-title {
+	text-decoration: none;
+}
+
+.grid-item-link {
+	display: inline-block;
+	margin-top: 0.25rem;
 	font-size: var(--wpe--font-size--sm);
-	// font-style: italic;
-	color: var(--wpe--color--accent--dark);
+	text-decoration: underline;
+	text-underline-offset: 0.2em;
+
+	.grid-item:hover & {
+		color: var(--wpe--color--accent--dark);
+	}
 }

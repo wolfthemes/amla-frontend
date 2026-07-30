@@ -93,11 +93,14 @@ export default function Component() {
                       <ParallaxImage image={work.featuredImage.node} />
                     </div>
                   )}
-                  <p className={cx('grid-item-caption')}>
-                    {work.title}
-                    {work.workTypes?.nodes?.length > 0 &&
-                      ` — ${work.workTypes.nodes.map((t) => t.name).join(', ')}`}
-                  </p>
+                  <div className={cx('grid-item-caption')}>
+                    <Heading level="h2" className={cx('grid-item-title')}>
+                      {work.title}
+                      {work.workTypes?.nodes?.length > 0 &&
+                        ` — ${work.workTypes.nodes.map((t) => t.name).join(', ')}`}
+                    </Heading>
+                    <span className={cx('grid-item-link')}>View project</span>
+                  </div>
                 </Link>
               </motion.div>
             ))}

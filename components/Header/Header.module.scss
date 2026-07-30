@@ -5,6 +5,18 @@
 	background-color: var(--wpe--header--background-color);
 	position: relative;
 	z-index: 2; // Pull dropdown menus to the foreground to sit above <Main />.
+
+	// Floats over a full-bleed hero instead of pushing content down.
+	&.transparent {
+		position: absolute;
+		top: 0;
+		right: 0;
+		left: 0;
+		background-color: transparent;
+		--wpe--header--color: var(--wpe--color--white);
+		--wpe--navigation-menu--color: var(--wpe--color--white);
+		--wpe--navigation-menu--color--hover: var(--wpe--color--white);
+	}
 }
 
 .navbar {

@@ -1,0 +1,68 @@
+@import 'styles/breakpoints';
+
+.hero {
+	position: relative;
+	height: 100dvh;
+	overflow: hidden;
+}
+
+.hero-image {
+	position: absolute;
+	inset: 0;
+}
+
+.hero-heading {
+	position: absolute;
+	z-index: 1;
+	left: var(--wpe--container--padding-x);
+	right: var(--wpe--container--padding-x);
+	bottom: 2rem;
+	color: var(--wpe--color--white);
+}
+
+.hero-title {
+	max-width: 20ch;
+	font-size: var(--wpe--font-size--hero);
+	font-weight: var(--wpe--font-weight--bold);
+	line-height: 1.05;
+}
+
+.section-text {
+	max-width: var(--wpe--container--max-width);
+	margin: 0 auto;
+	padding: var(--wpe--section--padding-y) var(--wpe--container--padding-x);
+	text-align: center;
+}
+
+.section-heading {
+	font-size: var(--wpe--font-size--display);
+	line-height: 1.1;
+}
+
+.section-heading-line {
+	display: block;
+}
+
+.section-columns {
+	display: flex;
+	gap: 2rem;
+	justify-content: center;
+	margin-top: var(--wpe--section--padding-y);
+	text-align: left;
+	color: var(--wpe--color--accent--dark);
+
+	p {
+		flex: 1;
+		max-width: 30ch;
+	}
+
+	@media (max-width: $breakpoint-small) {
+		flex-direction: column;
+	}
+}
+
+.section-image {
+	position: relative;
+	height: 100vh;
+	overflow: hidden;
+}
