@@ -80,6 +80,15 @@
 			width: auto;
 			text-align: left;
 			padding: 0.25rem 0;
+			font-weight: var(--wpe--font-weight--semibold);
+
+			// Turns off the .link-underline reveal (applied unconditionally
+			// in NavigationMenu.js) for this variant only — the header's
+			// horizontal menu keeps it.
+			&::before,
+			&::after {
+				content: none;
+			}
 		}
 	}
 

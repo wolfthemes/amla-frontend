@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { motion } from 'motion/react';
 import classNames from 'classnames/bind';
 import { Container, NavigationMenu } from '../../components';
@@ -34,7 +35,9 @@ export default function Footer({ title, menuItems }) {
         >
           <div className={cx('col-heading')}>
             <p className={cx('heading-lead')}>Parlez-nous de votre projet</p>
-            <span className={cx('heading-cta', 'link-underline')}>Contactez-nous</span>
+            <Link href="/contact" className={cx('heading-cta', 'link-underline')}>
+              Contactez-nous
+            </Link>
           </div>
 
           <div className={cx('col-nav')}>
