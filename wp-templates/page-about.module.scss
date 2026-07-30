@@ -1,0 +1,88 @@
+@import 'styles/breakpoints';
+
+// Content is authored as plain core Gutenberg blocks (Columns > Heading +
+// Paragraph) in wp-admin. These rules repurpose that generic block markup
+// into the 3-column layout, so editors keep a normal visual-editor
+// workflow without needing a custom block or ACF field. Colors are left
+// as the site default (white bg, dark text) — no page-specific palette.
+.wrapper {
+	min-height: 100vh;
+	padding: var(--wpe--section--padding-y) var(--wpe--container--padding-x);
+
+	:global {
+		.wp-block-columns {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 3rem;
+			max-width: var(--wpe--container--max-width);
+			margin: 0 auto;
+
+			@media (max-width: $breakpoint-small) {
+				grid-template-columns: 1fr;
+				gap: 2.5rem;
+			}
+		}
+
+		// Gutenberg's own flex/width rules on columns would fight the grid above.
+		.wp-block-column {
+			flex: none;
+			width: auto !important;
+		}
+
+		h4 {
+			margin: 2.5rem 0 1rem;
+			font-size: var(--wpe--font-size--sm);
+			font-weight: var(--wpe--font-weight--medium);
+			text-transform: uppercase;
+			letter-spacing: 0.08em;
+
+			.wp-block-column > &:first-child {
+				margin-top: 0;
+			}
+		}
+
+		p {
+			margin: 0 0 0.5rem;
+			line-height: 1.4;
+		}
+
+		// Same look as .link-underline (styles/_utilities.scss), duplicated
+		// rather than @extend'd — this content comes from
+		// dangerouslySetInnerHTML, so there's no element to attach a
+		// className to; @extend also can't reach across to a file this
+		// module doesn't import.
+		a {
+			position: relative;
+			color: inherit;
+			text-decoration: none;
+
+			&::before,
+			&::after {
+				position: absolute;
+				right: 0;
+				bottom: 0.1em;
+				left: 0;
+				height: 1px;
+				background: currentColor;
+				content: '';
+			}
+
+			&::before {
+				opacity: 0.45;
+			}
+
+			&::after {
+				height: 2px;
+				transform: scaleX(0);
+				transform-origin: right;
+				transition: transform 0.25s ease;
+			}
+
+			&:hover::after,
+			&:focus::after {
+				transform: scaleX(1);
+				transform-origin: left;
+			}
+		}
+	}
+}
