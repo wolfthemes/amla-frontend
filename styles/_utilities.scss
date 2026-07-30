@@ -9,6 +9,8 @@
 // any link; for a decorative element inside a bigger link (e.g. a "view
 // project" label), trigger it from the ancestor's hover instead — see
 // wp-templates/page-portfolio.module.scss .grid-item-link for an example.
+// Add `is-active` (e.g. the current nav item) to keep it permanently in
+// the hovered-looking state.
 .link-underline {
 	position: relative;
 	text-decoration: none;
@@ -36,7 +38,8 @@
 	}
 
 	&:hover::after,
-	&:focus::after {
+	&:focus::after,
+	&.is-active::after {
 		transform: scaleX(1);
 		transform-origin: left;
 	}

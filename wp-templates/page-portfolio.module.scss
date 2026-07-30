@@ -60,9 +60,22 @@
 	line-height: var(--wpe--line-height--body);
 }
 
+// A real link (unlike .grid-item-link) — .hero-text sits outside
+// .hero-image's <Link>, so it needs its own, self-hover/focus underline.
+.hero-link {
+	display: inline-block;
+	margin-top: 1rem;
+	font-size: var(--wpe--font-size--sm);
+
+	&:hover,
+	&:focus {
+		color: var(--wpe--color--accent--dark);
+	}
+}
+
 .grid {
 	display: grid;
-	grid-template-columns: repeat(2, 1fr);
+	grid-template-columns: repeat(6, 1fr);
 	gap: 3rem 2rem;
 
 	@media (max-width: $breakpoint-small) {
@@ -70,15 +83,38 @@
 	}
 }
 
-// Every third item breaks full-width for the same editorial rhythm as a
-// curated masonry, without needing per-post gallery/layout data we don't have.
-.grid-item {
-	&:nth-child(3n) {
-		grid-column: 1 / -1;
+// Editorial rhythm repeating every 6 items (ref: interiorglobe.co/journal):
+// one full-width image, an uneven pair, then an even triple, then repeat.
+// This has to live on .grid-cell (the actual CSS Grid child) rather than
+// .grid-item (the <Link> one level deeper) — grid-column placement only
+// applies to direct children of the grid container. .grid-item stays where
+// it is since it's also the :hover/:focus target and only the <a> is
+// focusable.
+.grid-cell {
+	&:nth-child(6n + 1) {
+		grid-column: span 6;
 
 		.grid-item-image {
 			aspect-ratio: 16 / 9;
 		}
+	}
+
+	&:nth-child(6n + 2) {
+		grid-column: span 2;
+	}
+
+	&:nth-child(6n + 3) {
+		grid-column: span 4;
+
+		.grid-item-image {
+			aspect-ratio: 4 / 3;
+		}
+	}
+
+	&:nth-child(6n + 4),
+	&:nth-child(6n + 5),
+	&:nth-child(6n) {
+		grid-column: span 2;
 	}
 }
 

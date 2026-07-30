@@ -1,6 +1,7 @@
 import classNames from 'classnames/bind';
 import { gql } from '@apollo/client';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import styles from './NavigationMenu.module.scss';
 import stylesFromWP from './NavigationMenuClassesFromWP.module.scss';
 import { flatListToHierarchical } from '@faustwp/core';
@@ -8,7 +9,13 @@ import { flatListToHierarchical } from '@faustwp/core';
 let cx = classNames.bind(styles);
 let cxFromWp = classNames.bind(stylesFromWP);
 
+// Drop a trailing slash so WP's "/portfolio/" style paths compare equal to
+// Next's router.asPath, which normally omits it (trailingSlash isn't set).
+const withoutTrailingSlash = (path) => path?.replace(/\/$/, '') || '/';
+
 export default function NavigationMenu({ menuItems, className }) {
+  const router = useRouter();
+
   if (!menuItems) {
     return null;
   }
@@ -27,9 +34,18 @@ export default function NavigationMenu({ menuItems, className }) {
             return null;
           }
 
+          const isActive =
+            !!path &&
+            withoutTrailingSlash(router.asPath) === withoutTrailingSlash(path);
+
           return (
             <li key={id} className={cxFromWp(cssClasses)}>
-              <Link href={path ?? ''} className="link-underline">{label ?? ''}</Link>
+              <Link
+                href={path ?? ''}
+                className={`link-underline${isActive ? ' is-active' : ''}`}
+              >
+                {label ?? ''}
+              </Link>
               {children.length ? renderMenu(children) : null}
             </li>
           );

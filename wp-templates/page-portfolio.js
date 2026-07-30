@@ -74,6 +74,12 @@ export default function Component() {
                     <p className={cx('hero-description')}>{siteDescription}</p>
                   )
                 )}
+                <Link
+                  href={featuredWork.uri}
+                  className={`${cx('hero-link')} link-underline`}
+                >
+                  View project
+                </Link>
               </div>
             </motion.div>
           )}
@@ -82,6 +88,7 @@ export default function Component() {
             {remainingWorks.map((work) => (
               <motion.div
                 key={work.id}
+                className={cx('grid-cell')}
                 initial={reveal.initial}
                 whileInView={reveal.whileInView}
                 viewport={reveal.viewport}

@@ -58,7 +58,8 @@
 		text-align: center;
 
 		&:hover,
-		&:focus {
+		&:focus,
+		&.is-active {
 			color: var(--wpe--navigation-menu--color--hover);
 		}
 	}
