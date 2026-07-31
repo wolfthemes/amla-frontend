@@ -64,7 +64,6 @@ export default function Component() {
         title={siteTitle}
         description={siteDescription}
         menuItems={primaryMenu}
-        transparent
       />
       <Main>
         <div className={cx('hero')}>

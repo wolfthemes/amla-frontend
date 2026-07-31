@@ -50,6 +50,7 @@
 	// (styles/_utilities.scss), applied directly on the Link in NavigationMenu.js.
 	a {
 		color: var(--wpe--navigation-menu--color);
+		font-weight: var(--wpe--font-weight--medium);
 		padding: 0.5rem;
 		display: block;
 		transition: all 0.2s ease-out;
@@ -57,11 +58,36 @@
 		white-space: nowrap;
 		text-align: center;
 
+		// Bolder on hover, in step with .link-underline's thin-to-thick line.
+		// Font-weight can't tween smoothly across static font files (no
+		// variable font here), so this snaps rather than animates — the
+		// underline is what carries the motion.
 		&:hover,
 		&:focus,
 		&.is-active {
 			color: var(--wpe--navigation-menu--color--hover);
+			font-weight: var(--wpe--font-weight--bold);
 		}
+	}
+
+	// Stacks the real label over an always-bold hidden copy in the same grid
+	// cell, so the container's width is set by the (permanently widest)
+	// ghost — the visible label can change weight on hover without the
+	// link/nav row resizing around it.
+	.label-stack {
+		// inline-grid (not grid): stays an inline-level box so the header's
+		// text-align: center on `a` still centers it; grid internally for
+		// the stacking.
+		display: inline-grid;
+
+		> * {
+			grid-area: 1 / 1;
+		}
+	}
+
+	.label-ghost {
+		font-weight: var(--wpe--font-weight--bold);
+		visibility: hidden;
 	}
 
 	// Vertical variant — e.g. the footer's link column, vs. the header's

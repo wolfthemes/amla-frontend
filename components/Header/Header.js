@@ -9,13 +9,12 @@ let cx = classNames.bind(styles);
 export default function Header({
   title = 'Headless by WP Engine',
   description,
-  menuItems,
-  transparent = false
+  menuItems
 }) {
   const [isNavShown, setIsNavShown] = useState(false);
 
   return (
-    <header className={cx(['component', transparent && 'transparent'])}>
+    <header className={cx('component')}>
       <SkipNavigationLink />
         <Container>
           <div className={cx('navbar')}>

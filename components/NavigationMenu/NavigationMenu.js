@@ -44,7 +44,14 @@ export default function NavigationMenu({ menuItems, className, vertical }) {
                 href={path ?? ''}
                 className={`link-underline${isActive ? ' is-active' : ''}`}
               >
-                {label ?? ''}
+                <span className={cx('label-stack')}>
+                  {/* Always-bold, hidden — reserves the label's max width so
+                      the hover weight change doesn't shift layout. */}
+                  <span aria-hidden="true" className={cx('label-ghost')}>
+                    {label ?? ''}
+                  </span>
+                  <span>{label ?? ''}</span>
+                </span>
               </Link>
               {children.length ? renderMenu(children) : null}
             </li>

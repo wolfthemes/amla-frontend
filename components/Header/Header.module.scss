@@ -2,22 +2,16 @@
 @import 'styles/tokens';
 
 .component {
-	color: var(--wpe--header--color);
-	background-color: var(--wpe--header--background-color);
-	position: relative;
+	// Always transparent; mix-blend-mode keeps it legible as it stays
+	// pinned over whatever scrolls underneath (hero, content, footer).
+	background-color: transparent;
+	mix-blend-mode: difference;
+	color: $c-base;
+	--wpe--navigation-menu--color: #{$c-base};
+	--wpe--navigation-menu--color--hover: #{$c-base};
+	position: sticky;
+	top: 0;
 	z-index: 2; // Pull dropdown menus to the foreground to sit above <Main />.
-
-	// Floats over a full-bleed hero instead of pushing content down.
-	&.transparent {
-		position: absolute;
-		top: 0;
-		right: 0;
-		left: 0;
-		background-color: transparent;
-		--wpe--header--color: #{$c-base};
-		--wpe--navigation-menu--color: #{$c-base};
-		--wpe--navigation-menu--color--hover: #{$c-base};
-	}
 }
 
 .navbar {
