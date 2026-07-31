@@ -19,6 +19,7 @@
 		left: 0;
 		padding-top: 0;
 		background-color: transparent;
+		transition: opacity 0.2s ease;
 		--wpe--header--color: #{$c-base};
 		--wpe--navigation-menu--color: #{$c-base};
 		--wpe--navigation-menu--color--hover: #{$c-base};
@@ -27,6 +28,12 @@
 		// kicks in once scroll (see Header.js) puts lighter content behind it.
 		&.scrolled {
 			mix-blend-mode: difference;
+		}
+
+		// mix-blend-mode can't be transitioned, so Header.js briefly fades
+		// opacity to 0 across the flip to hide the jump.
+		&.fading {
+			opacity: 0;
 		}
 	}
 }

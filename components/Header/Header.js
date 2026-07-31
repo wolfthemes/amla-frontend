@@ -11,6 +11,11 @@ let cx = classNames.bind(styles);
 // passing lighter content underneath.
 const BLEND_SCROLL_THRESHOLD = 50;
 
+// mix-blend-mode can't be transitioned (it isn't an animatable property),
+// so the flip is masked with a quick opacity fade instead. Keep in sync
+// with the .fading transition duration in Header.module.scss.
+const BLEND_FADE_MS = 200;
+
 export default function Header({
   title = 'Headless by WP Engine',
   description,
@@ -19,18 +24,40 @@ export default function Header({
 }) {
   const [isNavShown, setIsNavShown] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isFading, setIsFading] = useState(false);
 
   useEffect(() => {
     if (!transparent) return;
 
-    const onScroll = () => setIsScrolled(window.scrollY > BLEND_SCROLL_THRESHOLD);
+    let fadeTimeout;
+    const onScroll = () => {
+      const shouldBlend = window.scrollY > BLEND_SCROLL_THRESHOLD;
+      setIsScrolled((wasBlended) => {
+        if (wasBlended === shouldBlend) return wasBlended;
+        setIsFading(true);
+        clearTimeout(fadeTimeout);
+        fadeTimeout = setTimeout(() => setIsFading(false), BLEND_FADE_MS);
+        return shouldBlend;
+      });
+    };
+
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      clearTimeout(fadeTimeout);
+    };
   }, [transparent]);
 
   return (
-    <header className={cx(['component', transparent && 'transparent', isScrolled && 'scrolled'])}>
+    <header
+      className={cx([
+        'component',
+        transparent && 'transparent',
+        isScrolled && 'scrolled',
+        isFading && 'fading'
+      ])}
+    >
       <SkipNavigationLink />
         <Container>
           <div className={cx('navbar')}>
