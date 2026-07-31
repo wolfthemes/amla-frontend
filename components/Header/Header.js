@@ -6,9 +6,10 @@ import styles from './Header.module.scss';
 
 let cx = classNames.bind(styles);
 
-// Past this the hero header is considered "at the top" and sits in its
-// normal, unblended spot; past it (but before the reveal) it's hidden.
-const HIDE_SCROLL_THRESHOLD = 10;
+// Past the header's own rendered height, natural scroll has already
+// carried it off-screen — safe to switch it to fixed positioning since
+// both states are invisible at that point, no visible jump.
+const NATURAL_SCROLL_THRESHOLD = 150;
 // Past this the header slides back down, now sticky and blended.
 const REVEAL_SCROLL_THRESHOLD = 400;
 
@@ -19,7 +20,7 @@ export default function Header({
   transparent = false
 }) {
   const [isNavShown, setIsNavShown] = useState(false);
-  const [scrollState, setScrollState] = useState('top'); // 'top' | 'hidden' | 'revealed'
+  const [scrollState, setScrollState] = useState('top'); // 'top' | 'fixed' | 'revealed'
 
   useEffect(() => {
     if (!transparent) return;
@@ -27,7 +28,7 @@ export default function Header({
     const onScroll = () => {
       const y = window.scrollY;
       setScrollState(
-        y >= REVEAL_SCROLL_THRESHOLD ? 'revealed' : y <= HIDE_SCROLL_THRESHOLD ? 'top' : 'hidden'
+        y >= REVEAL_SCROLL_THRESHOLD ? 'revealed' : y >= NATURAL_SCROLL_THRESHOLD ? 'fixed' : 'top'
       );
     };
 
@@ -37,7 +38,14 @@ export default function Header({
   }, [transparent]);
 
   return (
-    <header className={cx(['component', transparent && 'transparent', transparent && scrollState])}>
+    <header
+      className={cx([
+        'component',
+        transparent && 'transparent',
+        transparent && scrollState !== 'top' && 'fixed',
+        transparent && scrollState === 'revealed' && 'revealed'
+      ])}
+    >
       <SkipNavigationLink />
         <Container>
           <div className={cx('navbar')}>
