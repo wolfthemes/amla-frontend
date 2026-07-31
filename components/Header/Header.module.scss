@@ -9,13 +9,15 @@
 	padding-top: 1rem; // Breathing room once pinned to the viewport edge.
 	z-index: 2; // Pull dropdown menus to the foreground to sit above <Main />.
 
-	// Floats over a full-bleed hero instead of pushing content down.
+	// Stays sticky (rather than dropping to absolute) so it keeps pinning
+	// through scroll; the negative margin pulls the hero up underneath it
+	// for the same full-bleed overlap the old absolute layout had.
+	// ponytail: -7.5rem approximates this header's rendered height (navbar
+	// padding + brand + description). Bump it if that content grows enough
+	// to change the height noticeably.
 	&.transparent {
-		position: absolute;
-		top: 0;
-		right: 0;
-		left: 0;
 		padding-top: 0;
+		margin-bottom: -7.5rem;
 		background-color: transparent;
 		--wpe--header--color: #{$c-base};
 		--wpe--navigation-menu--color: #{$c-base};
