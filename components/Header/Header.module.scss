@@ -9,16 +9,18 @@
 	padding-top: 1rem; // Breathing room once pinned to the viewport edge.
 	z-index: 2; // Pull dropdown menus to the foreground to sit above <Main />.
 
-	// Stays sticky (rather than dropping to absolute) so it keeps pinning
-	// through scroll; the negative margin pulls the hero up underneath it
-	// for the same full-bleed overlap the old absolute layout had.
-	// ponytail: -7.5rem approximates this header's rendered height (navbar
-	// padding + brand + description). Bump it if that content grows enough
-	// to change the height noticeably.
+	// Fixed (not sticky) so it overlays the full-bleed hero with zero flow
+	// height — no negative-margin overlap hack, and no flow space to leave
+	// a gap once "stuck". mix-blend-mode keeps the white text legible as
+	// whatever's behind it (hero image, page sections) changes on scroll.
 	&.transparent {
+		position: fixed;
+		top: 0;
+		right: 0;
+		left: 0;
 		padding-top: 0;
-		margin-bottom: -7.5rem;
 		background-color: transparent;
+		mix-blend-mode: difference;
 		--wpe--header--color: #{$c-base};
 		--wpe--navigation-menu--color: #{$c-base};
 		--wpe--navigation-menu--color--hover: #{$c-base};
