@@ -7,7 +7,11 @@
     "build": "faust build",
     "generate": "faust generatePossibleTypes",
     "stylesheet": "faust generateGlobalStylesheet",
-    "start": "faust start"
+    "start": "faust start",
+    "lint": "next lint",
+    "lint:styles": "stylelint \"**/*.scss\"",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "@apollo/client": "^3.10.4",
@@ -25,7 +29,13 @@
     "sass": "^1.77.3"
   },
   "devDependencies": {
-    "next-secure-headers": "^2.2.0"
+    "next-secure-headers": "^2.2.0",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.35",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.3.3",
+    "stylelint": "^16.9.0",
+    "stylelint-config-standard-scss": "^13.1.0"
   },
   "engines": {
     "node": ">=18",
