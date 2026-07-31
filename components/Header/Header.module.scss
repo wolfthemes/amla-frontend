@@ -24,17 +24,19 @@
 		--wpe--navigation-menu--color--hover: #{$c-base};
 
 		// Past its own height, natural scroll has already carried it fully
-		// off-screen, so switching to fixed + hidden here is unnoticed; from
-		// here it can slide back down as a sticky bar.
+		// off-screen, so switching to fixed + hidden here is unnoticed — as
+		// long as this snaps with no transition, since transform would
+		// otherwise animate from its old (visible, translateY(0)) value now
+		// that position is fixed, flashing the header before sliding it away.
 		&.fixed {
 			position: fixed;
 			transform: translateY(-100%);
-			transition: transform 0.4s ease;
 
-			// Slides down, revealed; only now does mix-blend-mode kick in (it
-			// can't be transitioned, but the header is still off-screen at the
-			// instant it's applied, so there's no visible jump).
+			// The transition lives here, not on the base .fixed rule above,
+			// so only the reveal itself slides — entering/leaving .revealed
+			// — never the initial (invisible) switch into fixed mode.
 			&.revealed {
+				transition: transform 0.4s ease;
 				transform: translateY(0);
 				mix-blend-mode: difference;
 			}
