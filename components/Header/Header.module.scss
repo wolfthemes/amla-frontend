@@ -11,8 +11,7 @@
 
 	// Fixed (not sticky) so it overlays the full-bleed hero with zero flow
 	// height — no negative-margin overlap hack, and no flow space to leave
-	// a gap once "stuck". mix-blend-mode keeps the white text legible as
-	// whatever's behind it (hero image, page sections) changes on scroll.
+	// a gap once "stuck".
 	&.transparent {
 		position: fixed;
 		top: 0;
@@ -20,10 +19,15 @@
 		left: 0;
 		padding-top: 0;
 		background-color: transparent;
-		mix-blend-mode: difference;
 		--wpe--header--color: #{$c-base};
 		--wpe--navigation-menu--color: #{$c-base};
 		--wpe--navigation-menu--color--hover: #{$c-base};
+
+		// Plain white text reads fine over the hero itself; blend mode only
+		// kicks in once scroll (see Header.js) puts lighter content behind it.
+		&.scrolled {
+			mix-blend-mode: difference;
+		}
 	}
 }
 

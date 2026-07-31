@@ -44,14 +44,21 @@ export default function NavigationMenu({ menuItems, className, vertical }) {
                 href={path ?? ''}
                 className={`link-underline${isActive ? ' is-active' : ''}`}
               >
-                <span className={cx('label-stack')}>
-                  {/* Always-bold, hidden — reserves the label's max width so
-                      the hover weight change doesn't shift layout. */}
-                  <span aria-hidden="true" className={cx('label-ghost')}>
-                    {label ?? ''}
+                {vertical ? (
+                  label ?? ''
+                ) : (
+                  // Curtain hover (header only — see NavigationMenu.module.scss).
+                  // Ref: wolf-bedrock-infra/.../seijaku-fse's NavCurtain.js +
+                  // _nav.scss — clone is absolutely positioned over the
+                  // original, starting one line below; adapted to render the
+                  // clone in JSX (SSR-safe) instead of injecting it via JS.
+                  <span className={cx('label-stack')}>
+                    <span className={cx('label-line')}>{label ?? ''}</span>
+                    <span aria-hidden="true" className={cx('label-clone')}>
+                      {label ?? ''}
+                    </span>
                   </span>
-                  <span>{label ?? ''}</span>
-                </span>
+                )}
               </Link>
               {children.length ? renderMenu(children) : null}
             </li>

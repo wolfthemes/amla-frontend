@@ -58,36 +58,70 @@
 		white-space: nowrap;
 		text-align: center;
 
-		// Bolder on hover, in step with .link-underline's thin-to-thick line.
-		// Font-weight can't tween smoothly across static font files (no
-		// variable font here), so this snaps rather than animates — the
-		// underline is what carries the motion.
 		&:hover,
 		&:focus,
 		&.is-active {
 			color: var(--wpe--navigation-menu--color--hover);
-			font-weight: var(--wpe--font-weight--bold);
 		}
 	}
 
-	// Stacks the real label over an always-bold hidden copy in the same grid
-	// cell, so the container's width is set by the (permanently widest)
-	// ghost — the visible label can change weight on hover without the
-	// link/nav row resizing around it.
+	// Curtain hover (ref: seijaku-fse's .wolf-nav-curtain). .label-clone is
+	// an identical copy, absolutely positioned over .label-line and starting
+	// one line-height below (hidden by .label-stack's overflow: hidden). On
+	// hover, the line exits upward as the clone rolls up into its place.
 	.label-stack {
-		// inline-grid (not grid): stays an inline-level box so the header's
-		// text-align: center on `a` still centers it; grid internally for
-		// the stacking.
-		display: inline-grid;
-
-		> * {
-			grid-area: 1 / 1;
-		}
+		display: inline-flex;
+		position: relative;
+		overflow: hidden;
 	}
 
-	.label-ghost {
-		font-weight: var(--wpe--font-weight--bold);
-		visibility: hidden;
+	.label-line {
+		display: block;
+		transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+		will-change: transform;
+	}
+
+	.label-clone {
+		position: absolute;
+		inset-block-start: 0;
+		inset-inline-start: 0;
+		display: block;
+		transform: translateY(100%);
+		white-space: nowrap;
+		pointer-events: none;
+		user-select: none;
+		transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+		will-change: transform;
+	}
+
+	a:hover .label-line,
+	a:focus .label-line,
+	a.is-active .label-line {
+		transform: translateY(-100%);
+	}
+
+	a:hover .label-clone,
+	a:focus .label-clone,
+	a.is-active .label-clone {
+		transform: translateY(0);
+	}
+
+	// Skip the translate for users who don't want motion; plain fade instead.
+	@media (prefers-reduced-motion: reduce) {
+		.label-line {
+			transition: opacity 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+		}
+
+		.label-clone {
+			display: none;
+		}
+
+		a:hover .label-line,
+		a:focus .label-line,
+		a.is-active .label-line {
+			transform: none;
+			opacity: 0.55;
+		}
 	}
 
 	// Vertical variant — e.g. the footer's link column, vs. the header's
