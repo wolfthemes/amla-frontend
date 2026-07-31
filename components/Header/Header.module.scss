@@ -7,8 +7,10 @@
 	background-color: transparent;
 	mix-blend-mode: difference;
 	color: $c-base;
+
 	--wpe--navigation-menu--color: #{$c-base};
 	--wpe--navigation-menu--color--hover: #{$c-base};
+
 	position: sticky;
 	top: 0;
 	z-index: 2; // Pull dropdown menus to the foreground to sit above <Main />.
