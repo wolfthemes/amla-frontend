@@ -19,21 +19,23 @@
 		left: 0;
 		padding-top: 0;
 		background-color: transparent;
-		transition: opacity 0.2s ease;
+		transform: translateY(0);
+		transition: transform 0.4s ease;
 		--wpe--header--color: #{$c-base};
 		--wpe--navigation-menu--color: #{$c-base};
 		--wpe--navigation-menu--color--hover: #{$c-base};
 
-		// Plain white text reads fine over the hero itself; blend mode only
-		// kicks in once scroll (see Header.js) puts lighter content behind it.
-		&.scrolled {
-			mix-blend-mode: difference;
+		// Between the top-of-page spot and the sticky reveal (see Header.js),
+		// slide fully out of view instead of showing an unblended sticky bar.
+		&.hidden {
+			transform: translateY(-100%);
 		}
 
-		// mix-blend-mode can't be transitioned, so Header.js briefly fades
-		// opacity to 0 across the flip to hide the jump.
-		&.fading {
-			opacity: 0;
+		// Reappears sticky, slid back down; only now does mix-blend-mode
+		// kick in (it can't be transitioned, but the header is off-screen at
+		// the moment it's applied, so there's no visible jump).
+		&.revealed {
+			mix-blend-mode: difference;
 		}
 	}
 }
