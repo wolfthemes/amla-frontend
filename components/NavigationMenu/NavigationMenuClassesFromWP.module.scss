@@ -5,6 +5,12 @@
 @import 'styles/tokens';
 
 .button {
+	// Big gap between the Contact button and the rest of the (right-aligned)
+	// menu. Desktop only — the mobile dropdown keeps it inline.
+	@media (min-width: $breakpoint-small) {
+		margin-left: 6rem;
+	}
+
 	a {
 		@media (min-width: $breakpoint-small) {
 			// Outlined pill in the active nav colour (currentColor tracks

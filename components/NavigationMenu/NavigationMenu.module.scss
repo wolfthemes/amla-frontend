@@ -21,7 +21,8 @@
 	list-style-type: none;
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: center;
+	justify-content: flex-end;
+	align-items: center;
 	padding: 0;
 	margin: 0;
 	position: relative;
@@ -51,7 +52,7 @@
 	a {
 		color: var(--wpe--navigation-menu--color);
 		font-weight: var(--wpe--font-weight--medium);
-		padding: 0.5rem;
+		// padding: 0.5rem;
 		display: block;
 		transition: all 0.2s ease-out;
 		width: 100%;
