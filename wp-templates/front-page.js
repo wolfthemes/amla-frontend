@@ -38,12 +38,9 @@ const STATEMENT_LINES = [
 const STATEMENT_SECONDARY =
   'Portée par le fond plutôt que par l’artifice, notre pratique privilégie des espaces justes : matériaux honnêtes, lumière maîtrisée, gestes simples. Chaque projet cherche l’essentiel, là où l’efficacité structurelle et la sensibilité esthétique se rejoignent.';
 
-const PHILOSOPHY_EYEBROW = 'Notre philosophie';
-const PHILOSOPHY_HEADING = 'Une architecture du sens et de l’équilibre';
-const PHILOSOPHY_PARAGRAPHS = [
-  'Notre vision est avant tout guidée par votre bien-être. Notre maîtrise des étapes et des techniques architecturales et de design vous garantit un travail dans le respect de votre personnalité, de l’identité de votre projet, du temps, du coût et du lieu. Nous revendiquons une architecture et un design simples, efficaces et sincères, sans effets de manche, sans artifice. Notre recherche est basée sur l’équilibre : connaître les tendances sans céder aux modes éphémères, proposer une esthétique sans rien sacrifier à la fonctionnalité, créer de la surprise uniquement si cela crée du sens, détourner l’usage premier des matériaux sans les dénaturer, aller vers un minimal qui reste convivial, inventer pour mieux pérenniser, etc.',
-  'C’est peut-être ça le style ABCD Architecture : des réalisations qui vont à l’essentiel tout en manifestant une créativité sensible et ludique.',
-];
+const TESTIMONIAL_QUOTE =
+  'ML Archi a transformé notre maison en un lieu juste, lumineux et durable. Une écoute rare, une exigence constante du premier croquis à la dernière finition — et un résultat qui dépasse ce que nous imaginions.';
+const TESTIMONIAL_AUTHOR = 'Famille Lefèvre — Maison Meinau';
 
 export default function Component() {
   const { data } = useQuery(Component.query, {
@@ -133,38 +130,38 @@ export default function Component() {
           </motion.div>
         )}
 
-        <section className={cx('section-philosophy')}>
-          <motion.span
-            className={cx('section-eyebrow')}
-            initial={reveal.initial}
-            whileInView={reveal.whileInView}
-            viewport={reveal.viewport}
-            transition={reveal.transition}
-          >
-            {PHILOSOPHY_EYEBROW}
-          </motion.span>
-          <Heading level="h2" className={cx('section-heading')}>
-            <motion.span
-              className={cx('section-heading-line')}
+        <section className={cx('section-testimonial')}>
+          <blockquote className={cx('testimonial')}>
+            <p className={cx('testimonial-quote')}>
+              <span aria-hidden="true" className={cx('testimonial-mark')}>
+                “
+              </span>
+              {/* Same reveal as the statement, per word — each fades/slides up
+                  on scroll, staggered so the quote cascades in. */}
+              {TESTIMONIAL_QUOTE.split(' ').map((word, i) => (
+                <motion.span
+                  key={`${word}-${i}`}
+                  className={cx('testimonial-word')}
+                  initial={reveal.initial}
+                  whileInView={reveal.whileInView}
+                  viewport={reveal.viewport}
+                  transition={{ ...reveal.transition, delay: i * 0.025 }}
+                >
+                  {`${word} `}
+                </motion.span>
+              ))}
+            </p>
+            <motion.footer
+              className={cx('testimonial-author')}
               initial={reveal.initial}
               whileInView={reveal.whileInView}
               viewport={reveal.viewport}
-              transition={reveal.transition}
+              transition={{ ...reveal.transition, delay: 0.2 }}
             >
-              {PHILOSOPHY_HEADING}
-            </motion.span>
-          </Heading>
-          <motion.div
-            className={cx('section-philosophy-text')}
-            initial={reveal.initial}
-            whileInView={reveal.whileInView}
-            viewport={reveal.viewport}
-            transition={reveal.transition}
-          >
-            {PHILOSOPHY_PARAGRAPHS.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
-          </motion.div>
+              <span aria-hidden="true" className={cx('testimonial-bullet')} />
+              {TESTIMONIAL_AUTHOR}
+            </motion.footer>
+          </blockquote>
         </section>
 
         <WorksShowcase works={works} viewAllHref="/portfolio" />

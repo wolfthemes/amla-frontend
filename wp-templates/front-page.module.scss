@@ -73,13 +73,61 @@
 	}
 }
 
-.section-heading {
-	font-size: fs(display);
-	line-height: 1.1;
+// Section 3 — testimonial quote offset to the right (left column empty),
+// with a hanging opening quote mark and a square-bulleted attribution.
+// Default font style — no size/weight overrides beyond scale + leading.
+.section-testimonial {
+	max-width: var(--wpe--container--max-width);
+	margin: 0 auto;
+	padding: var(--wpe--section--padding-y) var(--wpe--container--padding-x);
 }
 
-.section-heading-line {
-	display: block;
+.testimonial {
+	margin: 0 0 0 auto;
+	max-width: 64%;
+
+	@media (max-width: $breakpoint-small) {
+		max-width: none;
+	}
+}
+
+.testimonial-quote {
+	position: relative;
+	margin: 0;
+	font-size: fs(3xl);
+	line-height: 1.2;
+}
+
+// inline-block so each word carries its own transform for the staggered
+// reveal, while still wrapping like normal inline text.
+.testimonial-word {
+	display: inline-block;
+	white-space: pre;
+	will-change: transform;
+}
+
+// Hanging opening quote, outdented into the empty left margin of the quote.
+.testimonial-mark {
+	position: absolute;
+	right: 100%;
+	top: 0;
+	margin-right: 0.1em;
+}
+
+.testimonial-author {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+	margin-top: 2.5rem;
+	font-size: fs(sm);
+	color: $c-accent-dark;
+}
+
+.testimonial-bullet {
+	flex: none;
+	width: 0.5rem;
+	height: 0.5rem;
+	background-color: currentColor;
 }
 
 .section-image {
@@ -88,33 +136,3 @@
 	overflow: hidden;
 }
 
-// Section 4 — same centered/reveal treatment as .section-text, but shaped
-// for flowing paragraphs (an eyebrow label, one heading line, a single
-// readable-width column) instead of split heading lines + parallel columns.
-.section-philosophy {
-	max-width: var(--wpe--container--max-width);
-	margin: 0 auto;
-	padding: var(--wpe--section--padding-y) var(--wpe--container--padding-x);
-	text-align: center;
-}
-
-.section-eyebrow {
-	display: block;
-	margin-bottom: 1rem;
-	font-size: fs(sm);
-	text-transform: uppercase;
-	letter-spacing: 0.08em;
-	color: $c-accent-dark;
-}
-
-.section-philosophy-text {
-	max-width: 65ch;
-	margin: var(--wpe--section--padding-y) auto 0;
-	text-align: left;
-	color: $c-accent-dark;
-	line-height: var(--wpe--line-height--body);
-
-	p + p {
-		margin-top: 1.5rem;
-	}
-}
