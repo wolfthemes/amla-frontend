@@ -39,18 +39,29 @@ export default function WorksShowcase({ works = [], viewAllHref = '/portfolio' }
               {work.featuredImage?.node && (
                 <div className={cx('item-image')}>
                   <ParallaxImage image={work.featuredImage.node} />
+                  {/* Same hover overlay as the portfolio grid: category + title
+                      on the left, réalisation year right, over a scrim. */}
+                  <div className={cx('item-overlay')}>
+                    <div className={cx('item-text')}>
+                      {work.workTypes?.nodes?.[0]?.name && (
+                        <span className={cx('item-category')}>
+                          {work.workTypes.nodes[0].name}
+                        </span>
+                      )}
+                      <div className={cx('item-line')}>
+                        <Heading level="h3" className={cx('item-title')}>
+                          {work.title}
+                        </Heading>
+                        {work.workCompletion && (
+                          <span className={cx('item-year')}>
+                            {work.workCompletion}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               )}
-              <div className={cx('item-caption')}>
-                {work.workTypes?.nodes?.[0]?.name && (
-                  <span className={cx('item-category')}>
-                    {work.workTypes.nodes[0].name}
-                  </span>
-                )}
-                <Heading level="h3" className={cx('item-title')}>
-                  {work.title}
-                </Heading>
-              </div>
             </Link>
           </motion.div>
         ))}

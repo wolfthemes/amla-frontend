@@ -143,26 +143,68 @@
 	filter: saturate(0.7);
 }
 
-.grid-item-caption {
-	margin-top: 0.75rem;
+// Meta overlay revealed on hover: category + title bottom-left, réalisation
+// year bottom-right, over a dark scrim so the white text stays legible.
+.grid-item-overlay {
+	position: absolute;
+	inset: 0;
+	z-index: 1; // Sit above the image (ParallaxImage translates its own layer).
+	display: flex;
+	// Centre the text block vertically; the scrim itself never moves so the
+	// hover nudge lives on .grid-item-text, not here.
+	align-items: center;
+	padding: 1.5rem;
+	color: #fff;
+	background: rgba(0, 0, 0, 0.32);
+	opacity: 0;
+	transition: opacity 0.4s ease;
 }
 
-// h2 here (h3 in front-page modules — implement later): default h2 style,
-// no underline since it sits inside the card's <Link>.
-.grid-item-title {
+.grid-item:hover .grid-item-overlay,
+.grid-item:focus .grid-item-overlay {
+	opacity: 1;
+}
+
+.grid-item-text {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 0.35rem;
+	// Nudge up on hover for a subtle reveal.
+	transform: translateY(0.5rem);
+	transition: transform 0.4s ease;
+
+	.grid-item:hover &,
+	.grid-item:focus & {
+		transform: translateY(0);
+	}
+}
+
+// Category eyebrow sits above the title/year row.
+.grid-item-category {
+	font-size: fs(xs);
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	opacity: 0.85;
+}
+
+// Title left, year right, sharing a baseline so they always line up.
+.grid-item-line {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+// h2 title — no underline since it sits inside the card's <Link>.
+.grid-item-name {
 	text-decoration: none;
 	font-size: fs(lg);
+	line-height: 1.1;
 }
 
-// .link-underline (styles/_utilities.scss) reveals on its own hover/focus,
-// so it only animates when the cursor is over this text specifically —
-// not the rest of the card.
-.grid-item-link {
-	display: inline-block;
-	margin-top: 0.25rem;
+.grid-item-year {
+	flex: none;
 	font-size: fs(sm);
-
-	.grid-item:hover & {
-		color: $c-accent-dark;
-	}
+	opacity: 0.9;
 }

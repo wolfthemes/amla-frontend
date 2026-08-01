@@ -192,6 +192,7 @@ Component.query = gql`
         id
         title
         uri
+        workCompletion
         workTypes {
           nodes {
             name

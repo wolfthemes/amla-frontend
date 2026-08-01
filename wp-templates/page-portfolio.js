@@ -100,18 +100,32 @@ export default function Component() {
                   {work.featuredImage?.node && (
                     <div className={cx('grid-item-image')}>
                       <ParallaxImage image={work.featuredImage.node} />
+                      {/* Meta revealed on hover: category + title on the left,
+                          réalisation year right, over a scrim — see
+                          .grid-item-overlay. */}
+                      <div className={cx('grid-item-overlay')}>
+                        <div className={cx('grid-item-text')}>
+                          {work.workTypes?.nodes?.length > 0 && (
+                            <span className={cx('grid-item-category')}>
+                              {work.workTypes.nodes
+                                .map((t) => t.name)
+                                .join(', ')}
+                            </span>
+                          )}
+                          <div className={cx('grid-item-line')}>
+                            <Heading level="h2" className={cx('grid-item-name')}>
+                              {work.title}
+                            </Heading>
+                            {work.workCompletion && (
+                              <span className={cx('grid-item-year')}>
+                                {work.workCompletion}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   )}
-                  <div className={cx('grid-item-caption')}>
-                    <Heading level="h2" className={cx('grid-item-title')}>
-                      {work.title}
-                      {work.workTypes?.nodes?.length > 0 &&
-                        ` — ${work.workTypes.nodes.map((t) => t.name).join(', ')}`}
-                    </Heading>
-                    <span className={`${cx('grid-item-link')} link-underline`}>
-                      Voir le projet
-                    </span>
-                  </div>
                 </Link>
               </motion.div>
             ))}
@@ -137,6 +151,7 @@ Component.query = gql`
         title
         uri
         excerpt
+        workCompletion
         workTypes {
           nodes {
             name
