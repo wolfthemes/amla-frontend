@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames/bind';
 import Link from 'next/link';
 import { Container, NavigationMenu, SkipNavigationLink } from '../../components';
@@ -17,13 +17,50 @@ export default function Header({
   title = 'Headless by WP Engine',
   description,
   menuItems,
-  transparent = false
+  // The transparent, sticky, reveal-on-scroll menu is the default on every
+  // page. The front page overlays a dark hero so it opts out of `dark`; every
+  // other page sits on a light background and keeps the dark-font default.
+  transparent = true,
+  dark = true
 }) {
   const [isNavShown, setIsNavShown] = useState(false);
   const [scrollState, setScrollState] = useState('top'); // 'top' | 'fixed' | 'revealed'
 
+  // The dark variant overlays a light page with no full-bleed hero to sit on,
+  // so — unlike the front page — its content would collide with the absolute
+  // header. Reserve a matching gap by mirroring the header's rendered height.
+  const headerRef = useRef(null);
+  const [spacerHeight, setSpacerHeight] = useState(0);
+
   useEffect(() => {
-    if (!transparent) return;
+    if (!transparent || !dark) return;
+
+    const el = headerRef.current;
+    if (!el) return;
+
+    const measure = () => {
+      const h = el.offsetHeight;
+      setSpacerHeight(h);
+      // Expose the rendered height so sticky in-page content (e.g. the
+      // portfolio hero caption) can offset itself below the bar instead of
+      // sliding underneath it once the header pins into fixed/revealed mode.
+      document.documentElement.style.setProperty('--wpe--header--height', `${h}px`);
+    };
+    measure();
+
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      document.documentElement.style.removeProperty('--wpe--header--height');
+    };
+  }, [transparent, dark]);
+
+  useEffect(() => {
+    // Only the front-page variant scrolls away and reveals on scroll. The
+    // dark variant is permanently pinned (position: fixed) via CSS, so it has
+    // no scroll states to track.
+    if (!transparent || dark) return;
 
     const onScroll = () => {
       const y = window.scrollY;
@@ -35,13 +72,16 @@ export default function Header({
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, [transparent]);
+  }, [transparent, dark]);
 
   return (
+    <>
     <header
+      ref={headerRef}
       className={cx([
         'component',
         transparent && 'transparent',
+        transparent && dark && 'dark',
         transparent && scrollState !== 'top' && 'fixed',
         transparent && scrollState === 'revealed' && 'revealed'
       ])}
@@ -72,5 +112,9 @@ export default function Header({
         </div>
       </Container>
     </header>
+    {transparent && dark && (
+      <div aria-hidden="true" style={{ height: spacerHeight }} />
+    )}
+    </>
   );
 }

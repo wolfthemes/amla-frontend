@@ -23,6 +23,19 @@
 		--wpe--navigation-menu--color: #{$c-base};
 		--wpe--navigation-menu--color--hover: #{$c-base};
 
+		// Non-front-page menu (no hero to overlay): rather than the front page's
+		// scroll-away-then-reveal, this variant is permanently pinned at the
+		// top. mix-blend-mode: difference keeps it legible over whatever scrolls
+		// beneath — it renders as dark text on the light page and auto-inverts
+		// over darker content, so it needs no explicit colour override.
+		&.dark {
+			position: fixed;
+			top: 0;
+			right: 0;
+			left: 0;
+			mix-blend-mode: difference;
+		}
+
 		// Past its own height, natural scroll has already carried it fully
 		// off-screen, so switching to fixed + hidden here is unnoticed — as
 		// long as this snaps with no transition, since transform would

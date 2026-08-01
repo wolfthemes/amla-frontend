@@ -8,6 +8,11 @@
 
 body {
 	margin: 0;
+	// Opaque page background so the fixed header's mix-blend-mode: difference
+	// always has a backdrop to invert against. Without it, the header over the
+	// bare top of a page (above <Main>, where only the transparent spacer sits)
+	// blends white text against nothing and renders invisible on the light page.
+	background-color: var(--wpe--main--background-color);
 	// Maison Neue is applied via the wrapper in pages/_app.js; this is just
 	// the fallback stack for the moment before that class paints.
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";

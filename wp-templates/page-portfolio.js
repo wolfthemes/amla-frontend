@@ -45,6 +45,8 @@ export default function Component() {
         title={siteTitle}
         description={siteDescription}
         menuItems={primaryMenu}
+        transparent
+        dark
       />
       <Main>
         <div className={cx('wrapper')}>

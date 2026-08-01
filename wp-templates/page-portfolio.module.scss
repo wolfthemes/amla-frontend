@@ -45,7 +45,12 @@
 	flex: 1;
 	align-self: flex-start;
 	position: sticky;
-	top: 2rem;
+	// Stick below the menu bar, not at the viewport edge, so the caption
+	// doesn't collapse under the header once it pins into fixed/revealed mode.
+	// --wpe--header--height is published by Header.js from the bar's measured
+	// height; the 2rem breathing room matches the header's own top padding,
+	// and the fallback keeps a sane offset before the var resolves.
+	top: calc(var(--wpe--header--height, 2rem) + 2rem);
 
 	@media (max-width: $breakpoint-small) {
 		position: static;

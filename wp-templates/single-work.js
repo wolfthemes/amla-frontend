@@ -89,6 +89,8 @@ export default function Component(props) {
         title={siteTitle}
         description={siteDescription}
         menuItems={primaryMenu}
+        transparent
+        dark={!featuredImage?.node}
       />
       <Main>
         <>
