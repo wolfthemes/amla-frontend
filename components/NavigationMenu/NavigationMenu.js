@@ -38,24 +38,31 @@ export default function NavigationMenu({ menuItems, className, vertical }) {
             !!path &&
             withoutTrailingSlash(router.asPath) === withoutTrailingSlash(path);
 
+          // The pill CTA (WP "button" menu class) uses the vertical curtain
+          // roll instead of the horizontal mask reveal.
+          const isButton = cssClasses?.includes('button');
+
           return (
             <li key={id} className={cxFromWp(cssClasses)}>
               <Link
                 href={path ?? ''}
-                className={`link-underline${isActive ? ' is-active' : ''}`}
+                className={cx({ 'is-active': isActive })}
               >
                 {vertical ? (
                   label ?? ''
                 ) : (
-                  // Curtain hover (header only — see NavigationMenu.module.scss).
-                  // Ref: wolf-bedrock-infra/.../seijaku-fse's NavCurtain.js +
-                  // _nav.scss — clone is absolutely positioned over the
-                  // original, starting one line below; adapted to render the
-                  // clone in JSX (SSR-safe) instead of injecting it via JS.
-                  <span className={cx('label-stack')}>
-                    <span className={cx('label-line')}>{label ?? ''}</span>
-                    <span aria-hidden="true" className={cx('label-clone')}>
-                      {label ?? ''}
+                  // Mask reveal (header only — see NavigationMenu.module.scss).
+                  // Ref: wolfthemes Overable's .link__mask — a two-layer
+                  // counter-slide: the clip (.label-mask) moves -100%->0 while
+                  // its inner clone moves 100%->0, so the greyed clone is
+                  // unmasked left-to-right in place (the text doesn't travel).
+                  // Rendered in JSX (SSR-safe) rather than a data-text ::after.
+                  <span className={cx('label', { 'is-button': isButton })}>
+                    <span className={cx('label-text')}>{label ?? ''}</span>
+                    <span aria-hidden="true" className={cx('label-mask')}>
+                      <span className={cx('label-mask-inner')}>
+                        {label ?? ''}
+                      </span>
                     </span>
                   </span>
                 )}

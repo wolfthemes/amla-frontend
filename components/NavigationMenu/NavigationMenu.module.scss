@@ -47,81 +47,114 @@
 		}
 	}
 
-	// Underline reveal comes from the shared .link-underline utility
-	// (styles/_utilities.scss), applied directly on the Link in NavigationMenu.js.
 	a {
 		color: var(--wpe--navigation-menu--color);
 		font-weight: var(--wpe--font-weight--medium);
-		// padding: 0.5rem;
 		display: block;
 		transition: all 0.2s ease-out;
 		width: 100%;
 		white-space: nowrap;
 		text-align: center;
+	}
 
-		&:hover,
-		&:focus,
-		&.is-active {
-			color: var(--wpe--navigation-menu--color--hover);
+	// Mask reveal (ref: wolfthemes Overable's .link__mask). A two-layer
+	// counter-slide: .label-mask is a clip window (overflow: hidden) over the
+	// original, sitting one width to the left; .label-mask-inner holds the grey
+	// clone, offset one width to the right inside it. On hover both slide to 0
+	// — because they cancel out, the clone stays fixed over the original while
+	// the clip window sweeps across, unmasking the colour left-to-right.
+	.label {
+		position: relative;
+		display: inline-block;
+		vertical-align: top;
+	}
+
+	.label-text {
+		display: block;
+	}
+
+	// Base word sits at slightly reduced contrast; the reveal below paints it
+	// to full contrast left-to-right on hover.
+	.label:not(.is-button) .label-text {
+		color: color-mix(in srgb, currentColor 72%, transparent);
+	}
+
+	.label-mask {
+		position: absolute;
+		inset: 0;
+		overflow: hidden;
+		transform: translateX(-100%);
+		transition: transform 0.5s ease;
+		pointer-events: none;
+		user-select: none;
+	}
+
+	.label-mask-inner {
+		display: block;
+		white-space: nowrap;
+		// Full contrast — the hovered/revealed state.
+		color: currentColor;
+		transform: translateX(100%);
+		transition: transform 0.5s ease;
+	}
+
+	a:hover .label-mask,
+	a:focus .label-mask,
+	a.is-active .label-mask,
+	a:hover .label-mask-inner,
+	a:focus .label-mask-inner,
+	a.is-active .label-mask-inner {
+		transform: translateX(0);
+	}
+
+	// Nav button (pill CTA): vertical curtain roll instead of the mask reveal —
+	// the label rolls up and out as its clone rolls up from below into place.
+	.label.is-button {
+		overflow: hidden;
+
+		.label-text {
+			transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+		}
+
+		.label-mask {
+			overflow: visible;
+			transform: none;
+		}
+
+		.label-mask-inner {
+			transform: translateY(100%);
+			transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 		}
 	}
 
-	// Curtain hover (ref: seijaku-fse's .wolf-nav-curtain). .label-clone is
-	// an identical copy, absolutely positioned over .label-line and starting
-	// one line-height below (hidden by .label-stack's overflow: hidden). On
-	// hover, the line exits upward as the clone rolls up into its place.
-	.label-stack {
-		display: inline-flex;
-		position: relative;
-		overflow: hidden;
-	}
-
-	.label-line {
-		display: block;
-		transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
-		will-change: transform;
-	}
-
-	.label-clone {
-		position: absolute;
-		inset-block-start: 0;
-		inset-inline-start: 0;
-		display: block;
-		transform: translateY(100%);
-		white-space: nowrap;
-		pointer-events: none;
-		user-select: none;
-		transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-		will-change: transform;
-	}
-
-	a:hover .label-line,
-	a:focus .label-line,
-	a.is-active .label-line {
+	a:hover .label.is-button .label-text,
+	a:focus .label.is-button .label-text {
 		transform: translateY(-100%);
 	}
 
-	a:hover .label-clone,
-	a:focus .label-clone,
-	a.is-active .label-clone {
+	a:hover .label.is-button .label-mask,
+	a:focus .label.is-button .label-mask,
+	a:hover .label.is-button .label-mask-inner,
+	a:focus .label.is-button .label-mask-inner {
 		transform: translateY(0);
 	}
 
-	// Skip the translate for users who don't want motion; plain fade instead.
+	// Skip the slide for users who don't want motion; plain fade instead.
 	@media (prefers-reduced-motion: reduce) {
-		.label-line {
-			transition: opacity 0.22s cubic-bezier(0.22, 1, 0.36, 1);
-		}
-
-		.label-clone {
-			display: none;
-		}
-
-		a:hover .label-line,
-		a:focus .label-line,
-		a.is-active .label-line {
+		.label-mask {
 			transform: none;
-			opacity: 0.55;
+			opacity: 0;
+			transition: opacity 0.22s ease;
+		}
+
+		.label-mask-inner {
+			transform: none;
+		}
+
+		a:hover .label-mask,
+		a:focus .label-mask,
+		a.is-active .label-mask {
+			opacity: 1;
 		}
 	}
 
@@ -143,14 +176,6 @@
 			text-align: left;
 			padding: 0.25rem 0;
 			font-weight: var(--wpe--font-weight--semibold);
-
-			// Turns off the .link-underline reveal (applied unconditionally
-			// in NavigationMenu.js) for this variant only — the header's
-			// horizontal menu keeps it.
-			&::before,
-			&::after {
-				content: none;
-			}
 		}
 	}
 
