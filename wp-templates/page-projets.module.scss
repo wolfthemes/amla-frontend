@@ -82,7 +82,7 @@
 .grid {
 	display: grid;
 	grid-template-columns: repeat(6, 1fr);
-	gap: 3rem 2rem;
+	gap: var(--wpe--works--grid-gap);
 
 	@media (max-width: $breakpoint-small) {
 		grid-template-columns: 1fr;
