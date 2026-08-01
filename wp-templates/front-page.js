@@ -18,7 +18,7 @@ import styles from './front-page.module.scss';
 
 let cx = classNames.bind(styles);
 
-// ponytail: duplicated from page-portfolio.js; promote to a shared module if a third page needs it.
+// ponytail: duplicated from page-projets.js; promote to a shared module if a third page needs it.
 const reveal = {
   initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
@@ -164,7 +164,7 @@ export default function Component() {
           </blockquote>
         </section>
 
-        <WorksShowcase works={works} viewAllHref="/portfolio" />
+        <WorksShowcase works={works} viewAllHref="/projets" />
       </Main>
       <Footer title={siteTitle} menuItems={footerMenu} />
     </>

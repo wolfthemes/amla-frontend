@@ -16,7 +16,7 @@ const reveal = {
 // Homepage "recent work" module — a fixed 7-item composition (one wide +
 // two narrow, then two uneven pairs), deliberately different from the
 // portfolio page's repeating grid rhythm. Ref: yoointerior.com homepage.
-export default function WorksShowcase({ works = [], viewAllHref = '/portfolio' }) {
+export default function WorksShowcase({ works = [], viewAllHref = '/projets' }) {
   const items = works.slice(0, 7);
 
   if (!items.length) {

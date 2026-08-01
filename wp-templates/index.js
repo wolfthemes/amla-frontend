@@ -3,7 +3,7 @@ import tag from './tag';
 import frontPage from './front-page';
 import page from './page';
 import pageAbout from './page-a-propos';
-import pagePortfolio from './page-portfolio';
+import pageProjets from './page-projets';
 import single from './single';
 import singleWork from './single-work';
 
@@ -13,7 +13,7 @@ export default {
   'front-page': frontPage,
   page,
   'page-a-propos': pageAbout,
-  'page-portfolio': pagePortfolio,
+  'page-projets': pageProjets,
   single,
   'single-work': singleWork,
 };

@@ -9,7 +9,7 @@ import { flatListToHierarchical } from '@faustwp/core';
 let cx = classNames.bind(styles);
 let cxFromWp = classNames.bind(stylesFromWP);
 
-// Drop a trailing slash so WP's "/portfolio/" style paths compare equal to
+// Drop a trailing slash so WP's "/projets/" style paths compare equal to
 // Next's router.asPath, which normally omits it (trailingSlash isn't set).
 const withoutTrailingSlash = (path) => path?.replace(/\/$/, '') || '/';
 

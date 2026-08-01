@@ -14,7 +14,7 @@ import {
   NavigationMenu,
   SEO,
 } from '../components';
-import styles from './page-portfolio.module.scss';
+import styles from './page-projets.module.scss';
 
 let cx = classNames.bind(styles);
 
@@ -141,7 +141,7 @@ Component.query = gql`
   ${BlogInfoFragment}
   ${NavigationMenu.fragments.entry}
   ${FeaturedImage.fragments.entry}
-  query GetPortfolioPage(
+  query GetProjetsPage(
     $headerLocation: MenuLocationEnum
     $footerLocation: MenuLocationEnum
   ) {
