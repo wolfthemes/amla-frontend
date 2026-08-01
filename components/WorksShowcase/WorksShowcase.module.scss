@@ -89,9 +89,10 @@
 }
 
 .view-all {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	// Block-level so the fixed size and margin-auto centering apply (an <a> is
+	// inline by default); relative so the clipped track is positioned to it.
+	display: block;
+	position: relative;
 	width: 3rem;
 	height: 3rem;
 	margin: var(--wpe--section--padding-y) auto 0;
@@ -99,10 +100,31 @@
 	background: $c-ink;
 	color: $c-base;
 	font-size: 1.25rem;
-	transition: transform 0.25s ease;
+	// Clip the arrow track so the off-screen duplicate stays hidden.
+	overflow: hidden;
+}
 
-	&:hover,
-	&:focus {
-		transform: scale(1.1);
-	}
+// Two arrow cells (each the circle's width) laid side by side. It sits shifted
+// one cell to the left so the *second* arrow is the one shown at rest; on hover
+// it slides back to 0, sending that arrow out the right while its duplicate
+// enters from the left. Mirrors .link-underline's left-in / right-out wipe.
+.arrow-track {
+	display: flex;
+	width: 200%;
+	height: 100%;
+	transform: translateX(-50%);
+	transition: transform 0.35s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.arrow {
+	flex: 0 0 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	line-height: 1;
+}
+
+.view-all:hover .arrow-track,
+.view-all:focus .arrow-track {
+	transform: translateX(0);
 }

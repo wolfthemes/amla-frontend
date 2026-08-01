@@ -61,7 +61,13 @@ export default function WorksShowcase({ works = [], viewAllHref = '/portfolio' }
         className={cx('view-all')}
         aria-label="Voir tous les projets"
       >
-        →
+        {/* Two arrows on a horizontal track; on hover the track slides one
+            cell so the visible arrow exits right and a duplicate wipes in from
+            the left — a horizontal echo of the menu's underline reveal. */}
+        <span className={cx('arrow-track')} aria-hidden="true">
+          <span className={cx('arrow')}>→</span>
+          <span className={cx('arrow')}>→</span>
+        </span>
       </Link>
     </section>
   );
