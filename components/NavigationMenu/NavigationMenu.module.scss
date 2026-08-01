@@ -28,6 +28,12 @@
 	position: relative;
 	gap: 2rem;
 
+	// Tight spacing on the desktop row so the items read as a comma-separated
+	// text list; the pill CTA keeps its own margin-left for separation.
+	@media (min-width: $breakpoint-small) {
+		gap: 0.4rem;
+	}
+
 	li {
 		display: flex;
 		align-items: center;
@@ -55,6 +61,16 @@
 		width: 100%;
 		white-space: nowrap;
 		text-align: center;
+	}
+
+	// Comma after each regular item (all but the last), so the desktop row
+	// reads as a text list. Header row only — hidden in the mobile stack.
+	@media (min-width: $breakpoint-small) {
+		a.has-comma::after {
+			content: ',';
+			// Match the muted resting word so the list reads uniformly.
+			color: color-mix(in srgb, currentColor 72%, transparent);
+		}
 	}
 
 	// Mask reveal (ref: wolfthemes Overable's .link__mask). A two-layer

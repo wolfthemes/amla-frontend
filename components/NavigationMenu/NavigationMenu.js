@@ -24,6 +24,13 @@ export default function NavigationMenu({ menuItems, className, vertical }) {
   const hierarchicalMenuItems = flatListToHierarchical(menuItems);
 
   function renderMenu(items) {
+    // The horizontal header menu reads as a comma-separated text list
+    // ("Work, Process, Studio") — every regular item but the last gets a
+    // trailing comma; the pill CTA is excluded.
+    const lastRegularId = items
+      .filter((i) => i.__typename && !i.cssClasses?.includes('button'))
+      .at(-1)?.id;
+
     return (
       <ul className={cx(['menu', vertical && 'vertical'])}>
         {items.map((item) => {
@@ -42,11 +49,14 @@ export default function NavigationMenu({ menuItems, className, vertical }) {
           // roll instead of the horizontal mask reveal.
           const isButton = cssClasses?.includes('button');
 
+          // Comma after each regular item except the last (not the pill).
+          const hasComma = !vertical && !isButton && id !== lastRegularId;
+
           return (
             <li key={id} className={cxFromWp(cssClasses)}>
               <Link
                 href={path ?? ''}
-                className={cx({ 'is-active': isActive })}
+                className={cx({ 'is-active': isActive, 'has-comma': hasComma })}
               >
                 {vertical ? (
                   label ?? ''
