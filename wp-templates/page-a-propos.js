@@ -3,7 +3,7 @@ import * as MENUS from '../constants/menus';
 import { BlogInfoFragment } from '../fragments/GeneralSettings';
 import classNames from 'classnames/bind';
 import { Header, Footer, Main, NavigationMenu, SEO } from '../components';
-import styles from './page-about.module.scss';
+import styles from './page-a-propos.module.scss';
 
 let cx = classNames.bind(styles);
 
@@ -25,6 +25,8 @@ export default function Component(props) {
         title={siteTitle}
         description={siteDescription}
         menuItems={primaryMenu}
+        transparent
+        dark
       />
       <Main>
         {/* Not using ContentWrapper here — its own max-width (620px, tuned
