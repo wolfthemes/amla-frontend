@@ -28,11 +28,52 @@
 	line-height: 1.05;
 }
 
-.section-text {
+// Section 2 — large editorial statement that reveals line by line on scroll
+// (masked lines sliding up), with a smaller secondary paragraph tucked to the
+// bottom-right. Light skin (default dark-on-light).
+.section-statement {
+	display: flex;
+	flex-direction: column;
 	max-width: var(--wpe--container--max-width);
 	margin: 0 auto;
-	padding: var(--wpe--section--padding-y) var(--wpe--container--padding-x);
-	text-align: center;
+	// Extra top pad = sticky-header height + the usual section rhythm, so the
+	// first line never tucks under the bar when it pins/reveals on scroll.
+	// --wpe--header--height is published by Header.js; fallback covers first paint.
+	padding:
+		calc(var(--wpe--header--height, 6rem) + var(--wpe--section--padding-y))
+		var(--wpe--container--padding-x)
+		var(--wpe--section--padding-y);
+}
+
+.statement {
+	font-size: clamp(2.5rem, 5.5vw, 5rem);
+	font-weight: var(--wpe--font-weight--medium);
+	line-height: 1.06;
+	letter-spacing: -0.015em;
+}
+
+// Clip window: hides the line until its inner half slides up into place.
+.statement-line {
+	display: block;
+	overflow: hidden;
+}
+
+.statement-line-inner {
+	display: block;
+	will-change: transform;
+}
+
+.statement-secondary {
+	align-self: flex-end;
+	max-width: 44ch;
+	margin-top: var(--wpe--section--padding-y);
+	color: $c-accent-dark;
+	line-height: var(--wpe--line-height--body);
+
+	@media (max-width: $breakpoint-small) {
+		align-self: stretch;
+		max-width: none;
+	}
 }
 
 .section-heading {
@@ -42,24 +83,6 @@
 
 .section-heading-line {
 	display: block;
-}
-
-.section-columns {
-	display: flex;
-	gap: 2rem;
-	justify-content: center;
-	margin-top: var(--wpe--section--padding-y);
-	text-align: left;
-	color: $c-accent-dark;
-
-	p {
-		flex: 1;
-		max-width: 30ch;
-	}
-
-	@media (max-width: $breakpoint-small) {
-		flex-direction: column;
-	}
 }
 
 .section-image {

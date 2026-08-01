@@ -33,17 +33,15 @@ export default function Header({
   const [spacerHeight, setSpacerHeight] = useState(0);
 
   useEffect(() => {
-    if (!transparent || !dark) return;
-
     const el = headerRef.current;
     if (!el) return;
 
     const measure = () => {
       const h = el.offsetHeight;
       setSpacerHeight(h);
-      // Expose the rendered height so sticky in-page content (e.g. the
-      // portfolio hero caption) can offset itself below the bar instead of
-      // sliding underneath it once the header pins into fixed/revealed mode.
+      // Publish the rendered height on every page (not just the dark variant)
+      // so in-page content can offset itself below the bar — the dark spacer,
+      // the portfolio sticky caption, and the front-page statement's top pad.
       document.documentElement.style.setProperty('--wpe--header--height', `${h}px`);
     };
     measure();
@@ -54,7 +52,7 @@ export default function Header({
       observer.disconnect();
       document.documentElement.style.removeProperty('--wpe--header--height');
     };
-  }, [transparent, dark]);
+  }, []);
 
   useEffect(() => {
     // Only the front-page variant scrolls away and reveals on scroll. The

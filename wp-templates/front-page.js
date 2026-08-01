@@ -27,11 +27,16 @@ const reveal = {
 };
 
 // Placeholder copy — not wired to WordPress content yet, swap freely.
-const SECTION_HEADING_LINES = ['Équilibre', '& Créativité'];
-const SECTION_PARAGRAPHS = [
-  'Stratégie de durabilité, efficacité des matériaux, systèmes passifs, modélisation énergétique, analyse du cycle de vie.',
-  "Concept, solutions de façade et d'aménagement, avant-projet, dossier d'exécution, visualisations.",
+// Lines are broken manually so each reveals as its own masked line on scroll.
+const STATEMENT_LINES = [
+  'ML Archi conçoit des lieux de vie',
+  'sobres et durables, où le sens et',
+  'l’équilibre priment toujours sur',
+  'l’effet — une architecture pensée',
+  'pour durer, et pour être vécue.',
 ];
+const STATEMENT_SECONDARY =
+  'Portée par le fond plutôt que par l’artifice, notre pratique privilégie des espaces justes : matériaux honnêtes, lumière maîtrisée, gestes simples. Chaque projet cherche l’essentiel, là où l’efficacité structurelle et la sensibilité esthétique se rejoignent.';
 
 const PHILOSOPHY_EYEBROW = 'Notre philosophie';
 const PHILOSOPHY_HEADING = 'Une architecture du sens et de l’équilibre';
@@ -88,32 +93,37 @@ export default function Component() {
           </motion.div>
         </div>
 
-        <section className={cx('section-text')}>
-          <Heading level="h2" className={cx('section-heading')}>
-            {SECTION_HEADING_LINES.map((line, i) => (
-              <motion.span
-                key={line}
-                className={cx('section-heading-line')}
-                initial={reveal.initial}
-                whileInView={reveal.whileInView}
-                viewport={reveal.viewport}
-                transition={{ ...reveal.transition, delay: i * 0.1 }}
-              >
-                {line}
-              </motion.span>
+        <section className={cx('section-statement')}>
+          <Heading level="h2" className={cx('statement')}>
+            {STATEMENT_LINES.map((line, i) => (
+              // Outer span is the clip window; the inner line slides up into
+              // it, staggered so the paragraph reveals line by line on scroll.
+              <span key={line} className={cx('statement-line')}>
+                <motion.span
+                  className={cx('statement-line-inner')}
+                  initial={{ y: '110%' }}
+                  whileInView={{ y: 0 }}
+                  viewport={{ once: true, margin: '-12%' }}
+                  transition={{
+                    duration: 0.7,
+                    ease: [0.22, 1, 0.36, 1],
+                    delay: i * 0.09,
+                  }}
+                >
+                  {line}
+                </motion.span>
+              </span>
             ))}
           </Heading>
-          <motion.div
-            className={cx('section-columns')}
+          <motion.p
+            className={cx('statement-secondary')}
             initial={reveal.initial}
             whileInView={reveal.whileInView}
             viewport={reveal.viewport}
-            transition={reveal.transition}
+            transition={{ ...reveal.transition, delay: 0.2 }}
           >
-            {SECTION_PARAGRAPHS.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
-          </motion.div>
+            {STATEMENT_SECONDARY}
+          </motion.p>
         </section>
 
         {heroWork?.featuredImage?.node && (
