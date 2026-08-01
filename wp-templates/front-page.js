@@ -96,23 +96,18 @@ export default function Component() {
         <section className={cx('section-statement')}>
           <Heading level="h2" className={cx('statement')}>
             {STATEMENT_LINES.map((line, i) => (
-              // Outer span is the clip window; the inner line slides up into
-              // it, staggered so the paragraph reveals line by line on scroll.
-              <span key={line} className={cx('statement-line')}>
-                <motion.span
-                  className={cx('statement-line-inner')}
-                  initial={{ y: '110%' }}
-                  whileInView={{ y: 0 }}
-                  viewport={{ once: true, margin: '-12%' }}
-                  transition={{
-                    duration: 0.7,
-                    ease: [0.22, 1, 0.36, 1],
-                    delay: i * 0.09,
-                  }}
-                >
-                  {line}
-                </motion.span>
-              </span>
+              // Each line fades/slides up on scroll, staggered so the
+              // paragraph reveals line by line.
+              <motion.span
+                key={line}
+                className={cx('statement-line')}
+                initial={reveal.initial}
+                whileInView={reveal.whileInView}
+                viewport={reveal.viewport}
+                transition={{ ...reveal.transition, delay: i * 0.09 }}
+              >
+                {line}
+              </motion.span>
             ))}
           </Heading>
           <motion.p

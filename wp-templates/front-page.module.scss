@@ -32,6 +32,10 @@
 // (masked lines sliding up), with a smaller secondary paragraph tucked to the
 // bottom-right. Light skin (default dark-on-light).
 .section-statement {
+	// Light skin, explicit so the statement stays dark-on-light even where it
+	// follows the dark hero.
+	background-color: var(--wpe--main--background-color);
+	color: var(--wpe--main--color);
 	display: flex;
 	flex-direction: column;
 	max-width: var(--wpe--container--max-width);
@@ -52,15 +56,8 @@
 	letter-spacing: -0.015em;
 }
 
-// Clip window: hides the line until its inner half slides up into place.
 .statement-line {
 	display: block;
-	overflow: hidden;
-}
-
-.statement-line-inner {
-	display: block;
-	will-change: transform;
 }
 
 .statement-secondary {
