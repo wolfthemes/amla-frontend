@@ -76,13 +76,19 @@ export default function Header({
     <>
     <header
       ref={headerRef}
-      className={cx([
-        'component',
-        transparent && 'transparent',
-        transparent && dark && 'dark',
-        transparent && scrollState !== 'top' && 'fixed',
-        transparent && scrollState === 'revealed' && 'revealed'
-      ])}
+      className={
+        cx([
+          'component',
+          transparent && 'transparent',
+          transparent && dark && 'dark',
+          transparent && scrollState !== 'top' && 'fixed',
+          transparent && scrollState === 'revealed' && 'revealed'
+        ]) +
+        // Global marker (not a CSS-module class) so the nav pill's frosted-glass
+        // effect can key off it. Only the front page at the very top has no
+        // mix-blend-mode, which the backdrop-filter needs to render correctly.
+        (transparent && !dark && scrollState === 'top' ? ' header-frost' : '')
+      }
     >
       <SkipNavigationLink />
         <Container>
