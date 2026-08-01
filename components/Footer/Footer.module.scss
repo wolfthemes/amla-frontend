@@ -93,6 +93,18 @@
 	margin: 0;
 }
 
+// Trailing ↗ on external social links; nudges up-right on hover/focus.
+.arrow {
+	display: inline-block;
+	margin-left: 0.15em;
+	transition: transform 0.25s ease;
+}
+
+.social-link:hover .arrow,
+.social-link:focus .arrow {
+	transform: translate(0.12em, -0.12em);
+}
+
 .copyright {
 	margin: 2rem 0 0;
 	font-size: fs(xs);

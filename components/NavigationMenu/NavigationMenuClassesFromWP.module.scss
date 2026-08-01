@@ -7,19 +7,33 @@
 .button {
 	a {
 		@media (min-width: $breakpoint-small) {
-			background-color: $c-accent;
+			// Outlined pill in the active nav colour (currentColor tracks
+			// --wpe--navigation-menu--color, so it reads correctly whether the
+			// bar is ink-on-light or base-on-dark-hero), inverting to a solid
+			// fill on hover.
+			// Border tracks the nav colour (white on the home page's dark hero,
+			// ink on light inner pages) and stays put on hover — unlike
+			// currentColor, which would flip with the text.
+			border: 1px solid var(--wpe--navigation-menu--color);
 			border-radius: 100px;
-			border: var(--wpe--border--light);
-			color: $c-base;
 			font-size: 92%;
-			padding: 0.5rem 1rem;
+			// Nudge the label 1px down for optical centring, keeping pill height.
+			padding: calc(0.5rem + 1px) 1.25rem calc(0.5rem - 1px);
 			text-decoration: none;
 			white-space: nowrap;
 
+			// A pill shouldn't carry the shared .link-underline reveal that
+			// every other nav link gets (applied unconditionally in
+			// NavigationMenu.js).
+			&::before,
+			&::after {
+				content: none;
+			}
+
 			&:hover,
 			&:focus {
-				background-color: $c-accent-dark;
-				color: $c-base;
+				background-color: $c-base;
+				color: $c-ink;
 			}
 		}
 	}

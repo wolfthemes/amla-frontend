@@ -79,9 +79,15 @@ export default function Footer({ title, menuItems }) {
             </div>
 
             <p className={cx('social')}>
-              <a href={INSTAGRAM_URL} className="link-underline">Instagram</a>
+              <a href={INSTAGRAM_URL} className={cx('social-link', 'link-underline')}>
+                Instagram
+                <span className={cx('arrow')} aria-hidden="true">↗</span>
+              </a>
               {', '}
-              <a href={LINKEDIN_URL} className="link-underline">Linkedin</a>
+              <a href={LINKEDIN_URL} className={cx('social-link', 'link-underline')}>
+                Linkedin
+                <span className={cx('arrow')} aria-hidden="true">↗</span>
+              </a>
             </p>
           </div>
         </motion.div>
