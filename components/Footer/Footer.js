@@ -7,8 +7,8 @@ import styles from './Footer.module.scss';
 let cx = classNames.bind(styles);
 
 // Placeholder — not wired to WordPress content yet, swap freely.
-const ADDRESS_LINES = ['59 Garden Street', 'South Yarra', 'Victoria, Australia 3141'];
-const PHONE = '+61 3 8672 5999';
+const ADDRESS_LINES = ['59 Garden Street', 'South Yarra', '67000 Strasbourg, France'];
+const PHONE = '+336 XX XX XX XX';
 const EMAIL = 'contact@ml-archi.com';
 const INSTAGRAM_URL = '#';
 const LINKEDIN_URL = '#';
