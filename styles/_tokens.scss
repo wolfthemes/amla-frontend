@@ -34,3 +34,8 @@ $c-border: var(--wpe--color--neutral);
 @function fs($slug) {
 	@return var(--wpe--font-size--#{$slug});
 }
+
+@function fw($slug) {
+	@return var(--wpe--font-weight--#{$slug});
+}
+

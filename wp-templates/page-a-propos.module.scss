@@ -34,7 +34,7 @@
 			margin: 2.5rem 0 1rem;
 			font-size: fs(sm);
 			font-weight: var(--wpe--font-weight--medium);
-			text-transform: uppercase;
+			// text-transform: uppercase;
 			letter-spacing: 0.08em;
 
 			.wp-block-column > &:first-child {
@@ -45,6 +45,7 @@
 		p {
 			margin: 0 0 0.5rem;
 			line-height: 1.4;
+			font-weight: fw(bold);
 		}
 
 		// Same look as .link-underline (styles/_utilities.scss), duplicated

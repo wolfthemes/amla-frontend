@@ -4,7 +4,7 @@
 // Portfolio page — wide, near-full-bleed layout, wider than the standard
 // Container (which caps at --wpe--container--max-width for text content).
 .wrapper {
-	max-width: 1800px;
+	max-width: var(--wpe--container--max-width);
 	margin: 0 auto;
 	padding: 0 var(--wpe--container--padding-x) var(--wpe--section--padding-y);
 }
