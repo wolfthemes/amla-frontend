@@ -11,7 +11,7 @@ let cx = classNames.bind(styles);
 // both states are invisible at that point, no visible jump.
 const NATURAL_SCROLL_THRESHOLD = 150;
 // Past this the header slides back down, now sticky and blended.
-const REVEAL_SCROLL_THRESHOLD = 400;
+const REVEAL_SCROLL_THRESHOLD = 200;
 
 export default function Header({
   title = 'Headless by WP Engine',
