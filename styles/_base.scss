@@ -39,6 +39,11 @@ h4,
 h5,
 h6 {
 	margin: 0 0 1rem;
+	// Reference --font-nt-seawave directly (not via a :root token): it's set on
+	// the app wrapper by next/font, and headings inherit it in one hop. Routing
+	// through a :root-level token risks the inner var() resolving at :root —
+	// where --font-nt-seawave is undefined — which would void the declaration.
+	font-family: var(--font-nt-seawave), sans-serif;
 	font-weight: var(--wpe--font-weight--bold);
 }
 

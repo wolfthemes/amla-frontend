@@ -25,11 +25,20 @@ const maisonNeueMono = localFont({
   variable: '--font-maison-neue-mono',
 });
 
+// Display face for headings — exposed as a CSS variable (var(--font-nt-seawave))
+// and wired to h1–h6 in styles/_base.scss via --wpe--font-family--heading.
+const ntSeawave = localFont({
+  src: '../fonts/NT-Seawave.woff2',
+  variable: '--font-nt-seawave',
+});
+
 export default function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
   return (
-    <div className={`${maisonNeue.className} ${maisonNeueMono.variable}`}>
+    <div
+      className={`${maisonNeue.className} ${maisonNeueMono.variable} ${ntSeawave.variable}`}
+    >
       <MotionConfig reducedMotion="user">
         <SmoothScroll />
         <FaustProvider pageProps={pageProps}>
