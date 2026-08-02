@@ -1,3 +1,4 @@
+import { useCallback, useEffect, useRef } from 'react';
 import { useQuery, gql } from '@apollo/client';
 import { motion } from 'motion/react';
 import classNames from 'classnames/bind';
@@ -59,6 +60,35 @@ export default function Component() {
   // page) takes priority over borrowing a Work's image.
   const heroImage = data?.frontPage?.featuredImage?.node ?? heroWork?.featuredImage?.node;
 
+  // Fit the hero title to the full width of its box. CSS can't size a font to
+  // an arbitrary string's width, so we measure the rendered line and scale:
+  // fontSize = base * (availableWidth / naturalWidth). Re-runs on container
+  // resize (ResizeObserver), on web-font load, and whenever the title text
+  // changes — so it holds up if the copy is edited. No dependency required.
+  const heroHeadingRef = useRef(null);
+  const fitHeroTitle = useCallback(() => {
+    const container = heroHeadingRef.current;
+    const title = container?.querySelector('h1');
+    if (!container || !title) return;
+    // Measure at a fixed base size, then scale to fill the container width.
+    const base = 100;
+    title.style.fontSize = `${base}px`;
+    const natural = title.scrollWidth;
+    if (!natural) return;
+    title.style.fontSize = `${(base * container.clientWidth) / natural}px`;
+  }, []);
+
+  useEffect(() => {
+    fitHeroTitle();
+    const container = heroHeadingRef.current;
+    if (!container) return;
+    const observer = new ResizeObserver(fitHeroTitle);
+    observer.observe(container);
+    // Refit once the web font swaps in, since metrics shift the natural width.
+    document.fonts?.ready.then(fitHeroTitle);
+    return () => observer.disconnect();
+  }, [fitHeroTitle, siteTitle]);
+
   return (
     <>
       <SEO title={siteTitle} description={siteDescription} />
@@ -80,14 +110,42 @@ export default function Component() {
               <ParallaxImage image={heroImage} priority />
             </motion.div>
           )}
-          <motion.div
-            className={cx('hero-heading')}
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: 'easeOut', delay: 0.3 }}
-          >
-            <Heading className={cx('hero-title')}>{siteTitle}</Heading>
-          </motion.div>
+          <div className={cx('hero-heading')} ref={heroHeadingRef}>
+            <Heading className={cx('hero-title')}>
+              {(() => {
+                // Letter-by-letter fade-in-up entrance. Chars are split per
+                // word and each word kept in a nowrap inline-block wrapper, so
+                // the stagger never breaks a word across lines. Delay is driven
+                // off a running global index rather than staggerChildren, which
+                // only cascades direct children (here they're nested in words).
+                let charIndex = 0;
+                return siteTitle.split(' ').map((word, wordIndex, words) => (
+                  <span key={wordIndex} className={cx('hero-title-word')}>
+                    {word.split('').map((char) => {
+                      const delay = 0.3 + charIndex * 0.03;
+                      charIndex += 1;
+                      return (
+                        <motion.span
+                          key={charIndex}
+                          className={cx('hero-title-char')}
+                          initial={{ opacity: 0, y: '0.4em' }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{
+                            duration: 0.5,
+                            ease: [0.22, 1, 0.36, 1],
+                            delay,
+                          }}
+                        >
+                          {char}
+                        </motion.span>
+                      );
+                    })}
+                    {wordIndex < words.length - 1 && ' '}
+                  </span>
+                ));
+              })()}
+            </Heading>
+          </div>
         </div>
 
         <section className={cx('section-statement')}>
