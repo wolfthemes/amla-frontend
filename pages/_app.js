@@ -29,6 +29,10 @@ const maisonNeueMono = localFont({
 // and wired to h1–h6 in styles/_base.scss via --wpe--font-family--heading.
 const ntSeawave = localFont({
   src: '../fonts/NT-Seawave.woff2',
+  // Single Regular file, but declare it as covering 400–700 so headings'
+  // font-weight: bold maps onto the real outlines instead of triggering the
+  // browser's faux-bold synthesis (which smears NT Seawave's glyphs).
+  weight: '400 700',
   variable: '--font-nt-seawave',
 });
 

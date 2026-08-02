@@ -44,7 +44,12 @@ h6 {
 	// through a :root-level token risks the inner var() resolving at :root —
 	// where --font-nt-seawave is undefined — which would void the declaration.
 	font-family: var(--font-nt-seawave), sans-serif;
-	font-weight: var(--wpe--font-weight--bold);
+	// NT Seawave only ships a single Regular weight, so font-weight: bold can't
+	// map to a real bold and faux-bold synthesis smears its glyphs. Add weight
+	// by painting a thin same-colour stroke around the outlines instead — even
+	// thickening, no glyph doubling. Tune via --nt-heading-weight.
+	font-weight: var(--wpe--font-weight--medium);
+	-webkit-text-stroke: var(--nt-heading-weight, 0.6px) currentColor;
 }
 
 h1 {
