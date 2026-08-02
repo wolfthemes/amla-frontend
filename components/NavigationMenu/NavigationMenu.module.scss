@@ -69,7 +69,7 @@
 		a.has-comma::after {
 			content: ',';
 			// Match the muted resting word so the list reads uniformly.
-			color: color-mix(in srgb, currentColor 72%, transparent);
+			color: color-mix(in srgb, currentColor 65%, transparent);
 		}
 	}
 

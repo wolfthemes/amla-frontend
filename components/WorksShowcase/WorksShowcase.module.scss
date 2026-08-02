@@ -135,6 +135,15 @@
 	flex: none;
 	font-size: fs(sm);
 	opacity: 0.9;
+
+	// Decorative brackets — kept out of the markup/accessible text.
+	&::before {
+		content: '[';
+	}
+
+	&::after {
+		content: ']';
+	}
 }
 
 .view-all {
