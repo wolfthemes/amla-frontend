@@ -61,11 +61,15 @@ export default function Component(props) {
     return <>Chargement...</>;
   }
 
-  const { work } = useFaustQuery(GET_WORK_QUERY);
+  // useFaustQuery can return undefined before its data lands in the Apollo
+  // cache (e.g. client-side nav / hydration timing), so default to {} to avoid
+  // destructuring undefined.
+  const { work } = useFaustQuery(GET_WORK_QUERY) ?? {};
   const { generalSettings, headerMenuItems, footerMenuItems } =
-    useFaustQuery(GET_LAYOUT_QUERY);
+    useFaustQuery(GET_LAYOUT_QUERY) ?? {};
 
-  const { title: siteTitle, description: siteDescription } = generalSettings;
+  const { title: siteTitle, description: siteDescription } =
+    generalSettings ?? {};
   const primaryMenu = headerMenuItems?.nodes ?? [];
   const footerMenu = footerMenuItems?.nodes ?? [];
   const {
