@@ -1,0 +1,65 @@
+@import 'styles/breakpoints';
+@import 'styles/tokens';
+
+// Intro + details sit in the wide project wrapper (same rails as the gallery
+// and the projets page), not the narrow text Container.
+.wrapper {
+	max-width: var(--wpe--container--max-width);
+	margin: 0 auto;
+	padding: var(--wpe--section--padding-y) var(--wpe--container--padding-x);
+}
+
+// Opening statement — the excerpt rendered large, à la the reference intro.
+.intro {
+	max-width: 60rem;
+	margin-bottom: var(--wpe--section--padding-y);
+
+	:global(p) {
+		font-size: fs(2xl);
+		line-height: var(--wpe--line-height--h3);
+		letter-spacing: var(--wpe--letter-spacing--h3);
+		margin: 0;
+	}
+}
+
+// Project facts on the left, optional body copy on the right. Collapses to a
+// single column when there's no body, and stacks on mobile.
+.details {
+	display: grid;
+	grid-template-columns: minmax(0, 0.85fr) minmax(0, 2fr);
+	gap: 3rem;
+	align-items: start;
+
+	@media (max-width: $breakpoint-small) {
+		grid-template-columns: 1fr;
+		gap: 2rem;
+	}
+}
+
+.meta {
+	margin: 0;
+	display: grid;
+	gap: 1.25rem;
+}
+
+.meta-row {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+}
+
+.meta-label {
+	font-size: fs(xs);
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: $c-accent-dark;
+}
+
+.meta-value {
+	font-size: fs(md);
+
+	a {
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
+	}
+}

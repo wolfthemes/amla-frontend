@@ -97,7 +97,14 @@ export default function Header({
               <Link legacyBehavior href="/">
                 <a className={cx('title')}>{title}</a>
               </Link>
-              {description && <p className={cx('description')}>{description}</p>}
+              {description && (
+                <p
+                  className={cx('description')}
+                  // WP returns the tagline with encoded entities (e.g. &#039;),
+                  // so render as HTML to decode them rather than print literally.
+                  dangerouslySetInnerHTML={{ __html: description }}
+                />
+              )}
             </div>
             <button
               type="button"

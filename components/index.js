@@ -13,6 +13,8 @@ export { PostInfo } from './PostInfo';
 export { SkipNavigationLink } from './SkipNavigationLink';
 export { Hero } from './Hero';
 export { Post } from './Post';
+export { NextProject } from './NextProject';
+export { WorkGallery } from './WorkGallery';
 export { SEO } from './SEO';
 export { SmoothScroll } from './SmoothScroll';
 export { WorksShowcase } from './WorksShowcase';
