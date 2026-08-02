@@ -71,9 +71,13 @@ export default function Component() {
     const title = container?.querySelector('h1');
     if (!container || !title) return;
     // Measure at a fixed base size, then scale to fill the container width.
+    // The h1 is width:100%, so its scrollWidth would just echo the container;
+    // shrink it to max-content first to read the text's true intrinsic width.
     const base = 100;
+    title.style.width = 'max-content';
     title.style.fontSize = `${base}px`;
     const natural = title.scrollWidth;
+    title.style.width = '';
     if (!natural) return;
     title.style.fontSize = `${(base * container.clientWidth) / natural}px`;
   }, []);
