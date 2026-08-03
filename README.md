@@ -1,6 +1,6 @@
 # ml-archi-frontend
 
-Headless frontend for the ML Archi website, built with [Faust.js](https://faustjs.org/) (Next.js + headless WordPress). Backed by the WordPress install at `https://ml-staging.saguin.com`.
+Headless frontend for the AMLA website, built with [Faust.js](https://faustjs.org/) (Next.js + headless WordPress). Backed by the WordPress install at `https://ml-staging.saguin.com`.
 
 ## Scaffolding a fresh Faust frontend
 
