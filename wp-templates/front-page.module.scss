@@ -22,28 +22,20 @@
 }
 
 .hero-title {
-	// Sized by JS (fitHeroTitle in front-page.js) to fill the full width on one
-	// line. The vw value is only a pre-JS/no-JS fallback that lands in the right
-	// ballpark; the exact fit comes from measuring the rendered text.
 	max-width: none;
-	width: 100%;
-	font-size: 15vw;
-	font-weight: var(--wpe--font-weight--bold);
-	line-height: 0.85;
-	// One line, no wrapping — the whole string scales to the container width.
-	white-space: nowrap;
 	margin: 0;
+	// The mark is an SVG now — kill the inline baseline gap under it.
+	line-height: 0;
 }
 
-// Words never break across lines; letters are the individually animated units
-// — inline-block so the fade-up transform applies.
-.hero-title-word {
-	display: inline-block;
-	white-space: nowrap;
-}
-
-.hero-title-char {
-	display: inline-block;
+// The AMLA logo fills the container width; height follows the viewBox aspect
+// ratio. Fill comes from currentColor (set on .hero-heading). overflow is
+// visible so the per-letter slide-up isn't clipped by the svg box.
+.hero-logo {
+	display: block;
+	width: 100%;
+	height: auto;
+	overflow: visible;
 	will-change: transform, opacity;
 }
 

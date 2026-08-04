@@ -76,6 +76,16 @@
 
 .title {
 	text-decoration: none;
+	display: inline-flex;
+	align-items: center;
+}
+
+.logo {
+	// Height drives the mark; width follows the wordmark's aspect ratio.
+	height: 1.5rem;
+	width: auto;
+	display: block;
+	color: currentColor;
 }
 
 .description {

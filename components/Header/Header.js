@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames/bind';
 import Link from 'next/link';
-import { Container, NavigationMenu, SkipNavigationLink } from '../../components';
+import { Container, Logo, NavigationMenu, SkipNavigationLink } from '../../components';
 import styles from './Header.module.scss';
 
 let cx = classNames.bind(styles);
@@ -95,7 +95,9 @@ export default function Header({
           <div className={cx('navbar')}>
             <div className={cx('brand')}>
               <Link legacyBehavior href="/">
-                <a className={cx('title')}>{title}</a>
+                <a className={cx('title')} aria-label={title}>
+                  <Logo className={cx('logo')} title={title} />
+                </a>
               </Link>
               {description && (
                 <p

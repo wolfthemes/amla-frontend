@@ -6,6 +6,7 @@ export { Footer } from './Footer';
 export { FormatDate } from './FormatDate';
 export { Header } from './Header';
 export { Heading } from './Heading';
+export { Logo, LOGO_LETTERS, LOGO_VIEWBOX } from './Logo';
 export { Main } from './Main';
 export { NavigationMenu } from './NavigationMenu';
 export { ParallaxImage } from './ParallaxImage';
