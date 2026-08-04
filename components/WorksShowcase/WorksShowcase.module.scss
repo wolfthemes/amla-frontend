@@ -79,9 +79,10 @@
 	inset: 0;
 	z-index: 1; // Above the image (ParallaxImage translates its own layer).
 	display: flex;
-	// Centre the text block vertically; the scrim stays put so the hover nudge
-	// lives on .item-text.
-	align-items: center;
+	// The caption starts at the top of the item; .item-text then sticks there as
+	// the (tall) image scrolls past. The scrim stays put so the hover nudge lives
+	// on .item-text.
+	align-items: flex-start;
 	padding: 1.5rem;
 	color: #fff;
 	background: rgba(0, 0, 0, 0.32);
@@ -101,6 +102,12 @@
 	gap: 0.35rem;
 	transform: translateY(0.5rem);
 	transition: transform 0.4s ease;
+	// Pin the caption below the menu bar and let it ride down the item while the
+	// image scrolls; it releases once the bottom of the item (the overlay's
+	// containing block) is reached. --wpe--header--height is published by
+	// Header.js from the bar's measured height; the 2rem matches its top padding.
+	position: sticky;
+	top: calc(var(--wpe--header--height, 2rem) + 2rem);
 
 	.item-link:hover &,
 	.item-link:focus & {
