@@ -5,6 +5,24 @@
 	position: relative;
 	height: 100dvh;
 	overflow: hidden;
+
+	// Subtle black→transparent scrim rising from the bottom, so the white logo
+	// letters keep contrast over light areas of the hero image. Sits above the
+	// image but below the heading (z-index: 1).
+	&::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		height: 45%;
+		background: linear-gradient(
+			to top,
+			rgba(0, 0, 0, 0.55),
+			rgba(0, 0, 0, 0)
+		);
+		pointer-events: none;
+	}
 }
 
 .hero-image {
