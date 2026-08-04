@@ -107,7 +107,7 @@
 	// containing block) is reached. --wpe--header--height is published by
 	// Header.js from the bar's measured height; the 2rem matches its top padding.
 	position: sticky;
-	top: calc(var(--wpe--header--height, 2rem) + 2rem);
+	top: calc(var(--wpe--header--height, 2rem) + 0.5rem);
 
 	.item-link:hover &,
 	.item-link:focus & {
