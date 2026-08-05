@@ -1,6 +1,25 @@
 @import 'styles/breakpoints';
 @import 'styles/tokens';
 
+// Frosted-glass surface for the pinned header. It replaces the
+// mix-blend-mode: difference legibility trick the pinned states used before —
+// backdrop-filter can't render under a blend mode (see the note in
+// NavigationMenuClassesFromWP), so the translucent panel now carries
+// legibility itself: a light tint over a blurred backdrop lifts whatever
+// scrolls beneath it enough for the ink text to stay readable.
+@mixin glass-panel {
+	background-color: color-mix(in srgb, #{$c-base} 38%, transparent);
+	backdrop-filter: blur(10px) saturate(140%);
+	-webkit-backdrop-filter: blur(10px) saturate(140%);
+	border-bottom: 1px solid color-mix(in srgb, #{$c-ink} 8%, transparent);
+
+	// The base .transparent block flipped these to the hero's light-on-dark
+	// scheme; over the light glass they revert to ink.
+	--wpe--header--color: #{$c-ink};
+	--wpe--navigation-menu--color: #{$c-ink};
+	--wpe--navigation-menu--color--hover: #{$c-ink};
+}
+
 .component {
 	color: var(--wpe--header--color);
 	background-color: var(--wpe--header--background-color);
@@ -25,15 +44,14 @@
 
 		// Non-front-page menu (no hero to overlay): rather than the front page's
 		// scroll-away-then-reveal, this variant is permanently pinned at the
-		// top. mix-blend-mode: difference keeps it legible over whatever scrolls
-		// beneath — it renders as dark text on the light page and auto-inverts
-		// over darker content, so it needs no explicit colour override.
+		// top. The frosted-glass panel keeps it legible over whatever scrolls
+		// beneath — its light tint lifts the backdrop enough for the ink text.
 		&.dark {
 			position: fixed;
 			top: 0;
 			right: 0;
 			left: 0;
-			mix-blend-mode: difference;
+			@include glass-panel;
 		}
 
 		// Past its own height, natural scroll has already carried it fully
@@ -51,7 +69,7 @@
 			&.revealed {
 				transition: transform 0.4s ease;
 				transform: translateY(0);
-				mix-blend-mode: difference;
+				@include glass-panel;
 			}
 		}
 	}
@@ -97,7 +115,10 @@
 .nav-toggle {
 	align-items: center;
 	background-color: transparent;
-	border: 0.1rem solid $c-base;
+	// Track the header colour (ink over the glass panel) rather than a fixed
+	// $c-base, which would disappear against the light frosted background now
+	// that the pinned header no longer inverts via mix-blend-mode.
+	border: 0.1rem solid currentColor;
 	color: $c-ink;
 	cursor: pointer;
 	display: flex;
