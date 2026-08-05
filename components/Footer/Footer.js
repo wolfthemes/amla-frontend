@@ -2,16 +2,16 @@ import Link from 'next/link';
 import { motion } from 'motion/react';
 import classNames from 'classnames/bind';
 import { Container, NavigationMenu } from '../../components';
+import {
+  ADDRESS_LINES,
+  PHONE,
+  EMAIL,
+  INSTAGRAM_URL,
+  LINKEDIN_URL,
+} from '../../constants/contact';
 import styles from './Footer.module.scss';
 
 let cx = classNames.bind(styles);
-
-// Placeholder — not wired to WordPress content yet, swap freely.
-const ADDRESS_LINES = ['59 Garden Street', 'South Yarra', '67000 Strasbourg, France'];
-const PHONE = '+336 XX XX XX XX';
-const EMAIL = 'contact@ml-archi.com';
-const INSTAGRAM_URL = '#';
-const LINKEDIN_URL = '#';
 
 const reveal = {
   initial: { opacity: 0, y: 24 },
