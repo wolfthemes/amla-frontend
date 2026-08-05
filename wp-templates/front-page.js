@@ -104,9 +104,9 @@ export default function Component() {
                     initial={{ opacity: 0, y: 14 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{
-                      duration: 0.5,
+                      duration: 1.4,
                       ease: [0.22, 1, 0.36, 1],
-                      delay: 0.3 + i * 0.12,
+                      delay: 0.4 + i * 0.35,
                     }}
                   >
                     {letter.paths.map((d, j) => (
