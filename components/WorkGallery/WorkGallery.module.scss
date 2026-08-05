@@ -2,12 +2,10 @@
 @import 'styles/tokens';
 
 // Project gallery — an editorial rhythm applied to the editor-ordered images
-// (see WorkGallery.js buildRows). Widths are near-full-bleed, matching the
-// projets page wrapper rather than the narrow text Container.
+// (see WorkGallery.js buildRows). Full-bleed: full rows run edge to edge with
+// no horizontal padding; .inset / .center rows stay narrower via their own
+// flex-basis below.
 .component {
-	max-width: var(--wpe--container--max-width);
-	margin: 0 auto;
-	padding: 0 var(--wpe--container--padding-x);
 	display: flex;
 	flex-direction: column;
 	gap: var(--wpe--works--grid-gap);

@@ -81,6 +81,15 @@
 	--wpe--section--padding-y: 3rem;
 	--wpe--container--padding-x: 15px;
 	--wpe--container--max-width: 1800px;
+	// Horizontal inset matching the Container's content edge, so full-bleed
+	// content (edge-to-edge images) can still align its captions with the menu,
+	// footer, and other Container-wrapped chrome. Equals the container padding
+	// until the viewport passes the max width, then grows with the centering
+	// margin so the alignment holds on ultra-wide screens.
+	--wpe--container--gutter: max(
+		var(--wpe--container--padding-x),
+		calc((100vw - var(--wpe--container--max-width)) / 2 + var(--wpe--container--padding-x))
+	);
 	// Gap between work items (homepage showcase + projets grid).
 	--wpe--works--grid-gap: 3.3rem;
 

@@ -1,10 +1,10 @@
 @import 'styles/breakpoints';
 @import 'styles/tokens';
 
+// Full-bleed: the grid runs edge to edge with no horizontal padding. Captions
+// realign to the menu via the container gutter on .item-overlay below.
 .component {
-	max-width: var(--wpe--container--max-width);
-	margin: 0 auto;
-	padding: var(--wpe--section--padding-y) var(--wpe--container--padding-x);
+	padding: var(--wpe--section--padding-y) 0;
 }
 
 .grid {
@@ -83,7 +83,11 @@
 	// the (tall) image scrolls past. The scrim stays put so the hover nudge lives
 	// on .item-text.
 	align-items: flex-start;
-	padding: 1.5rem;
+	// Vertical padding stays snug; horizontal padding matches the Container
+	// gutter so the caption's left edge lines up with the menu (and the year's
+	// right edge with the menu's right side on edge-column items) now that the
+	// grid is full-bleed.
+	padding: 1.5rem var(--wpe--container--gutter);
 	color: #fff;
 	background: rgba(0, 0, 0, 0.32);
 	opacity: 0;
