@@ -83,11 +83,11 @@
 	// the (tall) image scrolls past. The scrim stays put so the hover nudge lives
 	// on .item-text.
 	align-items: flex-start;
-	// Vertical padding stays snug; horizontal padding matches the Container
-	// gutter so the caption's left edge lines up with the menu (and the year's
-	// right edge with the menu's right side on edge-column items) now that the
-	// grid is full-bleed.
-	padding: 1.5rem var(--wpe--container--gutter);
+	// Horizontal padding matches the Container gutter so the caption's left edge
+	// lines up with the menu (and the year's right edge with the menu's right
+	// side on edge-column items) now that the grid is full-bleed; vertical
+	// padding gives the caption a bit of breathing room from the image top.
+	padding: 2.25rem var(--wpe--container--gutter);
 	color: #fff;
 	background: rgba(0, 0, 0, 0.32);
 	opacity: 0;
@@ -111,7 +111,7 @@
 	// containing block) is reached. --wpe--header--height is published by
 	// Header.js from the bar's measured height; the 2rem matches its top padding.
 	position: sticky;
-	top: calc(var(--wpe--header--height, 2rem) + 0.5rem);
+	top: calc(var(--wpe--header--height, 2rem) + 1.25rem);
 
 	.item-link:hover &,
 	.item-link:focus & {

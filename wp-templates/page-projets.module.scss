@@ -1,22 +1,24 @@
 @import 'styles/breakpoints';
 @import 'styles/tokens';
 
-// Projets page — wide, near-full-bleed layout, wider than the standard
-// Container (which caps at --wpe--container--max-width for text content).
+// Projets page — full-bleed, matching the front-page work showcase: images run
+// edge to edge, captions realign to the menu via --wpe--container--gutter.
 .wrapper {
-	max-width: var(--wpe--container--max-width);
-	margin: 0 auto;
-	padding: 0 var(--wpe--container--padding-x) var(--wpe--section--padding-y);
+	padding-bottom: var(--wpe--section--padding-y);
 }
 
 .hero {
 	display: flex;
 	gap: 4rem;
 	margin-bottom: var(--wpe--section--padding-y);
+	// The featured image runs to the left edge; the text column keeps the
+	// Container gutter on the right so it stays aligned with the menu.
+	padding-right: var(--wpe--container--gutter);
 
 	@media (max-width: $breakpoint-small) {
 		flex-direction: column;
 		gap: 1.5rem;
+		padding-right: 0;
 	}
 }
 
@@ -54,6 +56,9 @@
 
 	@media (max-width: $breakpoint-small) {
 		position: static;
+		// The image runs full-bleed on mobile, so the stacked text needs its own
+		// gutter to stay off the viewport edges.
+		padding: 0 var(--wpe--container--gutter);
 	}
 }
 
@@ -150,10 +155,13 @@
 	inset: 0;
 	z-index: 1; // Sit above the image (ParallaxImage translates its own layer).
 	display: flex;
-	// Centre the text block vertically; the scrim itself never moves so the
-	// hover nudge lives on .grid-item-text, not here.
-	align-items: center;
-	padding: 1.5rem;
+	// Match the front-page showcase: the caption starts at the top of the item
+	// and sticks below the header as the image scrolls past (see
+	// .grid-item-text). The scrim stays put so the hover nudge lives on the text.
+	align-items: flex-start;
+	// Horizontal padding matches the Container gutter so captions align with the
+	// menu now that the grid is full-bleed; vertical padding gives breathing room.
+	padding: 2.25rem var(--wpe--container--gutter);
 	color: #fff;
 	background: rgba(0, 0, 0, 0.32);
 	opacity: 0;
@@ -173,6 +181,11 @@
 	// Nudge up on hover for a subtle reveal.
 	transform: translateY(0.5rem);
 	transition: transform 0.4s ease;
+	// Pin below the menu bar and ride down the item as the image scrolls past,
+	// releasing at the item's bottom — same treatment as the front-page
+	// showcase's .item-text.
+	position: sticky;
+	top: calc(var(--wpe--header--height, 2rem) + 1.25rem);
 
 	.grid-item:hover &,
 	.grid-item:focus & {
