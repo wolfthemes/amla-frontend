@@ -104,6 +104,10 @@
 				outline: none;
 				border-color: var(--wpe--color--accent);
 			}
+
+			&[aria-invalid='true'] {
+				border-color: #c0392b;
+			}
 		}
 
 		.wpcf7-list-item {

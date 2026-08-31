@@ -29,6 +29,9 @@ function useCf7Submit(wrapperRef, deps) {
 			e.preventDefault();
 			submitButton?.setAttribute('disabled', 'disabled');
 			form.querySelectorAll('.wpcf7-not-valid-tip').forEach((el) => el.remove());
+			form
+				.querySelectorAll('[aria-invalid="true"]')
+				.forEach((el) => el.setAttribute('aria-invalid', 'false'));
 
 			try {
 				const res = await fetch(
@@ -40,11 +43,20 @@ function useCf7Submit(wrapperRef, deps) {
 				form.dataset.status = data.status;
 				if (responseOutput) responseOutput.textContent = data.message;
 
-				(data.invalid_fields ?? []).forEach(({ into, message }) => {
+				// The REST feedback endpoint reports each invalid field by name
+				// (`field`), not the CSS selector CF7's own JS uses — look up
+				// its .wpcf7-form-control-wrap (data-name matches the field
+				// name) and drop the tip there, same as CF7's script would.
+				(data.invalid_fields ?? []).forEach(({ field, message }) => {
+					const wrap = form.querySelector(`[data-name="${field}"]`);
+					if (!wrap) return;
+					wrap.querySelectorAll('input, select, textarea').forEach((el) => {
+						el.setAttribute('aria-invalid', 'true');
+					});
 					const tip = document.createElement('span');
 					tip.className = 'wpcf7-not-valid-tip';
 					tip.textContent = message;
-					form.querySelector(into)?.appendChild(tip);
+					wrap.appendChild(tip);
 				});
 
 				if (data.status === 'mail_sent') form.reset();
