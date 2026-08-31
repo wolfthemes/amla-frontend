@@ -13,6 +13,7 @@ import {
 	NavigationMenu,
 	SEO,
 	WorksShowcase,
+	WorkItemMedia,
 	LOGO_LETTERS,
 	LOGO_VIEWBOX,
 } from '../components';
@@ -203,6 +204,7 @@ Component.query = gql`
 	${BlogInfoFragment}
 	${NavigationMenu.fragments.entry}
 	${FeaturedImage.fragments.entry}
+	${WorkItemMedia.fragments.entry}
 	query GetPageData($headerLocation: MenuLocationEnum, $footerLocation: MenuLocationEnum) {
 		frontPage: nodeByUri(uri: "/") {
 			... on Page {
@@ -215,27 +217,13 @@ Component.query = gql`
 				title
 				uri
 				workCompletion
-				workVideoUrl
-				workGallery {
-					id
-					sourceUrl
-					altText
-					mediaDetails {
-						width
-						height
-					}
-				}
-				postFormats {
-					nodes {
-						slug
-					}
-				}
 				workTypes {
 					nodes {
 						name
 					}
 				}
 				...FeaturedImageFragment
+				...WorkMediaFragment
 			}
 		}
 		generalSettings {

@@ -132,6 +132,7 @@ Component.query = gql`
 	${BlogInfoFragment}
 	${NavigationMenu.fragments.entry}
 	${FeaturedImage.fragments.entry}
+	${WorkItemMedia.fragments.entry}
 	query GetProjetsPage($headerLocation: MenuLocationEnum, $footerLocation: MenuLocationEnum) {
 		works {
 			nodes {
@@ -140,27 +141,13 @@ Component.query = gql`
 				uri
 				excerpt
 				workCompletion
-				workVideoUrl
-				workGallery {
-					id
-					sourceUrl
-					altText
-					mediaDetails {
-						width
-						height
-					}
-				}
-				postFormats {
-					nodes {
-						slug
-					}
-				}
 				workTypes {
 					nodes {
 						name
 					}
 				}
 				...FeaturedImageFragment
+				...WorkMediaFragment
 			}
 		}
 		generalSettings {

@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
 import classNames from 'classnames/bind';
 import { ParallaxImage } from '../../components';
+import { VIDEO_FILE_PATTERN } from '../../constants/media';
 import styles from './WorkGallery.module.scss';
 
 let cx = classNames.bind(styles);
@@ -53,8 +54,6 @@ const buildRows = (images) => {
 	return rows;
 };
 
-const VIDEO_FILE = /\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i;
-
 function GalleryImage({ image, priority }) {
 	return (
 		<div className={cx('frame')}>
@@ -100,7 +99,7 @@ export default function WorkGallery({ images = [], videoUrl }) {
 					transition={reveal.transition}
 				>
 					<div className={cx('frame', 'video')}>
-						{VIDEO_FILE.test(videoUrl) ? (
+						{VIDEO_FILE_PATTERN.test(videoUrl) ? (
 							<video src={videoUrl} controls playsInline preload="metadata" />
 						) : (
 							<iframe

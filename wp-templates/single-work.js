@@ -12,6 +12,7 @@ import {
 	NextProject,
 	SEO,
 	WorkGallery,
+	WorkItemMedia,
 } from '../components';
 import * as MENUS from '../constants/menus';
 import { BlogInfoFragment } from '../fragments/GeneralSettings';
@@ -41,6 +42,7 @@ const GET_LAYOUT_QUERY = gql`
 
 const GET_WORK_QUERY = gql`
 	${FeaturedImage.fragments.entry}
+	${WorkItemMedia.fragments.entry}
 	query GetWork($databaseId: ID!, $asPreview: Boolean = false) {
 		work(id: $databaseId, idType: DATABASE_ID, asPreview: $asPreview) {
 			id
@@ -52,23 +54,14 @@ const GET_WORK_QUERY = gql`
 			workProgram
 			workSurface
 			workCompletion
-			workVideoUrl
 			workLink
 			workTypes {
 				nodes {
 					name
 				}
 			}
-			workGallery {
-				id
-				sourceUrl
-				altText
-				mediaDetails {
-					width
-					height
-				}
-			}
 			...FeaturedImageFragment
+			...WorkMediaFragment
 		}
 	}
 `;
@@ -148,7 +141,16 @@ export default function Component(props) {
 		workLink,
 		workTypes,
 		workGallery,
+		postFormats,
 	} = work ?? {};
+
+	// Only the hero swaps media by format — the gallery section below always
+	// shows the full gallery + video regardless of format, so this gate is
+	// local to the EntryHeader props rather than affecting workGallery/
+	// workVideoUrl themselves.
+	const formatSlug = postFormats?.nodes?.[0]?.slug;
+	const heroVideoUrl = formatSlug === 'post-format-video' ? workVideoUrl : undefined;
+	const heroGallery = formatSlug === 'post-format-gallery' ? (workGallery ?? []) : [];
 
 	const nextWork = getNextWork(works?.nodes, id);
 	const hasBody = !!(content && content.trim());
@@ -181,7 +183,12 @@ export default function Component(props) {
 			/>
 			<Main>
 				<>
-					<EntryHeader title={title} image={featuredImage?.node} date={date} />
+					<EntryHeader
+						title={title}
+						image={featuredImage?.node}
+						videoUrl={heroVideoUrl}
+						gallery={heroGallery}
+					/>
 
 					<div className={cx('wrapper')}>
 						{excerpt && (

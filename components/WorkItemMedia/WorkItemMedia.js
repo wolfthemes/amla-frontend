@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
+import { gql } from '@apollo/client';
 import classNames from 'classnames/bind';
 import FeaturedImage from '../FeaturedImage/FeaturedImage';
 import ParallaxImage from '../ParallaxImage/ParallaxImage';
+import { VIDEO_FILE_PATTERN } from '../../constants/media';
 import styles from './WorkItemMedia.module.scss';
 
 let cx = classNames.bind(styles);
-
-const VIDEO_FILE = /\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i;
 
 // ponytail: a grid tile only has room for a real <video> background, not an
 // embed — a video-format work whose meta is a YouTube/Vimeo link falls back
@@ -41,7 +41,7 @@ export default function WorkItemMedia({ work, priority }) {
 	const gallery = work?.workGallery ?? [];
 	const featuredImage = work?.featuredImage?.node;
 
-	if (formatSlug === 'post-format-video' && videoUrl && VIDEO_FILE.test(videoUrl)) {
+	if (formatSlug === 'post-format-video' && videoUrl && VIDEO_FILE_PATTERN.test(videoUrl)) {
 		return (
 			<>
 				{/* Featured image underneath so the tile isn't blank while the
@@ -73,3 +73,27 @@ export default function WorkItemMedia({ work, priority }) {
 
 	return <ParallaxImage image={featuredImage} priority={priority} />;
 }
+
+// Same fields, three call sites (front-page.js, page-projets.js,
+// single-work.js) — spread once instead of re-listing per query.
+WorkItemMedia.fragments = {
+	entry: gql`
+		fragment WorkMediaFragment on Work {
+			workVideoUrl
+			workGallery {
+				id
+				sourceUrl
+				altText
+				mediaDetails {
+					width
+					height
+				}
+			}
+			postFormats {
+				nodes {
+					slug
+				}
+			}
+		}
+	`,
+};

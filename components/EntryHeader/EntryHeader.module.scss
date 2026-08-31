@@ -17,7 +17,7 @@
 }
 
 .text,
-.image {
+.media {
 	margin: auto;
 	text-align: center;
 }
@@ -27,7 +27,7 @@
 	max-width: 72rem;
 	padding: 8.25rem 0;
 	position: relative;
-	z-index: 1; // Pull text to the foreground to sit above <FeaturedImage />.
+	z-index: 1; // Pull text to the foreground to sit above the media layers.
 }
 
 .title {
@@ -45,7 +45,12 @@
 	font-size: 1.2rem;
 }
 
-.image {
+// Shared full-bleed box + dark overlay for whichever media layer(s) render:
+// the plain image, a video-format hero (image underneath as a load
+// fallback, video on top), or a gallery-format hero (image underneath, then
+// the slideshow). Later siblings paint over earlier ones at the same
+// z-index, so DOM order alone gets image-under-video/slideshow right.
+.media {
 	margin: 0;
 	position: absolute;
 	top: 0;
@@ -62,5 +67,59 @@
 		width: 100%;
 		background-color: rgba(0, 0, 0, 0.6);
 		position: absolute;
+	}
+}
+
+.video {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	background-color: #000;
+}
+
+.slideshow {
+	overflow: hidden;
+}
+
+.slide {
+	position: absolute;
+	inset: 0;
+	opacity: 0;
+	transition: opacity 1.8s ease;
+
+	&.active {
+		opacity: 1;
+		z-index: 1;
+	}
+}
+
+.slideshow-nav {
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 1.5rem;
+	pointer-events: none;
+
+	button {
+		pointer-events: auto;
+		width: 2.75rem;
+		height: 2.75rem;
+		border: none;
+		border-radius: 50%;
+		background-color: rgba(255, 255, 255, 0.15);
+		backdrop-filter: blur(4px);
+		color: $c-base;
+		font-size: 1.75rem;
+		line-height: 1;
+		cursor: pointer;
+		transition: background-color 0.2s ease-out;
+
+		&:hover,
+		&:focus {
+			background-color: rgba(255, 255, 255, 0.3);
+		}
 	}
 }
