@@ -95,7 +95,8 @@
 .title {
 	text-decoration: none;
 	display: inline-flex;
-	align-items: center;
+	flex-direction: column;
+	align-items: flex-start;
 }
 
 .logo {
