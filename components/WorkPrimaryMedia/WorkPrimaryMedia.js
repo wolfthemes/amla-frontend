@@ -3,6 +3,7 @@ import classNames from 'classnames/bind';
 import { FeaturedImage, ParallaxImage } from '../../components';
 import { VIDEO_FILE_PATTERN } from '../../constants/media';
 import styles from './WorkPrimaryMedia.module.scss';
+import { getSafeEmbedUrl, getSafeHttpUrl } from '../../utils/urls';
 
 let cx = classNames.bind(styles);
 
@@ -45,22 +46,24 @@ function MediaSlider({ images }) {
 export default function WorkPrimaryMedia({ work }) {
 	const formatSlug = work?.postFormats?.nodes?.[0]?.slug;
 	const videoUrl = work?.workVideoUrl;
+	const safeVideoUrl = getSafeHttpUrl(videoUrl);
 	const gallery = work?.workGallery ?? [];
 	const featuredImage = work?.featuredImage?.node;
 
 	let content;
 
-	if (formatSlug === 'post-format-video' && videoUrl) {
-		content = VIDEO_FILE_PATTERN.test(videoUrl) ? (
-			<video src={videoUrl} controls playsInline preload="metadata" />
-		) : (
+	if (formatSlug === 'post-format-video' && safeVideoUrl) {
+		const embedUrl = getSafeEmbedUrl(safeVideoUrl);
+		content = VIDEO_FILE_PATTERN.test(safeVideoUrl) ? (
+			<video src={safeVideoUrl} controls playsInline preload="metadata" />
+		) : embedUrl ? (
 			<iframe
-				src={videoUrl}
+				src={embedUrl}
 				title="Vidéo du projet"
 				allow="autoplay; fullscreen; picture-in-picture"
 				allowFullScreen
 			/>
-		);
+		) : null;
 	} else if (formatSlug === 'post-format-gallery' && gallery.length > 0) {
 		content = <MediaSlider images={gallery} />;
 	} else if (featuredImage) {

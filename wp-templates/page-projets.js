@@ -13,6 +13,7 @@ import {
 	ParallaxImage,
 	NavigationMenu,
 	SEO,
+	SafeHtml,
 	WorkItemMedia,
 } from '../components';
 import styles from './page-projets.module.scss';
@@ -65,10 +66,7 @@ export default function Component() {
 							<div className={cx('hero-text')}>
 								<Heading className={cx('hero-title')}>{featuredWork.title}</Heading>
 								{featuredWork.excerpt ? (
-									<div
-										className={cx('hero-description')}
-										dangerouslySetInnerHTML={{ __html: featuredWork.excerpt }}
-									/>
+									<SafeHtml className={cx('hero-description')} html={featuredWork.excerpt} />
 								) : (
 									siteDescription && <p className={cx('hero-description')}>{siteDescription}</p>
 								)}

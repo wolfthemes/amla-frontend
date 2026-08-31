@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames/bind';
 import Link from 'next/link';
+import { decodeEntities } from '@wordpress/html-entities';
 import { Container, Logo, NavigationMenu, SkipNavigationLink } from '../../components';
 import styles from './Header.module.scss';
 
@@ -98,12 +99,7 @@ export default function Header({
 								<a className={cx('title')} aria-label={title}>
 									<Logo className={cx('logo')} title={title} />
 									{description && (
-										<p
-											className={cx('description')}
-											// WP returns the tagline with encoded entities (e.g. &#039;),
-											// so render as HTML to decode them rather than print literally.
-											dangerouslySetInnerHTML={{ __html: description }}
-										/>
+										<p className={cx('description')}>{decodeEntities(description)}</p>
 									)}
 								</a>
 							</Link>

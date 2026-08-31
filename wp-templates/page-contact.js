@@ -3,7 +3,7 @@ import { gql } from '@apollo/client';
 import * as MENUS from '../constants/menus';
 import { BlogInfoFragment } from '../fragments/GeneralSettings';
 import classNames from 'classnames/bind';
-import { Header, Footer, Main, NavigationMenu, SEO } from '../components';
+import { Header, Footer, Main, NavigationMenu, SafeHtml, SEO } from '../components';
 import styles from './page-contact.module.scss';
 
 let cx = classNames.bind(styles);
@@ -106,11 +106,7 @@ export default function Component(props) {
             intro, then the Contact Form 7 shortcode block below), styled
             here by repurposing the generic block markup — see the .wrapper
             rules for how each block type maps onto the reference layout. */}
-				<div
-					ref={wrapperRef}
-					className={cx('wrapper')}
-					dangerouslySetInnerHTML={{ __html: content ?? '' }}
-				/>
+				<SafeHtml ref={wrapperRef} className={cx('wrapper')} html={content} allowForms />
 			</Main>
 			<Footer title={siteTitle} menuItems={footerMenu} />
 		</>

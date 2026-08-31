@@ -8,7 +8,7 @@ import pageProjets from './page-projets';
 import single from './single';
 import singleWork from './single-work';
 
-export default {
+const templates = {
 	category,
 	tag,
 	'front-page': frontPage,
@@ -19,3 +19,5 @@ export default {
 	single,
 	'single-work': singleWork,
 };
+
+export default templates;
