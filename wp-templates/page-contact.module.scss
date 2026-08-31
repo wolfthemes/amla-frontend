@@ -61,6 +61,14 @@
 			max-width: 100%;
 		}
 
+		// CF7's hidden nonce/id fields sit in a <fieldset>, invisible only
+		// because CF7's own admin-enqueued stylesheet hides it — that
+		// stylesheet never loads here, so the browser's default fieldset
+		// border/padding shows through unless we hide it ourselves.
+		.hidden-fields-container {
+			display: none;
+		}
+
 		.wpcf7-form p {
 			margin: 0 0 1.75rem;
 		}
@@ -139,6 +147,28 @@
 			display: block;
 			margin-top: 0.4rem;
 			font-size: fs(xs);
+			color: #c0392b;
+		}
+
+		.wpcf7-response-output {
+			margin-top: 1.5rem;
+			padding: 0.9rem 1rem;
+			border-radius: 4px;
+			font-weight: fw(bold);
+
+			&:empty {
+				display: none;
+			}
+		}
+
+		form[data-status='mail_sent'] .wpcf7-response-output {
+			background-color: color-mix(in srgb, #2e7d32 12%, transparent);
+			color: #2e7d32;
+		}
+
+		form[data-status='validation_failed'] .wpcf7-response-output,
+		form[data-status='mail_failed'] .wpcf7-response-output {
+			background-color: color-mix(in srgb, #c0392b 12%, transparent);
 			color: #c0392b;
 		}
 	}
