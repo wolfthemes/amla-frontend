@@ -1,3 +1,7 @@
+## Project
+
+Freelance client site: headless frontend for AMLA (ml-archi), built with FaustWP + Next.js against a separate headless WordPress backend (`amla-backend-staging.saguin.com`). Scaffolded from the same cs-front-derived starter as the sibling `rectangulo.com.mx` repo. Durable notes (architecture, decisions, status) live in the `wolf-claude-memory` KB — see `wiki/projects/amla.md` and `wiki/concepts/faust-headless-wordpress-stack.md`. Target: ship during September 2026.
+
 ## graphify
 
 This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
