@@ -14,120 +14,118 @@ const NATURAL_SCROLL_THRESHOLD = 150;
 const REVEAL_SCROLL_THRESHOLD = 200;
 
 export default function Header({
-  title = 'Headless by WP Engine',
-  description,
-  menuItems,
-  // The transparent, sticky, reveal-on-scroll menu is the default on every
-  // page. The front page overlays a dark hero so it opts out of `dark`; every
-  // other page sits on a light background and keeps the dark-font default.
-  transparent = true,
-  dark = true
+	title = 'Headless by WP Engine',
+	description,
+	menuItems,
+	// The transparent, sticky, reveal-on-scroll menu is the default on every
+	// page. The front page overlays a dark hero so it opts out of `dark`; every
+	// other page sits on a light background and keeps the dark-font default.
+	transparent = true,
+	dark = true,
 }) {
-  const [isNavShown, setIsNavShown] = useState(false);
-  const [scrollState, setScrollState] = useState('top'); // 'top' | 'fixed' | 'revealed'
+	const [isNavShown, setIsNavShown] = useState(false);
+	const [scrollState, setScrollState] = useState('top'); // 'top' | 'fixed' | 'revealed'
 
-  // The dark variant overlays a light page with no full-bleed hero to sit on,
-  // so — unlike the front page — its content would collide with the absolute
-  // header. Reserve a matching gap by mirroring the header's rendered height.
-  const headerRef = useRef(null);
-  const [spacerHeight, setSpacerHeight] = useState(0);
+	// The dark variant overlays a light page with no full-bleed hero to sit on,
+	// so — unlike the front page — its content would collide with the absolute
+	// header. Reserve a matching gap by mirroring the header's rendered height.
+	const headerRef = useRef(null);
+	const [spacerHeight, setSpacerHeight] = useState(0);
 
-  useEffect(() => {
-    const el = headerRef.current;
-    if (!el) return;
+	useEffect(() => {
+		const el = headerRef.current;
+		if (!el) return;
 
-    const measure = () => {
-      const h = el.offsetHeight;
-      setSpacerHeight(h);
-      // Publish the rendered height on every page (not just the dark variant)
-      // so in-page content can offset itself below the bar — the dark spacer,
-      // the portfolio sticky caption, and the front-page statement's top pad.
-      document.documentElement.style.setProperty('--wpe--header--height', `${h}px`);
-    };
-    measure();
+		const measure = () => {
+			const h = el.offsetHeight;
+			setSpacerHeight(h);
+			// Publish the rendered height on every page (not just the dark variant)
+			// so in-page content can offset itself below the bar — the dark spacer,
+			// the portfolio sticky caption, and the front-page statement's top pad.
+			document.documentElement.style.setProperty('--wpe--header--height', `${h}px`);
+		};
+		measure();
 
-    const observer = new ResizeObserver(measure);
-    observer.observe(el);
-    return () => {
-      observer.disconnect();
-      document.documentElement.style.removeProperty('--wpe--header--height');
-    };
-  }, []);
+		const observer = new ResizeObserver(measure);
+		observer.observe(el);
+		return () => {
+			observer.disconnect();
+			document.documentElement.style.removeProperty('--wpe--header--height');
+		};
+	}, []);
 
-  useEffect(() => {
-    // Only the front-page variant scrolls away and reveals on scroll. The
-    // dark variant is permanently pinned (position: fixed) via CSS, so it has
-    // no scroll states to track.
-    if (!transparent || dark) return;
+	useEffect(() => {
+		// Only the front-page variant scrolls away and reveals on scroll. The
+		// dark variant is permanently pinned (position: fixed) via CSS, so it has
+		// no scroll states to track.
+		if (!transparent || dark) return;
 
-    const onScroll = () => {
-      const y = window.scrollY;
-      setScrollState(
-        y >= REVEAL_SCROLL_THRESHOLD ? 'revealed' : y >= NATURAL_SCROLL_THRESHOLD ? 'fixed' : 'top'
-      );
-    };
+		const onScroll = () => {
+			const y = window.scrollY;
+			setScrollState(
+				y >= REVEAL_SCROLL_THRESHOLD ? 'revealed' : y >= NATURAL_SCROLL_THRESHOLD ? 'fixed' : 'top'
+			);
+		};
 
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [transparent, dark]);
+		onScroll();
+		window.addEventListener('scroll', onScroll, { passive: true });
+		return () => window.removeEventListener('scroll', onScroll);
+	}, [transparent, dark]);
 
-  return (
-    <>
-    <header
-      ref={headerRef}
-      className={
-        cx([
-          'component',
-          transparent && 'transparent',
-          transparent && dark && 'dark',
-          transparent && scrollState !== 'top' && 'fixed',
-          transparent && scrollState === 'revealed' && 'revealed'
-        ]) +
-        // Global marker (not a CSS-module class) so the nav pill's frosted-glass
-        // effect can key off it. Only the front page at the very top has no
-        // mix-blend-mode, which the backdrop-filter needs to render correctly.
-        (transparent && !dark && scrollState === 'top' ? ' header-frost' : '')
-      }
-    >
-      <SkipNavigationLink />
-        <Container>
-          <div className={cx('navbar')}>
-            <div className={cx('brand')}>
-              <Link legacyBehavior href="/">
-                <a className={cx('title')} aria-label={title}>
-                  <Logo className={cx('logo')} title={title} />
-                </a>
-              </Link>
-              {description && (
-                <p
-                  className={cx('description')}
-                  // WP returns the tagline with encoded entities (e.g. &#039;),
-                  // so render as HTML to decode them rather than print literally.
-                  dangerouslySetInnerHTML={{ __html: description }}
-                />
-              )}
-            </div>
-            <button
-              type="button"
-              className={cx('nav-toggle')}
-              onClick={() => setIsNavShown(!isNavShown)}
-              aria-label="Basculer la navigation"
-              aria-controls={cx('primary-navigation')}
-              aria-expanded={isNavShown}
-            >
-              ☰
-            </button>
-            <NavigationMenu
-              className={cx(['primary-navigation', isNavShown ? 'show' : undefined])}
-              menuItems={menuItems}
-            />
-        </div>
-      </Container>
-    </header>
-    {transparent && dark && (
-      <div aria-hidden="true" style={{ height: spacerHeight }} />
-    )}
-    </>
-  );
+	return (
+		<>
+			<header
+				ref={headerRef}
+				className={
+					cx([
+						'component',
+						transparent && 'transparent',
+						transparent && dark && 'dark',
+						transparent && scrollState !== 'top' && 'fixed',
+						transparent && scrollState === 'revealed' && 'revealed',
+					]) +
+					// Global marker (not a CSS-module class) so the nav pill's frosted-glass
+					// effect can key off it. Only the front page at the very top has no
+					// mix-blend-mode, which the backdrop-filter needs to render correctly.
+					(transparent && !dark && scrollState === 'top' ? ' header-frost' : '')
+				}
+			>
+				<SkipNavigationLink />
+				<Container>
+					<div className={cx('navbar')}>
+						<div className={cx('brand')}>
+							<Link legacyBehavior href="/">
+								<a className={cx('title')} aria-label={title}>
+									<Logo className={cx('logo')} title={title} />
+									{description && (
+										<p
+											className={cx('description')}
+											// WP returns the tagline with encoded entities (e.g. &#039;),
+											// so render as HTML to decode them rather than print literally.
+											dangerouslySetInnerHTML={{ __html: description }}
+										/>
+									)}
+								</a>
+							</Link>
+						</div>
+						<button
+							type="button"
+							className={cx('nav-toggle')}
+							onClick={() => setIsNavShown(!isNavShown)}
+							aria-label="Basculer la navigation"
+							aria-controls={cx('primary-navigation')}
+							aria-expanded={isNavShown}
+						>
+							☰
+						</button>
+						<NavigationMenu
+							className={cx(['primary-navigation', isNavShown ? 'show' : undefined])}
+							menuItems={menuItems}
+						/>
+					</div>
+				</Container>
+			</header>
+			{transparent && dark && <div aria-hidden="true" style={{ height: spacerHeight }} />}
+		</>
+	);
 }
