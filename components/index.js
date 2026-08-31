@@ -17,6 +17,7 @@ export { Post } from './Post';
 export { NextProject } from './NextProject';
 export { WorkGallery } from './WorkGallery';
 export { WorkItemMedia } from './WorkItemMedia';
+export { WorkPrimaryMedia } from './WorkPrimaryMedia';
 export { SEO } from './SEO';
 export { SmoothScroll } from './SmoothScroll';
 export { WorksShowcase } from './WorksShowcase';

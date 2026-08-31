@@ -13,6 +13,7 @@ import {
 	SEO,
 	WorkGallery,
 	WorkItemMedia,
+	WorkPrimaryMedia,
 } from '../components';
 import * as MENUS from '../constants/menus';
 import { BlogInfoFragment } from '../fragments/GeneralSettings';
@@ -137,20 +138,10 @@ export default function Component(props) {
 		workProgram,
 		workSurface,
 		workCompletion,
-		workVideoUrl,
 		workLink,
 		workTypes,
 		workGallery,
-		postFormats,
 	} = work ?? {};
-
-	// Only the hero swaps media by format — the gallery section below always
-	// shows the full gallery + video regardless of format, so this gate is
-	// local to the EntryHeader props rather than affecting workGallery/
-	// workVideoUrl themselves.
-	const formatSlug = postFormats?.nodes?.[0]?.slug;
-	const heroVideoUrl = formatSlug === 'post-format-video' ? workVideoUrl : undefined;
-	const heroGallery = formatSlug === 'post-format-gallery' ? (workGallery ?? []) : [];
 
 	const nextWork = getNextWork(works?.nodes, id);
 	const hasBody = !!(content && content.trim());
@@ -183,12 +174,7 @@ export default function Component(props) {
 			/>
 			<Main>
 				<>
-					<EntryHeader
-						title={title}
-						image={featuredImage?.node}
-						videoUrl={heroVideoUrl}
-						gallery={heroGallery}
-					/>
+					<EntryHeader title={title} image={featuredImage?.node} />
 
 					<div className={cx('wrapper')}>
 						{excerpt && (
@@ -223,7 +209,9 @@ export default function Component(props) {
 						)}
 					</div>
 
-					<WorkGallery images={workGallery} videoUrl={workVideoUrl} />
+					<WorkPrimaryMedia work={work} />
+
+					<WorkGallery images={workGallery} />
 
 					<NextProject work={nextWork} />
 				</>

@@ -1,7 +1,7 @@
-import { motion } from 'motion/react';
+import { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import classNames from 'classnames/bind';
-import { ParallaxImage } from '../../components';
-import { VIDEO_FILE_PATTERN } from '../../constants/media';
+import { FeaturedImage, ParallaxImage } from '../../components';
 import styles from './WorkGallery.module.scss';
 
 let cx = classNames.bind(styles);
@@ -54,20 +54,111 @@ const buildRows = (images) => {
 	return rows;
 };
 
-function GalleryImage({ image, priority }) {
+// Both the thumbnail (below) and the lightbox frame share this layoutId, so
+// motion animates the FLIP transition between the two automatically — no
+// separate open/close animation to hand-author.
+const lightboxLayoutId = (image, i) => `gallery-image-${image?.id ?? i}`;
+
+function GalleryImage({ image, priority, onOpen }) {
 	return (
-		<div className={cx('frame')}>
+		<motion.div
+			className={cx('frame')}
+			layoutId={lightboxLayoutId(image)}
+			onClick={onOpen}
+			role="button"
+			tabIndex={0}
+			aria-label="Agrandir l’image"
+			onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onOpen()}
+		>
 			<ParallaxImage image={image} priority={priority} />
-		</div>
+		</motion.div>
 	);
 }
 
-export default function WorkGallery({ images = [], videoUrl }) {
-	const rows = buildRows(images ?? []);
+function Lightbox({ images, index, onClose, onNavigate }) {
+	const image = images[index];
 
-	if (!rows.length && !videoUrl) {
+	// Lock background scroll and wire arrow-key/Escape navigation while open.
+	useEffect(() => {
+		const previousOverflow = document.body.style.overflow;
+		document.body.style.overflow = 'hidden';
+
+		const onKeyDown = (e) => {
+			if (e.key === 'Escape') onClose();
+			if (e.key === 'ArrowLeft') onNavigate(-1);
+			if (e.key === 'ArrowRight') onNavigate(1);
+		};
+		window.addEventListener('keydown', onKeyDown);
+
+		return () => {
+			document.body.style.overflow = previousOverflow;
+			window.removeEventListener('keydown', onKeyDown);
+		};
+	}, [onClose, onNavigate]);
+
+	if (!image) {
 		return null;
 	}
+
+	return (
+		<motion.div
+			className={cx('lightbox')}
+			initial={{ opacity: 0 }}
+			animate={{ opacity: 1 }}
+			exit={{ opacity: 0 }}
+			onClick={onClose}
+		>
+			<motion.div
+				className={cx('lightbox-frame')}
+				layoutId={lightboxLayoutId(image, index)}
+				onClick={(e) => e.stopPropagation()}
+			>
+				<FeaturedImage image={image} style={{ objectFit: 'contain' }} />
+			</motion.div>
+
+			<button type="button" className={cx('lightbox-close')} aria-label="Fermer" onClick={onClose}>
+				×
+			</button>
+
+			{images.length > 1 && (
+				<div className={cx('lightbox-nav')}>
+					<button
+						type="button"
+						aria-label="Image précédente"
+						onClick={(e) => {
+							e.stopPropagation();
+							onNavigate(-1);
+						}}
+					>
+						‹
+					</button>
+					<button
+						type="button"
+						aria-label="Image suivante"
+						onClick={(e) => {
+							e.stopPropagation();
+							onNavigate(1);
+						}}
+					>
+						›
+					</button>
+				</div>
+			)}
+		</motion.div>
+	);
+}
+
+export default function WorkGallery({ images = [] }) {
+	const [openIndex, setOpenIndex] = useState(null);
+	const rows = buildRows(images ?? []);
+
+	if (!rows.length) {
+		return null;
+	}
+
+	const navigate = (delta) => {
+		setOpenIndex((i) => (i === null ? null : (i + delta + images.length) % images.length));
+	};
 
 	return (
 		<section className={cx('component')}>
@@ -85,33 +176,22 @@ export default function WorkGallery({ images = [], videoUrl }) {
 							key={image?.id ?? itemIndex}
 							image={image}
 							priority={index === 0 && itemIndex === 0}
+							onOpen={() => setOpenIndex(images.indexOf(image))}
 						/>
 					))}
 				</motion.div>
 			))}
 
-			{videoUrl && (
-				<motion.div
-					className={cx('row', 'full')}
-					initial={reveal.initial}
-					whileInView={reveal.whileInView}
-					viewport={reveal.viewport}
-					transition={reveal.transition}
-				>
-					<div className={cx('frame', 'video')}>
-						{VIDEO_FILE_PATTERN.test(videoUrl) ? (
-							<video src={videoUrl} controls playsInline preload="metadata" />
-						) : (
-							<iframe
-								src={videoUrl}
-								title="Vidéo du projet"
-								allow="autoplay; fullscreen; picture-in-picture"
-								allowFullScreen
-							/>
-						)}
-					</div>
-				</motion.div>
-			)}
+			<AnimatePresence>
+				{openIndex !== null && (
+					<Lightbox
+						images={images}
+						index={openIndex}
+						onClose={() => setOpenIndex(null)}
+						onNavigate={navigate}
+					/>
+				)}
+			</AnimatePresence>
 		</section>
 	);
 }

@@ -5,6 +5,10 @@
 	color: $c-base;
 	position: relative;
 	overflow: hidden;
+	height: 80vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	margin-bottom: 2rem;
 
 	@media (min-width: $breakpoint-small) {
@@ -17,7 +21,7 @@
 }
 
 .text,
-.media {
+.image {
 	margin: auto;
 	text-align: center;
 }
@@ -25,15 +29,19 @@
 .text {
 	width: 100%;
 	max-width: 72rem;
-	padding: 8.25rem 0;
 	position: relative;
-	z-index: 1; // Pull text to the foreground to sit above the media layers.
+	z-index: 1; // Pull text to the foreground to sit above <FeaturedImage />.
 }
 
 .title {
 	line-height: 1.25;
 	font-size: 5rem;
 	color: var(--wpe--color--title);
+
+	// Subtle lift off the image rather than relying on the overlay alone —
+	// the overlay itself is light now (not the old 0.6 scrim), so the title
+	// needs its own legibility boost.
+	text-shadow: 0 2px 16px rgba(0, 0, 0, 0.35);
 
 	@media (max-width: $breakpoint-small) {
 		font-size: 3rem;
@@ -45,18 +53,13 @@
 	font-size: 1.2rem;
 }
 
-// Shared full-bleed box + dark overlay for whichever media layer(s) render:
-// the plain image, a video-format hero (image underneath as a load
-// fallback, video on top), or a gallery-format hero (image underneath, then
-// the slideshow). Later siblings paint over earlier ones at the same
-// z-index, so DOM order alone gets image-under-video/slideshow right.
-.media {
+.image {
 	margin: 0;
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 100vw;
-	height: 100vh;
+	width: 100%;
+	height: 100%;
 	z-index: 0;
 
 	&::after {
@@ -65,61 +68,7 @@
 		left: 0;
 		height: 100%;
 		width: 100%;
-		background-color: rgba(0, 0, 0, 0.6);
+		background-color: rgba(0, 0, 0, 0.25);
 		position: absolute;
-	}
-}
-
-.video {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	background-color: #000;
-}
-
-.slideshow {
-	overflow: hidden;
-}
-
-.slide {
-	position: absolute;
-	inset: 0;
-	opacity: 0;
-	transition: opacity 1.8s ease;
-
-	&.active {
-		opacity: 1;
-		z-index: 1;
-	}
-}
-
-.slideshow-nav {
-	position: absolute;
-	inset: 0;
-	z-index: 2;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: 0 1.5rem;
-	pointer-events: none;
-
-	button {
-		pointer-events: auto;
-		width: 2.75rem;
-		height: 2.75rem;
-		border: none;
-		border-radius: 50%;
-		background-color: rgba(255, 255, 255, 0.15);
-		backdrop-filter: blur(4px);
-		color: $c-base;
-		font-size: 1.75rem;
-		line-height: 1;
-		cursor: pointer;
-		transition: background-color 0.2s ease-out;
-
-		&:hover,
-		&:focus {
-			background-color: rgba(255, 255, 255, 0.3);
-		}
 	}
 }
