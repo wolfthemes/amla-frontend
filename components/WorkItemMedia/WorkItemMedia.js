@@ -39,25 +39,37 @@ export default function WorkItemMedia({ work, priority }) {
 	const formatSlug = work?.postFormats?.nodes?.[0]?.slug;
 	const videoUrl = work?.workVideoUrl;
 	const gallery = work?.workGallery ?? [];
+	const featuredImage = work?.featuredImage?.node;
 
 	if (formatSlug === 'post-format-video' && videoUrl && VIDEO_FILE.test(videoUrl)) {
 		return (
-			<video
-				className={cx('video')}
-				src={videoUrl}
-				poster={work?.featuredImage?.node?.sourceUrl}
-				autoPlay
-				muted
-				loop
-				playsInline
-				preload="metadata"
-			/>
+			<>
+				{/* Featured image underneath so the tile isn't blank while the
+				    video downloads — the poster covers the same gap, but only
+				    once its own request resolves. */}
+				<ParallaxImage image={featuredImage} priority={priority} />
+				<video
+					className={cx('video')}
+					src={videoUrl}
+					poster={featuredImage?.sourceUrl}
+					autoPlay
+					muted
+					loop
+					playsInline
+					preload="metadata"
+				/>
+			</>
 		);
 	}
 
 	if (formatSlug === 'post-format-gallery' && gallery.length > 0) {
-		return <GallerySlideshow images={gallery} />;
+		return (
+			<>
+				<ParallaxImage image={featuredImage} priority={priority} />
+				<GallerySlideshow images={gallery} />
+			</>
+		);
 	}
 
-	return <ParallaxImage image={work?.featuredImage?.node} priority={priority} />;
+	return <ParallaxImage image={featuredImage} priority={priority} />;
 }
