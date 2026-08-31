@@ -15,30 +15,33 @@ function AnimatedTitle({ text }) {
 	const words = text.split(' ');
 	let charIndex = 0;
 
-	return (
-		<>
-			{words.map((word, wi) => (
-				<span key={wi} className={cx('title-word')}>
-					{Array.from(word).map((char, ci) => {
-						const delay = 0.3 + charIndex * 0.025;
-						charIndex += 1;
-						return (
-							<motion.span
-								key={ci}
-								className={cx('title-char')}
-								initial={{ opacity: 0, y: 24 }}
-								animate={{ opacity: 1, y: 0 }}
-								transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay }}
-							>
-								{char}
-							</motion.span>
-						);
-					})}
-					{wi < words.length - 1 ? ' ' : ''}
-				</span>
-			))}
-		</>
-	);
+	return words.flatMap((word, wi) => {
+		// The space must be a sibling of the nowrap word span, not its last
+		// child — a trailing space inside a white-space: nowrap inline-block
+		// gets trimmed by the browser at the box's own edge, which is what
+		// was swallowing the gaps between words.
+		const wordEl = (
+			<span key={`word-${wi}`} className={cx('title-word')}>
+				{Array.from(word).map((char, ci) => {
+					const delay = 0.3 + charIndex * 0.025;
+					charIndex += 1;
+					return (
+						<motion.span
+							key={ci}
+							className={cx('title-char')}
+							initial={{ opacity: 0, y: 24 }}
+							animate={{ opacity: 1, y: 0 }}
+							transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay }}
+						>
+							{char}
+						</motion.span>
+					);
+				})}
+			</span>
+		);
+
+		return wi < words.length - 1 ? [wordEl, ' '] : [wordEl];
+	});
 }
 
 export default function EntryHeader({ title, image, date, author, className }) {
