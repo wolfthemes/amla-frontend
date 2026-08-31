@@ -11,6 +11,7 @@ import {
 	NavigationMenu,
 	NextProject,
 	SEO,
+	SafeHtml,
 	WorkGallery,
 	WorkItemMedia,
 	WorkPrimaryMedia,
@@ -18,6 +19,7 @@ import {
 import * as MENUS from '../constants/menus';
 import { BlogInfoFragment } from '../fragments/GeneralSettings';
 import styles from './single-work.module.scss';
+import { getSafeHttpUrl } from '../utils/urls';
 
 let cx = classNames.bind(styles);
 
@@ -41,28 +43,38 @@ const GET_LAYOUT_QUERY = gql`
 	}
 `;
 
+// Queries the singular work through the generic contentNode lookup rather
+// than a dedicated `work(id: ...)` root field — WPGraphQL's Work CPT is
+// registered by a plugin whose registration bypasses the usual code path
+// that would wire up that dedicated field (works/workTypes connections and
+// the Work type itself resolve fine; only that one specific root field
+// doesn't, for reasons that didn't pan out after a fair amount of digging).
+// contentNode is the same generic node-by-id lookup WPGraphQL itself uses
+// under the hood, aliased to `work` so the rest of this file is unchanged.
 const GET_WORK_QUERY = gql`
 	${FeaturedImage.fragments.entry}
 	${WorkItemMedia.fragments.entry}
 	query GetWork($databaseId: ID!, $asPreview: Boolean = false) {
-		work(id: $databaseId, idType: DATABASE_ID, asPreview: $asPreview) {
-			id
-			title
-			excerpt
-			content
-			date
-			workClient
-			workProgram
-			workSurface
-			workCompletion
-			workLink
-			workTypes {
-				nodes {
-					name
+		work: contentNode(id: $databaseId, idType: DATABASE_ID, asPreview: $asPreview) {
+			... on Work {
+				id
+				title
+				excerpt
+				content
+				date
+				workClient
+				workProgram
+				workSurface
+				workCompletion
+				workLink
+				workTypes {
+					nodes {
+						name
+					}
 				}
+				...FeaturedImageFragment
+				...WorkMediaFragment
 			}
-			...FeaturedImageFragment
-			...WorkMediaFragment
 		}
 	}
 `;
@@ -144,6 +156,7 @@ export default function Component(props) {
 	} = work ?? {};
 
 	const nextWork = getNextWork(works?.nodes, id);
+	const safeWorkLink = getSafeHttpUrl(workLink);
 	const hasBody = !!(content && content.trim());
 
 	// Project facts, in the reference's order. Rendered only when set.
@@ -177,13 +190,11 @@ export default function Component(props) {
 					<EntryHeader title={title} image={featuredImage?.node} />
 
 					<div className={cx('wrapper')}>
-						{excerpt && (
-							<div className={cx('intro')} dangerouslySetInnerHTML={{ __html: excerpt }} />
-						)}
+						{excerpt && <SafeHtml className={cx('intro')} html={excerpt} />}
 
-						{(metaRows.length > 0 || workLink || hasBody) && (
+						{(metaRows.length > 0 || safeWorkLink || hasBody) && (
 							<div className={cx('details')}>
-								{(metaRows.length > 0 || workLink) && (
+								{(metaRows.length > 0 || safeWorkLink) && (
 									<dl className={cx('meta')}>
 										{metaRows.map((row) => (
 											<div key={row.label} className={cx('meta-row')}>
@@ -191,11 +202,11 @@ export default function Component(props) {
 												<dd className={cx('meta-value')}>{row.value}</dd>
 											</div>
 										))}
-										{workLink && (
+										{safeWorkLink && (
 											<div className={cx('meta-row')}>
 												<dt className={cx('meta-label')}>Lien</dt>
 												<dd className={cx('meta-value')}>
-													<a href={workLink} target="_blank" rel="noreferrer">
+													<a href={safeWorkLink} target="_blank" rel="noopener noreferrer">
 														Voir le site
 													</a>
 												</dd>
