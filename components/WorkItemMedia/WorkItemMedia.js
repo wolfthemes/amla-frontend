@@ -16,7 +16,7 @@ function GallerySlideshow({ images }) {
 
 	useEffect(() => {
 		if (images.length < 2) return;
-		const id = setInterval(() => setIndex((i) => (i + 1) % images.length), 3500);
+		const id = setInterval(() => setIndex((i) => (i + 1) % images.length), 2200);
 		return () => clearInterval(id);
 	}, [images.length]);
 
