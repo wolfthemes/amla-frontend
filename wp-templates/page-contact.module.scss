@@ -1,0 +1,145 @@
+@import 'styles/breakpoints';
+@import 'styles/tokens';
+
+// Content is authored in wp-admin as plain Gutenberg blocks:
+//   1. A Columns block (Heading "ECRIVEZ-NOUS !" + two Paragraphs / Image)
+//      for the intro — mirrors the two-column reference layout (headline +
+//      copy left, portrait image right).
+//   2. A Contact Form 7 shortcode block below it, e.g. [contact-form-7
+//      id="123" title="Contact"] — CF7 renders its own markup
+//      (.wpcf7-form, .wpcf7-form-control-wrap, …), styled below to read as
+//      one field per row with the site's own type rather than CF7's default.
+.wrapper {
+	min-height: 100vh;
+	padding: var(--wpe--section--padding-y) var(--wpe--container--padding-x);
+
+	:global {
+		.wp-block-columns {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			align-items: start;
+			gap: 3rem;
+			max-width: var(--wpe--container--max-width);
+			margin: 0 auto 4rem;
+
+			@media (max-width: $breakpoint-small) {
+				grid-template-columns: 1fr;
+				gap: 2.5rem;
+			}
+		}
+
+		// Gutenberg's own flex/width rules on columns would fight the grid above.
+		.wp-block-column {
+			flex: none;
+			width: auto !important;
+		}
+
+		h1 {
+			margin: 0 0 1.5rem;
+		}
+
+		.wp-block-column p {
+			margin: 0 0 1rem;
+			line-height: 1.5;
+
+			strong {
+				font-weight: fw(bold);
+			}
+		}
+
+		.wp-block-image img {
+			width: 100%;
+			height: auto;
+			border-radius: 2px;
+		}
+
+		// --- Contact Form 7 -----------------------------------------------
+		// CF7 renders its own markup from the shortcode; these rules restyle
+		// its default classes rather than the form editor's raw layout.
+		.wpcf7-form {
+			max-width: var(--wpe--container--max-width);
+			margin: 0 auto;
+		}
+
+		.wpcf7-form p {
+			margin: 0 0 1.75rem;
+		}
+
+		label {
+			display: block;
+			margin-bottom: 0.5rem;
+			font-weight: fw(bold);
+		}
+
+		.wpcf7-textarea {
+			min-height: 8rem;
+			resize: vertical;
+		}
+
+		.wpcf7-text,
+		.wpcf7-email,
+		.wpcf7-tel,
+		.wpcf7-number,
+		.wpcf7-textarea,
+		.wpcf7-select {
+			display: block;
+			width: 100%;
+			padding: 0.9rem 1rem;
+			border: var(--wpe--border--light);
+			border-radius: 4px;
+			background-color: var(--wpe--color--offwhite);
+			font-family: inherit;
+			font-size: fs(base);
+			color: inherit;
+
+			&:focus {
+				outline: none;
+				border-color: var(--wpe--color--accent);
+			}
+		}
+
+		.wpcf7-list-item {
+			display: block;
+			margin: 0 0 0.6rem;
+
+			label {
+				display: flex;
+				align-items: center;
+				gap: 0.6rem;
+				font-weight: var(--wpe--font-weight--medium);
+			}
+
+			input[type='radio'],
+			input[type='checkbox'] {
+				accent-color: var(--wpe--color--accent);
+			}
+		}
+
+		.wpcf7-submit {
+			display: inline-block;
+			margin-top: 1rem;
+			padding: 1rem 2.5rem;
+			border: none;
+			border-radius: 2px;
+			background-color: var(--wpe--color--black);
+			color: var(--wpe--color--white);
+			font-weight: fw(bold);
+			letter-spacing: 0.08em;
+			text-transform: uppercase;
+			cursor: pointer;
+			transition: opacity 0.2s ease-out;
+
+			&:hover,
+			&:focus {
+				opacity: 0.8;
+			}
+		}
+
+		.wpcf7-not-valid-tip {
+			display: block;
+			margin-top: 0.4rem;
+			font-size: fs(xs);
+			color: #c0392b;
+		}
+	}
+}
