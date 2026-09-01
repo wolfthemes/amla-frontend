@@ -101,6 +101,12 @@
 	line-height: 1;
 	cursor: pointer;
 	transition: background-color 0.2s ease-out;
+	// line-height alone doesn't reliably center a single glyph — the font's
+	// own metrics for ×/‹/› push it off-center. Flex-center the box instead,
+	// same fix as WorksShowcase's .arrow.
+	display: flex;
+	align-items: center;
+	justify-content: center;
 
 	&:hover,
 	&:focus {
@@ -130,6 +136,11 @@
 		line-height: 1;
 		cursor: pointer;
 		transition: background-color 0.2s ease-out;
+		// Same fix as .lightbox-close: flex-center the glyph instead of relying
+		// on line-height, which doesn't reliably center ‹/›.
+		display: flex;
+		align-items: center;
+		justify-content: center;
 
 		&:hover,
 		&:focus {
