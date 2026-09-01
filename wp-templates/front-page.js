@@ -32,7 +32,7 @@ const reveal = {
 // Placeholder copy — not wired to WordPress content yet, swap freely.
 // Lines are broken manually so each reveals as its own masked line on scroll.
 const STATEMENT_LINES = [
-	'ML Archi conçoit des lieux de vie',
+	'AMLA conçoit des lieux de vie',
 	'sobres et durables, où le sens et',
 	'l’équilibre priment toujours sur',
 	'l’effet — une architecture pensée',

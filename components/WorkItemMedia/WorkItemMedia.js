@@ -14,28 +14,27 @@ let cx = classNames.bind(styles);
 // to the featured image rather than an autoplaying iframe.
 function GallerySlideshow({ images }) {
 	const [index, setIndex] = useState(0);
-	const [previousIndex, setPreviousIndex] = useState(null);
 
 	useEffect(() => {
 		if (images.length < 2) return;
 		const id = setInterval(() => {
-			setIndex((currentIndex) => {
-				setPreviousIndex(currentIndex);
-				return (currentIndex + 1) % images.length;
-			});
+			setIndex((i) => (i + 1) % images.length);
 		}, 2200);
 		return () => clearInterval(id);
 	}, [images.length]);
 
 	return (
 		<div className={cx('slideshow')}>
-			{images.map((image, i) =>
-				i === index || i === previousIndex ? (
-					<div key={image.id ?? i} className={cx('slide', { active: i === index })}>
-						<FeaturedImage image={image} />
-					</div>
-				) : null
-			)}
+			{/* All slides stay mounted (same pattern as WorkPrimaryMedia's
+			    MediaSlider) — only the `active` class toggles, so the CSS opacity
+			    transition has a real 0 → 1 frame to animate. Mounting the incoming
+			    slide with `active` already on it (the previous conditional-render
+			    version) skips that frame and the crossfade never plays. */}
+			{images.map((image, i) => (
+				<div key={image.id ?? i} className={cx('slide', { active: i === index })}>
+					<FeaturedImage image={image} />
+				</div>
+			))}
 		</div>
 	);
 }

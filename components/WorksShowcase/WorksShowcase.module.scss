@@ -99,6 +99,19 @@
 	opacity: 1;
 }
 
+// Touch devices have no hover: the overlay would otherwise never show,
+// hiding title/category/year on every tile. Show it at rest instead — but
+// as a gradient behind the (top-aligned) caption only, not the hover state's
+// flat scrim, so a gallery-format tile's WorkItemMedia crossfade stays
+// visible through the rest of the frame instead of sitting under a
+// permanent wash.
+@media (hover: none) {
+	.item-overlay {
+		opacity: 1;
+		background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0) 55%);
+	}
+}
+
 .item-text {
 	width: 100%;
 	display: flex;
@@ -115,6 +128,10 @@
 
 	.item-link:hover &,
 	.item-link:focus & {
+		transform: translateY(0);
+	}
+
+	@media (hover: none) {
 		transform: translateY(0);
 	}
 }
