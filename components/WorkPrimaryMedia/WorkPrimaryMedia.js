@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import classNames from 'classnames/bind';
-import { FeaturedImage, ParallaxImage } from '../../components';
+import { FeaturedImage } from '../../components';
 import { VIDEO_FILE_PATTERN } from '../../constants/media';
 import styles from './WorkPrimaryMedia.module.scss';
 import { getSafeEmbedUrl, getSafeHttpUrl } from '../../utils/urls';
@@ -37,18 +37,18 @@ function MediaSlider({ images }) {
 }
 
 // The single-work page's "post media" section, right below the intro/details
-// text — its content is entirely driven by the work's post format: video
-// plays workVideoUrl, gallery gets an arrow-controlled slider of
-// workGallery, everything else (including a video/gallery format work whose
-// meta is empty) falls back to the plain featured image. Same gating rule
-// as WorkItemMedia (the grid tile), just presented full-size instead of
-// cropped into a tile.
+// text: video plays workVideoUrl, otherwise a gallery slider of workGallery
+// — checked directly (gallery.length > 0) rather than gated on the
+// post-format taxonomy, since a work can have gallery images without that
+// tag being set. Renders nothing when neither exists, rather than falling
+// back to the featured image — that image already had its moment in
+// EntryHeader's hero a few hundred pixels up; showing the exact same photo
+// again here read as a mistake, not a design choice.
 export default function WorkPrimaryMedia({ work }) {
 	const formatSlug = work?.postFormats?.nodes?.[0]?.slug;
 	const videoUrl = work?.workVideoUrl;
 	const safeVideoUrl = getSafeHttpUrl(videoUrl);
 	const gallery = work?.workGallery ?? [];
-	const featuredImage = work?.featuredImage?.node;
 
 	let content;
 
@@ -64,10 +64,8 @@ export default function WorkPrimaryMedia({ work }) {
 				allowFullScreen
 			/>
 		) : null;
-	} else if (formatSlug === 'post-format-gallery' && gallery.length > 0) {
+	} else if (gallery.length > 0) {
 		content = <MediaSlider images={gallery} />;
-	} else if (featuredImage) {
-		content = <ParallaxImage image={featuredImage} priority />;
 	}
 
 	if (!content) {
