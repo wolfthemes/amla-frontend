@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+import classNames from 'classnames/bind';
 import * as MENUS from '../constants/menus';
 import { BlogInfoFragment } from '../fragments/GeneralSettings';
 import {
@@ -8,10 +9,14 @@ import {
   Container,
   ContentWrapper,
   EntryHeader,
+  Heading,
   NavigationMenu,
   FeaturedImage,
   SEO,
 } from '../components';
+import styles from './page.module.scss';
+
+let cx = classNames.bind(styles);
 
 export default function Component(props) {
   // Loading state for previews
@@ -41,9 +46,18 @@ export default function Component(props) {
       />
       <Main>
         <>
-          <EntryHeader title={title} image={featuredImage?.node} />
+          {/* EntryHeader's 80vh cinematic hero only makes sense with an image
+              to fill it — a plain content page (legal/utility pages, mostly)
+              gets a normal in-flow title instead. */}
+          {featuredImage?.node ? (
+            <EntryHeader title={title} image={featuredImage.node} />
+          ) : (
+            <Container>
+              <Heading className={cx('title')}>{title}</Heading>
+            </Container>
+          )}
           <Container>
-            <ContentWrapper content={content} />
+            <ContentWrapper content={content} dense />
           </Container>
         </>
       </Main>

@@ -1,0 +1,8 @@
+@import 'styles/breakpoints';
+@import 'styles/tokens';
+
+// Compact title for a page with no featured image (see page.js) — sits in
+// normal flow, right below the Header's own spacer, no extra offset needed.
+.title {
+	margin: var(--wpe--section--padding-y) 0 0;
+}

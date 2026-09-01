@@ -132,3 +132,21 @@
 		}
 	}
 }
+
+// Opt-in tighter heading rhythm — .component's spacing is tuned for
+// long-form narrative (blog posts, project write-ups: single.js,
+// single-work.js), a few big section breaks. A dense reference document
+// (legal/utility pages, page.js's main use case) with many short
+// subsections back to back reads as absurdly sparse at that spacing.
+.dense {
+	:global {
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+			margin: 2.5rem 0 1rem;
+		}
+	}
+}
