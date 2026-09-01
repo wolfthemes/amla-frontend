@@ -51,8 +51,17 @@ export default function MyApp({ Component, pageProps }) {
               EntryHeader's mediaLayoutId). Falls back to a plain
               crossfade+drift for any route pair with no matching
               layoutId, same reveal language used everywhere else on the
-              site (opacity + y, easeOut). */}
-					<AnimatePresence mode="popLayout" initial={false}>
+              site (opacity + y, easeOut).
+
+              No `initial={false}` here — that prop doesn't just skip
+              this wrapper's own first-load animation, it suppresses the
+              *initial* animation of every motion child mounted on that
+              first render, site-wide (e.g. the front page's hero-image
+              zoom-out) per AnimatePresence's documented behavior. First
+              load plays this wrapper's fade too; harmless, and it's
+              what lets nested entrances (hero zoom, title stagger, …)
+              keep working on first load, not just on nav. */}
+					<AnimatePresence mode="popLayout">
 						<motion.div
 							key={router.asPath}
 							initial={{ opacity: 0, y: 16 }}
