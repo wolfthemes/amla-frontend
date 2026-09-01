@@ -9,6 +9,7 @@ export const EMAIL = 'ml@ateliermlarchitecture.fr';
 
 export const PHONE = '06 68 19 09 63';
 
-// Placeholders — not wired to real values yet, swap freely.
-export const ADDRESS_LINES = ['59 Garden Street', 'South Yarra', '67000 Strasbourg, France'];
+export const ADDRESS_LINES = ['28 rue de Mundolsheim', '67800 Hœnheim, France'];
+
+// Placeholder — not wired to a real profile yet, swap freely.
 export const LINKEDIN_URL = '#';
