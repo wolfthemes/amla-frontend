@@ -91,7 +91,13 @@ export default function Component() {
 									{(work.featuredImage?.node ||
 										work.workVideoUrl ||
 										work.workGallery?.length > 0) && (
-										<div className={cx('grid-item-image')}>
+										// Shared with EntryHeader's mediaLayoutId on the single-work
+										// page — clicking through morphs this tile into the hero
+										// image instead of a plain page transition.
+										<motion.div
+											className={cx('grid-item-image')}
+											layoutId={`work-media-${work.uri}`}
+										>
 											<WorkItemMedia work={work} />
 											{/* Meta revealed on hover: category + title on the left,
                           réalisation year right, over a scrim — see
@@ -113,7 +119,7 @@ export default function Component() {
 													</div>
 												</div>
 											</div>
-										</div>
+										</motion.div>
 									)}
 								</Link>
 							</motion.div>

@@ -37,7 +37,10 @@ export default function WorksShowcase({ works = [], viewAllHref = '/projets' }) 
 					>
 						<Link href={work.uri} className={cx('item-link')}>
 							{(work.featuredImage?.node || work.workVideoUrl || work.workGallery?.length > 0) && (
-								<div className={cx('item-image')}>
+								// Shared with EntryHeader's mediaLayoutId on the single-work
+								// page — clicking through morphs this tile into the hero
+								// image instead of a plain page transition.
+								<motion.div className={cx('item-image')} layoutId={`work-media-${work.uri}`}>
 									<WorkItemMedia work={work} />
 									{/* Same hover overlay as the portfolio grid: category + title
                       on the left, réalisation year right, over a scrim. */}
@@ -56,7 +59,7 @@ export default function WorksShowcase({ works = [], viewAllHref = '/projets' }) 
 											</div>
 										</div>
 									</div>
-								</div>
+								</motion.div>
 							)}
 						</Link>
 					</motion.div>

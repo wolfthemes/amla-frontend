@@ -58,6 +58,7 @@ const GET_WORK_QUERY = gql`
 		work: contentNode(id: $databaseId, idType: DATABASE_ID, asPreview: $asPreview) {
 			... on Work {
 				id
+				uri
 				title
 				excerpt
 				content
@@ -141,6 +142,7 @@ export default function Component(props) {
 	const footerMenu = footerMenuItems?.nodes ?? [];
 	const {
 		id,
+		uri,
 		title,
 		excerpt,
 		content,
@@ -187,7 +189,11 @@ export default function Component(props) {
 			/>
 			<Main>
 				<>
-					<EntryHeader title={title} image={featuredImage?.node} />
+					<EntryHeader
+						title={title}
+						image={featuredImage?.node}
+						mediaLayoutId={uri ? `work-media-${uri}` : undefined}
+					/>
 
 					<div className={cx('wrapper')}>
 						{excerpt && <SafeHtml className={cx('intro')} html={excerpt} />}

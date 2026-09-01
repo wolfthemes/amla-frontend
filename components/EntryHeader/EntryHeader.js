@@ -44,7 +44,7 @@ function AnimatedTitle({ text }) {
 	});
 }
 
-export default function EntryHeader({ title, image, date, author, className }) {
+export default function EntryHeader({ title, image, date, author, className, mediaLayoutId }) {
 	const hasText = title || date || author;
 	const ref = useRef(null);
 
@@ -66,7 +66,11 @@ export default function EntryHeader({ title, image, date, author, className }) {
 	return (
 		<div ref={ref} className={cx(['component', className])}>
 			{image && (
-				<div className={cx('media')}>
+				// motion.div regardless of whether mediaLayoutId is passed —
+				// layoutId is simply undefined (a no-op) for every other
+				// EntryHeader caller (page.js, single.js, category.js, tag.js),
+				// so this stays a plain static box for them.
+				<motion.div className={cx('media')} layoutId={mediaLayoutId}>
 					{/* Entrance-only zoom-in (mount, once) — separate layer from the
               scroll-driven transform below so the two never fight over the
               same `scale`. */}
@@ -80,7 +84,7 @@ export default function EntryHeader({ title, image, date, author, className }) {
 							<FeaturedImage image={image} className={cx('image')} priority />
 						</motion.div>
 					</motion.div>
-				</div>
+				</motion.div>
 			)}
 
 			{hasText && (
