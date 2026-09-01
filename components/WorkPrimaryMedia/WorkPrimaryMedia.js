@@ -1,54 +1,26 @@
-import { useState } from 'react';
 import classNames from 'classnames/bind';
-import { FeaturedImage } from '../../components';
 import { VIDEO_FILE_PATTERN } from '../../constants/media';
 import styles from './WorkPrimaryMedia.module.scss';
 import { getSafeEmbedUrl, getSafeHttpUrl } from '../../utils/urls';
 
 let cx = classNames.bind(styles);
 
-// Visitor-paced, arrow-controlled crossfade — same treatment as the
-// (now-reverted) hero slideshow, sized for a normal content section instead
-// of a full-bleed hero.
-function MediaSlider({ images }) {
-	const [index, setIndex] = useState(0);
-	const go = (delta) => setIndex((i) => (i + delta + images.length) % images.length);
-
-	return (
-		<div className={cx('slider')}>
-			{images.map((image, i) => (
-				<div key={image.id ?? i} className={cx('slide', { active: i === index })}>
-					<FeaturedImage image={image} priority={i === 0} />
-				</div>
-			))}
-
-			{images.length > 1 && (
-				<div className={cx('slider-nav')}>
-					<button type="button" aria-label="Image précédente" onClick={() => go(-1)}>
-						‹
-					</button>
-					<button type="button" aria-label="Image suivante" onClick={() => go(1)}>
-						›
-					</button>
-				</div>
-			)}
-		</div>
-	);
-}
+// Gallery-format slideshow disabled here — post-format-gallery now only
+// drives the WorkItemMedia crossfade in the grid tile (WorkItemMedia.js).
+// The single-work page's own media layout (this section vs. WorkGallery
+// below it, which currently pull from the same workGallery field and so
+// repeat the same photos back to back) still needs a real design pass.
+// Re-enable by restoring MediaSlider and the `gallery.length > 0` branch
+// once that's settled — see git history for the previous implementation.
+//
+// function MediaSlider({ images }) { ... }
 
 // The single-work page's "post media" section, right below the intro/details
-// text: video plays workVideoUrl, otherwise a gallery slider of workGallery
-// — checked directly (gallery.length > 0) rather than gated on the
-// post-format taxonomy, since a work can have gallery images without that
-// tag being set. Renders nothing when neither exists, rather than falling
-// back to the featured image — that image already had its moment in
-// EntryHeader's hero a few hundred pixels up; showing the exact same photo
-// again here read as a mistake, not a design choice.
+// text — video only, for now (see note above).
 export default function WorkPrimaryMedia({ work }) {
 	const formatSlug = work?.postFormats?.nodes?.[0]?.slug;
 	const videoUrl = work?.workVideoUrl;
 	const safeVideoUrl = getSafeHttpUrl(videoUrl);
-	const gallery = work?.workGallery ?? [];
 
 	let content;
 
@@ -64,8 +36,6 @@ export default function WorkPrimaryMedia({ work }) {
 				allowFullScreen
 			/>
 		) : null;
-	} else if (gallery.length > 0) {
-		content = <MediaSlider images={gallery} />;
 	}
 
 	if (!content) {
