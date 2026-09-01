@@ -1,11 +1,11 @@
 import '../faust.config';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { FaustProvider } from '@faustwp/core';
 import localFont from 'next/font/local';
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import { AnimatePresence, motion, MotionConfig } from 'motion/react';
-import { SmoothScroll } from '../components';
+import { SmoothScroll, getLenis } from '../components';
 import '@faustwp/core/dist/css/toolbar.css';
 import '../styles/global.scss';
 
@@ -35,6 +35,26 @@ const ntSeawave = localFont({
 
 export default function MyApp({ Component, pageProps }) {
 	const router = useRouter();
+
+	// Next resets scroll to top on every client-side nav via its own default
+	// scroll restoration, but that's a plain window.scrollTo — Lenis
+	// virtualizes scroll and never finds out, so its internal target stays
+	// stale until its next tick corrects it. That gap is what let the new
+	// page's sticky content (page-projets.js) render at the previous page's
+	// scroll offset for a frame, then visibly jump to top once Lenis caught
+	// up. Redoing the reset through Lenis's own API on the same
+	// routeChangeComplete event Next uses keeps both in sync from the start.
+	// Falls back to a plain scrollTo when Lenis is off (reduced motion).
+	useEffect(() => {
+		const resetScroll = () => {
+			const lenis = getLenis();
+			if (lenis) lenis.scrollTo(0, { immediate: true });
+			else window.scrollTo(0, 0);
+		};
+
+		router.events.on('routeChangeComplete', resetScroll);
+		return () => router.events.off('routeChangeComplete', resetScroll);
+	}, [router.events]);
 
 	return (
 		<div

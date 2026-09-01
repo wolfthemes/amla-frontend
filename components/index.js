@@ -20,5 +20,5 @@ export { WorkItemMedia } from './WorkItemMedia';
 export { WorkPrimaryMedia } from './WorkPrimaryMedia';
 export { SEO } from './SEO';
 export { SafeHtml } from './SafeHtml';
-export { SmoothScroll } from './SmoothScroll';
+export { SmoothScroll, getLenis } from './SmoothScroll';
 export { WorksShowcase } from './WorksShowcase';
