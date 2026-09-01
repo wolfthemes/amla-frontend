@@ -9,6 +9,19 @@ const wordpressUrl = new URL(process.env.NEXT_PUBLIC_WORDPRESS_URL);
  **/
 module.exports = withFaust({
 	reactStrictMode: true,
+	// isomorphic-dompurify (used by SafeHtml, for all WP-content pages) pulls
+	// in jsdom, which requires several of its own files at runtime via
+	// dynamic (non-static) require() calls. Vercel's build-time file tracer
+	// only follows static requires, so those files get silently dropped from
+	// the serverless function bundle — the page works in `next build && next
+	// start` locally (real node_modules on disk) but 500s on Vercel with no
+	// useful client-side error. Force-include jsdom's files for every route
+	// so the trace has them. ponytail: known Vercel+jsdom class of bug — if a
+	// future Next.js file-tracing fix makes this unnecessary, this whole
+	// block can go.
+	outputFileTracingIncludes: {
+		'/**': ['./node_modules/jsdom/**/*'],
+	},
 	// geist ships pre-built files that call next/font/local internally; Next's
 	// font webpack transform skips node_modules unless told to process it here.
 	transpilePackages: ['geist'],
