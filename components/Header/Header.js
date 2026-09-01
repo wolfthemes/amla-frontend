@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import classNames from 'classnames/bind';
 import Link from 'next/link';
 import { decodeEntities } from '@wordpress/html-entities';
@@ -6,6 +6,10 @@ import { Container, Logo, NavigationMenu, SkipNavigationLink } from '../../compo
 import styles from './Header.module.scss';
 
 let cx = classNames.bind(styles);
+
+// useLayoutEffect is a no-op during SSR (and warns if called there) — swap
+// to plain useEffect on the server, useLayoutEffect once hydrated.
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
 // Past the header's own rendered height, natural scroll has already
 // carried it off-screen — safe to switch it to fixed positioning since
@@ -33,7 +37,15 @@ export default function Header({
 	const headerRef = useRef(null);
 	const [spacerHeight, setSpacerHeight] = useState(0);
 
-	useEffect(() => {
+	// useLayoutEffect (not useEffect): runs synchronously before the browser
+	// paints, so --wpe--header--height is correct by the time any consumer —
+	// notably position: sticky content like page-projets.js's hero-text —
+	// gets its first layout. A plain useEffect runs after paint, leaving a
+	// real window where the var is still unset; sticky, once it's entered
+	// its "stuck" state at that wrong (missing) offset, doesn't reliably
+	// re-stick just because the var is corrected a moment later — visible as
+	// the sticky title landing behind the header instead of below it.
+	useIsomorphicLayoutEffect(() => {
 		const el = headerRef.current;
 		if (!el) return;
 
