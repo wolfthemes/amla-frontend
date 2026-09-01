@@ -51,7 +51,17 @@ export default function Header({
 		observer.observe(el);
 		return () => {
 			observer.disconnect();
-			document.documentElement.style.removeProperty('--wpe--header--height');
+			// Deliberately not removing the CSS var here. The page-transition
+			// wrapper in _app.js keeps the outgoing page's Header mounted
+			// during its exit fade, so for a moment two Header instances
+			// exist — the entering page's Header sets the var correctly,
+			// then the exiting one's delayed cleanup used to fire after and
+			// blindly delete it, clobbering the still-correct value (visible
+			// as sticky content relying on it, e.g. page-projets.js's
+			// hero-text, briefly losing its `top` and jumping into place).
+			// Leaving it set is harmless — it's the same Header component
+			// everywhere, so whichever instance is currently mounted
+			// overwrites it with essentially the same height anyway.
 		};
 	}, []);
 
