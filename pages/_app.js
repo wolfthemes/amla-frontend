@@ -60,13 +60,21 @@ export default function MyApp({ Component, pageProps }) {
               zoom-out) per AnimatePresence's documented behavior. First
               load plays this wrapper's fade too; harmless, and it's
               what lets nested entrances (hero zoom, title stagger, …)
-              keep working on first load, not just on nav. */}
+              keep working on first load, not just on nav.
+
+              Opacity only, no `y` drift: a translateY on this top-level
+              wrapper shifts the whole page visually while Lenis
+              measures scroll height on mount, so the two would briefly
+              disagree — a slight auto-scroll and a leftover gap at the
+              bottom once it settled. Individual pages' own entrances
+              (hero zoom, title stagger, …) still carry the movement;
+              this outer layer doesn't need to. */}
 					<AnimatePresence mode="popLayout">
 						<motion.div
 							key={router.asPath}
-							initial={{ opacity: 0, y: 16 }}
-							animate={{ opacity: 1, y: 0 }}
-							exit={{ opacity: 0, y: -16 }}
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 1 }}
+							exit={{ opacity: 0 }}
 							transition={{ duration: 0.4, ease: 'easeOut' }}
 						>
 							<Component {...pageProps} />
