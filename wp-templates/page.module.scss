@@ -3,6 +3,11 @@
 
 // Compact title for a page with no featured image (see page.js) — sits in
 // normal flow, right below the Header's own spacer, no extra offset needed.
+// Constrained + centered to the same width as ContentWrapper's own column
+// below it, so the title's left edge lines up with the body text instead of
+// sitting flush against the full-width Container while the (deliberately
+// narrower, for line-length) body sits indented.
 .title {
-	margin: var(--wpe--section--padding-y) 0 0;
+	max-width: var(--wpe--content--max-width);
+	margin: var(--wpe--section--padding-y) auto 1.5rem;
 }
