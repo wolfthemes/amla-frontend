@@ -35,6 +35,18 @@
 			width: auto !important;
 		}
 
+		// Intro text sticks below the header while the (taller, portrait)
+		// image beside it scrolls past — same treatment as the sticky
+		// captions elsewhere on the site (page-projets.js's hero-text).
+		.wp-block-column:first-child {
+			position: sticky;
+			top: calc(var(--wpe--header--height, 2rem) + 2rem);
+
+			@media (max-width: $breakpoint-small) {
+				position: static;
+			}
+		}
+
 		h1 {
 			margin: 0 0 1.5rem;
 		}
@@ -57,8 +69,22 @@
 		// --- Contact Form 7 -----------------------------------------------
 		// CF7 renders its own markup from the shortcode; these rules restyle
 		// its default classes rather than the form editor's raw layout.
+		// The form block sits full-width in the 1600px .wrapper by default —
+		// far too wide a measure for single-column form fields. Cap it,
+		// flush left to match the intro text above it (not centered).
+		.wp-block-contact-form-7-contact-form-selector {
+			max-width: 1000px;
+		}
+
 		.wpcf7-form {
 			max-width: 100%;
+		}
+
+		// Required-field marker — same red as .wpcf7-not-valid-tip/invalid
+		// borders below, so "required" and "invalid" read as one color
+		// language rather than two unrelated reds.
+		.required-mark {
+			color: #c0392b;
 		}
 
 		// CF7's hidden nonce/id fields sit in a <fieldset>, invisible only

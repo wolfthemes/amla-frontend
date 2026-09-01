@@ -56,6 +56,9 @@
 }
 
 .meta-value {
+	// Reset the <dd> UA default (margin-inline-start: 40px) — .meta-row is
+	// already a column flex stack, so dt/dd share the left edge on their own.
+	margin-inline-start: 0;
 	font-size: fs(md);
 
 	a {
