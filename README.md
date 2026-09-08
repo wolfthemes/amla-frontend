@@ -1,28 +1,30 @@
-# ml-archi-frontend
+# amla-frontend
 
-Headless frontend for the AMLA website, built with [Faust.js](https://faustjs.org/) (Next.js + headless WordPress). Backed by the WordPress install at `https://ml-staging.saguin.com`.
+**Staging:** https://ml-archi-frontend-eight.vercel.app
+
+Headless frontend for the AMLA website, built with [Faust.js](https://faustjs.org/) (Next.js + headless WordPress).
 
 ## Scaffolding a fresh Faust frontend
 
 This project was bootstrapped from the official FaustWP getting-started example:
 
 ```bash
-npx create-next-app -e https://github.com/wpengine/faustjs/tree/main/examples/next/faustwp-getting-started ml-archi-frontend
+npx create-next-app -e https://github.com/wpengine/faustjs/tree/main/examples/next/faustwp-getting-started amla-frontend
 ```
 
 Then configure and run:
 
 ```bash
-cd ml-archi-frontend
+cd amla-frontend
 cp .env.local.sample .env.local   # set NEXT_PUBLIC_WORDPRESS_URL + FAUST_SECRET_KEY
 npm install
 npm run dev                        # http://localhost:3000
 ```
 
-`.env.local` for this project points at:
+`.env.local` needs:
 
 ```
-NEXT_PUBLIC_WORDPRESS_URL=https://ml-staging.saguin.com
+NEXT_PUBLIC_WORDPRESS_URL=<your-wordpress-url>
 FAUST_SECRET_KEY=<your-faust-secret>
 ```
 
