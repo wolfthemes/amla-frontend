@@ -7,12 +7,12 @@
 .button {
 	// Big gap between the Contact button and the rest of the (right-aligned)
 	// menu. Desktop only — the mobile dropdown keeps it inline.
-	@media (min-width: $breakpoint-small) {
+	@media (min-width: $breakpoint-nav) {
 		margin-left: 20rem;
 	}
 
 	a {
-		@media (min-width: $breakpoint-small) {
+		@media (min-width: $breakpoint-nav) {
 			// Outlined pill in the active nav colour (currentColor tracks
 			// --wpe--navigation-menu--color, so it reads correctly whether the
 			// bar is ink-on-light or base-on-dark-hero), inverting to a solid
@@ -51,7 +51,7 @@
 	// no mix-blend-mode, which is what the backdrop-filter needs to render
 	// correctly. Cleared on hover, where the pill flips to a solid fill.
 	:global(.header-frost) & a {
-		@media (min-width: $breakpoint-small) {
+		@media (min-width: $breakpoint-nav) {
 			background-color: color-mix(
 				in srgb,
 				var(--wpe--navigation-menu--color) 12%,

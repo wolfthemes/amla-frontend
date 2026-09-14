@@ -7,7 +7,7 @@
 
 %hidden {
 	// Always visible for smaller viewports.
-	@media (min-width: $breakpoint-small) {
+	@media (min-width: $breakpoint-nav) {
 		visibility: hidden;
 		opacity: 0;
 	}
@@ -30,7 +30,7 @@
 
 	// Tight spacing on the desktop row so the items read as a comma-separated
 	// text list; the pill CTA keeps its own margin-left for separation.
-	@media (min-width: $breakpoint-small) {
+	@media (min-width: $breakpoint-nav) {
 		gap: 0.4rem;
 	}
 
@@ -41,7 +41,7 @@
 		width: 100%;
 		flex-direction: column;
 
-		@media (min-width: $breakpoint-small) {
+		@media (min-width: $breakpoint-nav) {
 			width: auto;
 			flex-direction: row;
 		}
@@ -65,7 +65,7 @@
 
 	// Comma after each regular item (all but the last), so the desktop row
 	// reads as a text list. Header row only — hidden in the mobile stack.
-	@media (min-width: $breakpoint-small) {
+	@media (min-width: $breakpoint-nav) {
 		a.has-comma::after {
 			content: ',';
 			// Match the muted resting word so the list reads uniformly.
@@ -208,7 +208,7 @@
 		gap: 0;
 		width: 100%;
 
-		@media (min-width: $breakpoint-small) {
+		@media (min-width: $breakpoint-nav) {
 			position: absolute;
 			left: -10px;
 			top: 100%;
@@ -226,7 +226,7 @@
 		}
 
 		li + li {
-			@media (min-width: $breakpoint-small) {
+			@media (min-width: $breakpoint-nav) {
 				border-top: var(--wpe--border--light);
 				margin-top: 3px; // Make room for default browser focus styles.
 			}

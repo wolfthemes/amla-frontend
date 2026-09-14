@@ -114,29 +114,79 @@
 	font-weight: 400;
 }
 
-.nav-toggle {
+.mobile-actions {
+	display: flex;
 	align-items: center;
+	gap: 0.75rem;
+}
+
+.nav-toggle {
+	// Right-aligned lines, no border/background at any state.
+	align-items: flex-end;
+	justify-content: center;
 	background-color: transparent;
-	// Track the header colour (ink over the glass panel) rather than a fixed
-	// $c-base, which would disappear against the light frosted background now
-	// that the pinned header no longer inverts via mix-blend-mode.
-	border: 0.1rem solid currentColor;
-	color: $c-ink;
+	border: 0;
+	// Same colour as the rest of the nav row, not a fixed ink, so it still
+	// reads correctly white-on-hero, ink-on-light, etc.
+	color: var(--wpe--navigation-menu--color);
 	cursor: pointer;
 	display: flex;
+	flex-direction: column;
+	gap: 7px;
 	margin: 0;
-	padding: 0.5rem 1rem;
-	transition: all 0.2s ease-in;
+	padding: 0.5rem;
 	user-select: none;
-	font-size: 2rem;
+	position: relative;
+	// Stays above the sliding panel so the same button doubles as its close icon.
+	z-index: 6;
 
-	&:hover,
-	&:focus {
-		background-color: $c-base;
-		color: $c-ink;
+	@media (min-width: $breakpoint-nav) {
+		display: none !important;
+	}
+}
+
+.bar {
+	display: block;
+	height: 2px;
+	background-color: currentColor;
+	transition: transform 0.25s ease, width 0.25s ease;
+}
+
+// Two uneven lines, right-aligned, at rest; the open state evens them out
+// and rotates both into an X.
+.bar-top {
+	width: 22px;
+}
+
+.bar-bottom {
+	width: 32px;
+}
+
+.is-open {
+	.bar-top {
+		width: 32px;
+		transform: translateY(4.5px) rotate(45deg);
 	}
 
-	@media (min-width: $breakpoint-small) {
+	.bar-bottom {
+		transform: translateY(-4.5px) rotate(-45deg);
+	}
+}
+
+// Standalone copy of the menu's "button" (WP CTA) item, always visible on
+// mobile next to the hamburger — the full menu, CTA included, stays hidden
+// behind it. Desktop already shows the real one inline in the row.
+.mobile-cta {
+	border: 0.1rem solid currentColor;
+	border-radius: 100px;
+	color: inherit;
+	font-size: 0.85rem;
+	font-weight: var(--wpe--font-weight--medium);
+	padding: 0.6rem 1.1rem;
+	text-decoration: none;
+	white-space: nowrap;
+
+	@media (min-width: $breakpoint-nav) {
 		display: none !important;
 	}
 }
@@ -149,8 +199,89 @@
 		display: block;
 	}
 
-	@media (min-width: $breakpoint-small) {
+	@media (min-width: $breakpoint-nav) {
 		display: block;
 		width: auto;
+	}
+
+	// Below the nav breakpoint: an off-canvas panel sliding in from the left
+	// instead of the in-flow dropdown, so it needs its own fixed sizing and
+	// transitions regardless of .show/display above.
+	@media (max-width: #{$breakpoint-nav - 1px}) {
+		display: block;
+		position: fixed;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		width: 85%;
+		max-width: 320px;
+		overflow-y: auto;
+		color: $c-ink;
+		// Menu link colour is normally driven by the header's own state (e.g.
+		// white on the transparent front-page header) — override it here so
+		// links stay legible against this white panel.
+		--wpe--navigation-menu--color: #{$c-ink};
+		--wpe--navigation-menu--color--hover: #{$c-ink};
+		padding: 6rem 2.5rem 3rem;
+		pointer-events: none;
+		z-index: 5;
+
+		// The white panel surface itself: a curtain that slides in first. The
+		// menu content sits above it (z-index: -1 here) and its own transition
+		// (below) is delayed so the items only start appearing once this is
+		// most of the way in.
+		&::after {
+			content: '';
+			position: absolute;
+			inset: 0;
+			background-color: $c-base;
+			box-shadow: var(--wpe--shadow--large);
+			transform: translateX(-100%);
+			transition: transform 0.35s ease;
+			z-index: -1;
+		}
+
+		// Left-aligned mobile stack — the desktop row's centred/comma layout
+		// doesn't apply here. Targets NavigationMenu's own <ul>/<li>/<a>, out
+		// of this module's scope, via :global — chained onto the ancestor
+		// class so the extra element-selector specificity wins over
+		// NavigationMenu.module.scss's own (equally-specific) `.menu a` rule
+		// regardless of bundle order.
+		:global(ul) {
+			display: flex;
+			flex-direction: column;
+			flex-wrap: nowrap;
+			align-items: flex-start;
+			justify-content: flex-start;
+			gap: 1.5rem;
+			opacity: 0;
+			transform: translateX(-12px);
+			transition: opacity 0.25s ease, transform 0.25s ease;
+		}
+
+		:global(ul li) {
+			align-items: flex-start;
+			width: auto;
+		}
+
+		:global(ul a) {
+			width: auto;
+			text-align: left;
+		}
+
+		&.show {
+			display: block;
+			pointer-events: auto;
+
+			&::after {
+				transform: translateX(0);
+			}
+
+			:global(ul) {
+				opacity: 1;
+				transform: translateX(0);
+				transition-delay: 0.2s;
+			}
+		}
 	}
 }

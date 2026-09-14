@@ -5,3 +5,8 @@
 $breakpoint-extra-small: 640px;
 $breakpoint-small: 768px;
 $breakpoint-medium: 1024px;
+
+// Header/nav-specific: where the horizontal menu row gives way to the
+// hamburger + off-canvas panel. Kept separate from $breakpoint-small since
+// the nav needs more room than the rest of the layout before it collapses.
+$breakpoint-nav: 900px;

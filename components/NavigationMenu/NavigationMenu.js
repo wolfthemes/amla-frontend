@@ -13,7 +13,7 @@ let cxFromWp = classNames.bind(stylesFromWP);
 // Next's router.asPath, which normally omits it (trailingSlash isn't set).
 const withoutTrailingSlash = (path) => path?.replace(/\/$/, '') || '/';
 
-export default function NavigationMenu({ menuItems, className, vertical }) {
+export default function NavigationMenu({ menuItems, className, vertical, onClick }) {
   const router = useRouter();
 
   if (!menuItems) {
@@ -89,6 +89,7 @@ export default function NavigationMenu({ menuItems, className, vertical }) {
     <nav
       className={cx(['component', className])}
       role="navigation"
+      onClick={onClick}
       aria-label={`${menuItems[0]?.menu?.node?.name} menu`}>
       {renderMenu(hierarchicalMenuItems)}
     </nav>

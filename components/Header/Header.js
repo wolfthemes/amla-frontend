@@ -31,6 +31,11 @@ export default function Header({
 	const [isNavShown, setIsNavShown] = useState(false);
 	const [scrollState, setScrollState] = useState('top'); // 'top' | 'fixed' | 'revealed'
 
+	// The WP "button" menu item (e.g. "Get in touch") is normally just part of
+	// the desktop row, but stays hidden on mobile behind the collapsed panel.
+	// Pull it out so it can render always-visible next to the hamburger too.
+	const ctaItem = menuItems?.find((item) => item.cssClasses?.includes('button'));
+
 	// The dark variant overlays a light page with no full-bleed hero to sit on,
 	// so — unlike the front page — its content would collide with the absolute
 	// header. Reserve a matching gap by mirroring the header's rendered height.
@@ -126,19 +131,28 @@ export default function Header({
 								</a>
 							</Link>
 						</div>
-						<button
-							type="button"
-							className={cx('nav-toggle')}
-							onClick={() => setIsNavShown(!isNavShown)}
-							aria-label="Basculer la navigation"
-							aria-controls={cx('primary-navigation')}
-							aria-expanded={isNavShown}
-						>
-							☰
-						</button>
+						<div className={cx('mobile-actions')}>
+							{ctaItem && (
+								<Link legacyBehavior href={ctaItem.path ?? ''}>
+									<a className={cx('mobile-cta')}>{ctaItem.label}</a>
+								</Link>
+							)}
+							<button
+								type="button"
+								className={cx(['nav-toggle', isNavShown && 'is-open'])}
+								onClick={() => setIsNavShown(!isNavShown)}
+								aria-label="Basculer la navigation"
+								aria-controls={cx('primary-navigation')}
+								aria-expanded={isNavShown}
+							>
+								<span className={cx('bar', 'bar-top')} aria-hidden="true" />
+								<span className={cx('bar', 'bar-bottom')} aria-hidden="true" />
+							</button>
+						</div>
 						<NavigationMenu
 							className={cx(['primary-navigation', isNavShown ? 'show' : undefined])}
 							menuItems={menuItems}
+							onClick={() => setIsNavShown(false)}
 						/>
 					</div>
 				</Container>
