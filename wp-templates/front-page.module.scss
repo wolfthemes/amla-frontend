@@ -55,6 +55,10 @@
 	height: auto;
 	overflow: visible;
 	will-change: transform, opacity;
+	// Same left-clearance fix as the nav logo: the first "A"'s left diagonal
+	// tip sits exactly on the viewBox's left edge, so without it the glyph
+	// reads as clipped at this size.
+	padding-left: 2.6em;
 }
 
 // Section 2 — large editorial statement that reveals line by line on scroll

@@ -105,6 +105,10 @@
 	width: auto;
 	display: block;
 	color: currentColor;
+	// The first "A"'s left diagonal tip sits right at the glyph's own left
+	// edge (viewBox starts exactly there) — a hair of clearance keeps it
+	// from reading as clipped/invisible against the nav edge.
+	padding-left: 0.25em;
 }
 
 .description {
