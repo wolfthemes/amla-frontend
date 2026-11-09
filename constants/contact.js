@@ -9,7 +9,5 @@ export const EMAIL = 'ml@ateliermlarchitecture.fr';
 
 export const PHONE = '06 68 19 09 63';
 
-export const ADDRESS_LINES = ['28 rue de Mundolsheim', '67800 Hœnheim, France'];
-
 // Placeholder — not wired to a real profile yet, swap freely.
 export const LINKEDIN_URL = '#';

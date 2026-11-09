@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { motion } from 'motion/react';
 import classNames from 'classnames/bind';
 import { Container, NavigationMenu } from '../../components';
-import { ADDRESS_LINES, PHONE, EMAIL, INSTAGRAM_URL, LINKEDIN_URL } from '../../constants/contact';
+import { PHONE, EMAIL, INSTAGRAM_URL, LINKEDIN_URL } from '../../constants/contact';
 import styles from './Footer.module.scss';
 
 let cx = classNames.bind(styles);
@@ -51,15 +51,6 @@ export default function Footer({ title, menuItems }) {
 
 					<div className={cx('col-info')}>
 						<div className={cx('info-rows')}>
-							<div className={cx('info-row')}>
-								<span className={cx('info-prefix')}>A</span>
-								<address className={cx('info-value')}>
-									{ADDRESS_LINES.map((line) => (
-										<span key={line}>{line}</span>
-									))}
-								</address>
-							</div>
-
 							<div className={cx('info-row')}>
 								<span className={cx('info-prefix')}>T</span>
 								<a className={cx('info-value')} href={`tel:${PHONE.replace(/\s/g, '')}`}>
