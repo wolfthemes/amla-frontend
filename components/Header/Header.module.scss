@@ -100,15 +100,22 @@
 }
 
 .logo {
-	// Height drives the mark; width follows the wordmark's aspect ratio.
+	display: flex;
+	justify-content: space-between;
 	height: 1.5rem;
-	width: auto;
-	display: block;
-	color: currentColor;
-	// The first "A"'s left diagonal tip sits right at the glyph's own left
-	// edge (viewBox starts exactly there) — a hair of clearance keeps it
-	// from reading as clipped/invisible against the nav edge.
-	padding-left: 0.25em;
+
+	svg {
+		height: 100%;
+		width: auto;
+		overflow: visible; // slanted A tips sit on the viewBox edge; don't clip them
+	}
+
+	// With a slogan: contribute no width of its own (so the slogan sets the
+	// column width), then stretch to it — letters spread edge to edge.
+	&.justified {
+		width: 0;
+		min-width: 100%;
+	}
 }
 
 .description {
@@ -116,6 +123,7 @@
 	font-size: 0.8rem;
 	// opacity: 0.9;
 	font-weight: 400;
+	white-space: nowrap; // keeps one line so the logo spreads to its full width
 }
 
 .mobile-actions {

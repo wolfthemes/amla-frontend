@@ -124,7 +124,7 @@ export default function Header({
 						<div className={cx('brand')}>
 							<Link legacyBehavior href="/">
 								<a className={cx('title')} aria-label={title}>
-									<Logo className={cx('logo')} title={title} />
+									<Logo className={cx(['logo', description && 'justified'])} title={title} />
 									{description && (
 										<p className={cx('description')}>{decodeEntities(description)}</p>
 									)}
