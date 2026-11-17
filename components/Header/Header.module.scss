@@ -54,6 +54,28 @@
 			@include glass-panel;
 		}
 
+		// Front-page header at the very top, over the hero photo: a dark fade
+		// behind it plus a soft text shadow keep the white nav legible when the
+		// image is bright. Gone once the header is .fixed (it then hides, or
+		// shows the frosted glass panel instead) and never on the .dark variant.
+		&:not(.dark):not(.fixed) {
+			text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
+
+			.logo {
+				filter: drop-shadow(0 1px 6px rgba(0, 0, 0, 0.35));
+			}
+
+			&::before {
+				content: '';
+				position: absolute;
+				inset: 0 0 auto;
+				height: calc(100% + 3rem);
+				background: linear-gradient(to bottom, rgba(0, 0, 0, 0.45), transparent);
+				pointer-events: none;
+				z-index: -1;
+			}
+		}
+
 		// Past its own height, natural scroll has already carried it fully
 		// off-screen, so switching to fixed + hidden here is unnoticed — as
 		// long as this snaps with no transition, since transform would
