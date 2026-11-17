@@ -99,6 +99,30 @@
 			margin: 0 0 1.75rem;
 		}
 
+		// Label→field gap, one value for every field. The template's <br />
+		// before a block-level input adds a whole blank line (and the first row
+		// has none), so drop it and set the gap on the field wrapper instead.
+		.wpcf7-form br {
+			display: none;
+		}
+
+		.wpcf7-form-control-wrap {
+			display: block;
+			margin-top: 0.4rem;
+		}
+
+		// Wrap consecutive fields in <div class="form-row"> in the CF7 template
+		// to sit them side by side (e.g. prénom + nom); stacks on mobile.
+		.form-row {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			column-gap: 1.5rem;
+
+			@media (max-width: #{$breakpoint-small - 1px}) {
+				grid-template-columns: 1fr;
+			}
+		}
+
 		label {
 			display: block;
 			margin-bottom: 0.5rem;
